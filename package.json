@@ -1,0 +1,31 @@
+{
+  "name": "chugg",
+  "version": "1.0.0",
+  "description": "\"Jump start your build tools setup with  much quickness and simplicity\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamBigGulp/chugg.git"
+  },
+  "keywords": [
+    "build-tools",
+    "gulp"
+  ],
+  "author": "TeamBigGulp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeamBigGulp/chugg/issues"
+  },
+  "homepage": "https://github.com/TeamBigGulp/chugg#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^5.0.1",
+    "eslint-plugin-react": "^3.16.1"
+  }
+}
