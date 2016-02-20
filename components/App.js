@@ -41,14 +41,16 @@ var App = React.createClass({
       type: 'POST',
       url: '/gulp',
       data: gulpState,
-      contentType: 'text/plain; charset=utf-8'
+      contentType: 'text/plain; charset=utf-8',
+			success: function(data) {
+				window.location.href = '/download';
+			}
     });
-		console.log(gulpState)
   },
 
   newTasks: function() {
     var minifycheckedValue = $('.minify:checked').val();
-    console.log('check', minifycheckedValue)
+    console.log('check', minifycheckedValue);
     var react = this.state.code;
     var reactMin = react + code.minify;
 
