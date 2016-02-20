@@ -10,4 +10,4 @@ const responseController = {
 	}
 }
 
-module.exports = responseController
+module.exports = responseController;

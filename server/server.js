@@ -6,7 +6,7 @@ const fileMakerController = require('./fileMakerController');
 const responseController = require('./responseController');
 
 app.use(express.static(path.join(__dirname, './../')));
-app.use(bodyParser.text());
+// app.use(bodyParser.json());
 
 
 //route to index on root path
@@ -15,10 +15,7 @@ app.get('/', (req, res) => {
 	res.send('index.html');
 });
 
-app.get('/gulp', fileMakerController.createFile, fileMakerController.zipFile, responseController.sendDownloadableZipFile, () => {
-	console.log('you should have a zipped file somewhere');
-	res.end();
-});
+app.get('/gulp', fileMakerController.createFile, fileMakerController.zipFile);
 
 app.listen(3000, function() {
   console.log('Server is listening on port 3000');
