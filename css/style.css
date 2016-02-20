@@ -1,7 +1,9 @@
-
-body div div{
-  border: 1px solid black;
-  position: absolute;
+body {
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color: #333;
+	margin: 0;
+	padding: 0;
 }
 
 #App {
@@ -11,10 +13,11 @@ body div div{
 }
 
 #Gulpview {
-  width: 404px;
+  width: 604px;
   height: 414px;
   top: 30px;
   left: 7px;
+  background-color: lightSeaGreen;
 }
 
 #Packagejson {
@@ -25,5 +28,5 @@ body div div{
 }
 
 #download-files {
-  margin-top: 70%;
+  margin-top: 5%;
 }
