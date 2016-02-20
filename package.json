@@ -24,9 +24,6 @@
     "url": "https://github.com/TeamBigGulp/chugg/issues"
   },
   "homepage": "https://github.com/TeamBigGulp/chugg#readme",
-  "dependencies": {
-    "express": "^4.13.4"
-  },
 	"dependencies": {
     "babel-preset-es2015": "^6.0.15",
     "babel-preset-react": "^6.0.15",
@@ -46,5 +43,5 @@
    "body-parser": "^1.15.0",
 	 "watchify": "^3.2.2",
 	 "gulp-nodemon": "^2.0.6"
- } 
+ }
 }
