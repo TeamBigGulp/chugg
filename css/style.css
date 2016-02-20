@@ -1,0 +1,29 @@
+
+body div div{
+  border: 1px solid black;
+  position: absolute;
+}
+
+#App {
+  position: relative;
+  width: 833px;
+  height: 544px;
+}
+
+#Gulpview {
+  width: 404px;
+  height: 414px;
+  top: 30px;
+  left: 7px;
+}
+
+#Packagejson {
+  width: 394px;
+  height: 411px;
+  top: 32px;
+  left: 420px;
+}
+
+#download-files {
+  margin-top: 70%;
+}
