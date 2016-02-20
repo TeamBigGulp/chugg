@@ -21,7 +21,7 @@ Here is a breakdown of the different tasks that Gulp might perform in the develo
     * Take all the JS files and concat them all together, then minify the result
     * Output that into one file named `build.js`  inside the `build/` folder
     * Replace the `<script>` tags in our `index.html` page with one `<script>` which references our new minified build.js file
-  
+
 
 In your terminal, head over to the root of this project then type `npm init` and continue hitting enter until the prompts finish:
 
@@ -33,20 +33,16 @@ In your terminal, head over to the root of this project then type `npm init` and
 
 All we did was tell npm to go and download each of those packages and save them into our node_modules folder (which was created for us) and add them to our package.json file as a developer dependency
 
-Now if you check out the node_modules folder, it should be full of the packages above. What we can do now is in our `gulpfile.js` file, we can use require to essentially import the code from each of the different packages and save that functionality into a variable. Let’s do that right now.
+Now if you check out the node_modules folder, it should be full of the packages above. What we can do now is in our `gulpfile.js` file, we can use `require` to import the code from each of the different packages and save that functionality into a variable. Let’s do that right now.
 
 In the top of your gulpfile.js file, add the following code.
 
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var react = require('gulp-react');
-var htmlreplace = require('gulp-html-replace');
 
-npm install --save-dev vinyl-source-stream;
-npm install --save-dev browserify;
-npm install --save-dev watchify;
-npm install --save-dev reactify;
-npm install --save-dev gulp-streamify;
+    npm install --save-dev vinyl-source-stream;
+    npm install --save-dev browserify;
+    npm install --save-dev watchify;
+    npm install --save-dev reactify;
+    npm install --save-dev gulp-streamify;
 
 We have included this 5 in our base configuration and have outlined their usage below:
 
@@ -69,30 +65,22 @@ We have included this 5 in our base configuration and have outlined their usage 
       ENTRY_POINT: './src/js/App.js'
     };
 
-_Browserify_:
+[__Browserify__](https://www.npmjs.com/package/browserify "Browserify"):
 Allows you to use require like you would in a node project
 
-_Babelify_: Will compile ES6 and JSX into code that will run on all browsers
+[__Babelify__](https://www.npmjs.com/package/babelify "Babelify"): Will compile ES6 and JSX into code that will run on all browsers
 
-_Uglify_: Minify files to make fast fast loading 
+[__Gulp-Uglify__](https://www.npmjs.com/package/gulp-uglify "Gulp-Uglify"): Minify files to make fast fast loading
 
-Vinyl Source Stream
+[__Vinyl Source Stream__](https://www.npmjs.com/package/vinyl-source-stream "Vinyl Source Stream"): When you land in a foreign country you need to exchange the cash in your pocket for an equal amount of cash used in that country. Otherwise you can't buy souveniers! Vinyl Source Stream is the currency exchange kiosk for your data. Data that is piped through a Browserify task is outputted as a text stream. Vinyl Source Stream converts that data into a virtual stream that gulp expects, which allows the data to be piped into additional gulp tasks.
 
-_Watchify_: 
-
-Will only work on the changes you have made
+[__Watchify__](https://github.com/substack/watchify#readme): Will operate on the changes you have made, rather than operating on the entire file every time. Greatly improves speed of task running.
 
 
-For example, if you are writing a
+### Further Reading
+Here are some links to very helpful articles on gulp and customizing your tasks:
 
-For example, if you have a
-
-
-
-if you have a large CSS file, you want to minify it before going into production, so that your code runs faster in production. Minifying a file means that you put all the code on one line and then remove all the comments and white spaces. This is a very tedious process that can be automated. Futhermore, if you minify your code and then decide to change something, it is ver difficult to edit a minified file. Gulp will automatically minify your files  
-
-Useful Links (some very helpful sites):
-
-1.	http://tylermcginnis.com/reactjs-tutorial-pt-2-building-react-applications-with-gulp-and-browserify/
-2.	https://css-tricks.com/gulp-for-beginners/
-3.	http://www.sitepoint.com/introduction-gulp-js/
+    	* [Building React Applications with Gulp and Browserify](http://tylermcginnis.com/reactjs-tutorial-pt-2-building-react-applications-with-gulp-and-browserify/ "Building React Applications with Gulp and Browserify, Tyler McGinnis")
+      * [Gulp For Beginners](https://css-tricks.com/gulp-for-beginners/ "Gulp for Beginners, CSS-Tricks")
+      * [Introduction to Gulp](http://www.sitepoint.com/introduction-gulp-js/ "Introduction to Gulp, SitePoint");
+      * [The Gulp Docs](https://github.com/gulpjs/gulp/tree/master/docs "Gulp Docs")
