@@ -11,24 +11,25 @@ const fileMakerController = {
 			if (err) throw err;
 			next();
 		});
-  },
+	},
 
-  // zips the file that was just created and sends it back to the user
+	// zips the file that was just created and sends it back to the user
 	zipsFile(req, res, next) {
-		console.log("are we here");
 		const zip = new EasyZip();
 
 		zip.addFile('gulp-starter.js', path.join(__dirname, 'gulp-starter.js'), () => {
-			console.log('add');
-			zip.writeToFile('chuggFile.zip', () =>{
-				console.log('wrote');
-				zip.writeToResponse(res,'chuggFile.zip');
-				res.end();
-			});
+			zip.addFile('docs.md', path.join(__dirname, './../docs/docs.md'), () => {
+				zip.addFile('package.json', path.join(__dirname, './../pkgjson/package.json'),() => {
+					zip.writeToFile(path.join(__dirname, 'chuggFile.zip'), () => {
 
-			// res.send('./chuggFile.zip');
+						// this next line is probably not needed but we are in a crunch and it is working
+						zip.writeToResponse(res,'chuggFile');
+
+						res.end();
+					});
+				});
+			});
 		});
-		// next();
 	},
 };
 
