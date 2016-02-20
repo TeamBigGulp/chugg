@@ -1,11 +1,14 @@
 {
+
   "name": "chugg",
   "version": "1.0.0",
   "description": "\"Jump start your build tools setup with  much quickness and simplicity\"",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node server/server.js"
+  "main": "bundle.js",
+	"scripts": {
+    "prestart": "npm run task",
+		"start": "node server/server.js",
+    "start-dev": "npm run task",
+    "task": "gulp"
   },
   "repository": {
     "type": "git",
@@ -24,7 +27,24 @@
   "dependencies": {
     "express": "^4.13.4"
   },
+	"dependencies": {
+    "babel-preset-es2015": "^6.0.15",
+    "babel-preset-react": "^6.0.15",
+    "babelify": "^7.2.0",
+    "body-parser": "^1.15.0",
+    "browserify": "^10.2.4",
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-notify": "^2.2.0",
+    "jquery": "^2.2.0",
+    "path": "^0.12.7",
+    "react": "^0.14",
+    "react-dom": "^0.14.0",
+    "vinyl-source-stream": "^1.1.0"
+	},
   "devDependencies": {
-   "body-parser": "^1.15.0" 
-  }
+   "body-parser": "^1.15.0",
+	 "watchify": "^3.2.2",
+	 "gulp-nodemon": "^2.0.6"
+ } 
 }
