@@ -1,19 +1,25 @@
 'use strict';
 const fs = require('fs');
-const gulpStarter = require('./gulp-starter.js');
+const EasyZip = require('easy-zip').EasyZip;
+
 
 const fileMakerController = {
-	createFile() {
+	createFile(req, res, next) {
 
-	fs.createReadStream('./gulp-starter.js').pipe(fs.createWriteStream('./../newgulpfile.js'))
+	fs.createReadStream('gulp-starter.js').pipe(fs.createWriteStream('./../newgulpfile.js'))
 
-	//call next middleware to jsZIP or child process
-	res.send('./../newgulpfile.js')
-		//next();
-	},
+	//call next middleware to easy-zip
+	next();
+},
 
+	zipFile(req, res, next) {
+		const zip = new EasyZip();
 
+		zip.addFile('./../newgulpfile.js', () => {
+			zip.writeToFile('chuggFile.zip');
+		});
+		next();
+	}
 };
 
 module.exports = fileMakerController
-fileMakerController.createFile();
