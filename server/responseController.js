@@ -1,23 +1,13 @@
 'use strict';
 const fs = require('fs');
-
+const EasyZip = require('easy-zip').EasyZip
 
 const responseController = {
-	sendFile() {
-
-		//make a build directory
-		fs.mkdir('./../build', () => {			
-		});
-
-		//call next middleware to jsZIP or child process
-		//next()
-	},
-
-	createFile(req, res, next) {
-		//make a package.json file
+	sendDownloadableZipFile(req, res, next) {
+		const zip = new EasyZip ();
+		zip.writeToResponse(res, './../chuggFile.zip');
+		next();
 	}
-};
+}
 
 module.exports = responseController
-
-responseController.makeGulp()
