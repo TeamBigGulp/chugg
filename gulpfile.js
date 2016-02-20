@@ -55,9 +55,10 @@ gulp.task('scripts', function() {
 gulp.task('start', function() {
   nodemon({
     script: 'server/server.js',
+    ignore: ['newgulpfile.js'],
     ext: 'js html',
     env: {'NODE_ENV': 'development'}
-  })
+  });
 });
 
 // run 'scripts' task first, then watch for future changes
