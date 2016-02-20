@@ -51,7 +51,7 @@ gulp.task('scripts', function() {
   return buildScript('App.js', false);
 });
 
-//run nodemon
+// run nodemon
 gulp.task('start', function() {
   nodemon({
     script: 'server/server.js',
