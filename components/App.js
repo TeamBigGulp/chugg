@@ -27,19 +27,23 @@ var App = React.createClass({
       minify: false
     }
   },
-
+	updateCode: function(newCode) {
+		this.setState({
+				code: newCode
+		});
+	},
   postRequest: function(e){
     e.preventDefault();
 
-    var gulpState = this.state.gulp;
+    var gulpState = this.state.code;
     var minify = this.state.minify;
-    console.log('hey', gulpState);
     $.ajax({
       type: 'POST',
       url: '/gulp',
-      data: JSON.stringify(gulpState),
+      data: gulpState,
       contentType: 'text/plain; charset=utf-8'
     });
+		console.log(gulpState)
   },
 
   newTasks: function() {
