@@ -6,10 +6,18 @@ body {
 	padding: 0;
 }
 
+h1 {
+	background-color: #abd;
+font-family: 'Lato', sans-serif;
+	padding: 2%;
+	border-bottom: 1px lightSeaGreen;
+}
+
 #App {
   position: relative;
   width: 833px;
   height: 544px;
+	margin: 1em;
 }
 
 #Gulpview {
@@ -28,5 +36,36 @@ body {
 }
 
 #download-files {
-  margin-top: 5%;
+  margin-top: 1%;
+}
+
+.input-name {
+	margin-bottom: 2px;
+	font-size: 120%
+}
+
+input[type='checkbox'] {
+    -webkit-appearance:none;
+    width:20px;
+    height:20px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+		margin-bottom: 0;
+}
+input[type='checkbox']:checked {
+    background: #abd;
+}
+
+input[type='submit'] {
+    -webkit-appearance:none;
+    width:150px;
+    height:40px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+}
+input[type='checkbox']:hover {
+    background: #abd;
+		color: #abd;
 }
