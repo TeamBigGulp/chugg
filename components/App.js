@@ -41,9 +41,11 @@ var App = React.createClass({
       type: 'POST',
       url: '/gulp',
       data: gulpState,
-      contentType: 'text/plain; charset=utf-8'
+      contentType: 'text/plain; charset=utf-8',
+			success: function(data) {
+				window.location.href = '/download';
+			}
     });
-		console.log(gulpState)
   },
 
 	newTasks: function() {
