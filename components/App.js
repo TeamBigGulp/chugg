@@ -34,6 +34,7 @@ var App = React.createClass({
 		});
 	},
   postRequest: function(e){
+		console.log('posting');
     e.preventDefault();
     var gulpState = this.state.code;
     var minify = this.state.minify;
