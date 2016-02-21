@@ -40,7 +40,7 @@ function buildScript(file, watch) {
     var updateStart = Date.now();
     rebundle();
     console.log('Updated!', (Date.now() - updateStart) + 'ms');
-  })
+  });
 
   // run it once the first time buildScript is called
   return rebundle();
