@@ -14,10 +14,17 @@ var Gulpview = React.createClass({
         };
     return (
       <div id='Gulpview'>
-<Codemirror value={this.props.value} onChange={this.props.updateCode} options={options} />
-<form id="download-files" onSubmit={this.props.postRequest}>
-<input type="submit" value="Download Files" />
-</form>
+      <form onClick={this.props.addTask}>
+      <input type="checkbox" className="minify" name="minify" value="minify" />
+      <span className="input-name">CSS Nano</span>
+      &nbsp; | &nbsp;
+      <input type="checkbox" className="closure" name="closure-compiler" value="closure-compiler" />
+      <span className="input-name">Closure Complier</span>
+      </form>
+      <Codemirror value={this.props.value} onChange={this.props.codeChange} options={options} />
+      <form id="download-files" onSubmit={this.props.download}>
+      <input type="submit" value="Download Files" />
+      </form>
       </div>
     )
   }
