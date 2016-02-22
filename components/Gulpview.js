@@ -14,10 +14,10 @@ var Gulpview = React.createClass({
         };
     return (
       <div id='Gulpview'>
-<Codemirror value={this.props.value} onChange={this.props.updateCode} options={options} />
-<form id="download-files" onSubmit={this.props.postRequest}>
-<input type="submit" value="Download Files" />
-</form>
+				<Codemirror value={this.props.value} onChange={this.props.updateCode} options={options} />
+				<form id="download-files" onSubmit={this.props.onSubmit}>
+				<input type="submit" onSubmit={this.props.onSubmit} value="Download Files" />
+				</form>
       </div>
     )
   }

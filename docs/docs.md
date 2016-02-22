@@ -78,7 +78,7 @@ Allows you to use `require` like you would in a node project
 
 ### Some things to consider before starting
     * If you chose to add some of the optional tasks like 'MinifyCSS' or 'Google Closure Compiler', be sure to add those scripts to the `gulp.default()` code on your downloaded gulpfile.
-    * We're assuming your project has a typical directory structure, but if you have a unique set of directories you'll need to change the names in your gulpfile to match those in your project folder. 
+    * We're assuming your project has a typical directory structure, but if you have a unique set of directories you'll need to change the names in your gulpfile to match those in your project folder.
 >>>>>>> master
 
 ### Further Reading
