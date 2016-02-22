@@ -2,12 +2,10 @@
 const fs = require('fs');
 const EasyZip = require('easy-zip').EasyZip;
 const path = require('path');
-
 const fileMakerController = {
 
 	// creates a file matching the current state of the code on the homepage
 	createsFile(req, res, next) {
-		console.log('creating it ');
 		fs.writeFile(path.join(__dirname, 'gulp-starter.js'), req.body, (err) => {
 			if (err) throw err;
 			next();
