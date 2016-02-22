@@ -33,7 +33,6 @@ Allows you to use `require` like you would in a node project
 
 [__Watchify__](https://github.com/substack/watchify#readme): Will operate on the changes you have made, rather than operating on the entire file every time. Greatly improves speed of task running.
 
-<<<<<<< HEAD
 [__Nodemon__](https://www.npmjs.com/package/gulp-nodemon): Allows you to run your server by typing `gulp` in the terminal when you are ready to start coding. Nodemon is a fancy node server plug-in which makes it so that you don't have to re-start your server every time you change your code.
 
 [__CSS Nano__](https://www.npmjs.com/package/gulp-minify-css): Minify's your CSS (all on one line with no comments or spaces for optimal performance!)
@@ -44,6 +43,13 @@ Allows you to use `require` like you would in a node project
 ### Some things to consider before starting
     * If you chose to add some of the optional tasks like 'CSS Nano' or 'Google Closure Compiler', be sure to add those scripts to the `gulp.default()` code on your downloaded gulpfile. (next group, pay attention here)
     * We're assuming your project has a typical directory structure, but if you have a unique set of directories you'll need to change the names in your gulpfile to match those in your project folder.
+
+(Next group, please add to this documentation with all the packages and any others that you create)
+
+### Some things to consider before starting
+    * If you chose to add some of the optional tasks like 'MinifyCSS' or 'Google Closure Compiler', be sure to add those scripts to the `gulp.default()` code on your downloaded gulpfile.
+    * We're assuming your project has a typical directory structure, but if you have a unique set of directories you'll need to change the names in your gulpfile to match those in your project folder.
+
 
 ### Further Reading
 Here are some links to very helpful articles on gulp and customizing your tasks:
