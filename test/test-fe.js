@@ -49,7 +49,7 @@ const packagejson = '{\n"name": "<enter the name of your project here>",\n\t  "v
 
 //-------------------------------------------------------------------
 // Actual tests start here
-casper.test.begin('Chugg Front-End Tests', 9, function suite(test) {
+casper.test.begin('Chugg Front-End Tests', 8, function suite(test) {
 	casper.start('http://localhost:3000', function() {
 		test.assertTitle("Chugg", "Chugg title detected");
 	})
