@@ -27,7 +27,16 @@ var App = React.createClass({
 	getInitialState: function(){
 		 return {
 			 code: code.require + code.gulp + code.gulpTask,
-			 json: theJSON
+			 json: theJSON,
+			//  npm: {
+			// 	 search: null,
+			// 	 package: [],
+			// 	 description: []
+			//  },
+			 npmSearch: null,
+			 npmPackage: [],
+			 npmDescription: [],
+			 gulpSearch: null
 		 };
 	 },
 
@@ -76,24 +85,64 @@ var App = React.createClass({
 		this.setState({code: displayedCode});
 	 },
 
+	 search: function(event) {
+		 event.preventDefault();
+		 // Get request to NPM search for the package name from user input
+		$.get(`http://npmsearch.com/query?fields=name,keywords,rating,description,version&q=name:${event.target.value}&sort=rating:desc`, function(data) {
+
+			var pkgName = this.state.npmPackage;
+			var pkgDesc = this.state.npmDescription;
+			var data = JSON.parse(data).results;
+
+			// Retrieving desired data from results
+			data.forEach((pkg) => {
+				// This check makes sure no duplicate elements are pushed to the state array
+				if (pkgName.findIndex((el) => {return el === pkg.name[0]}) === -1){
+					pkgName.push(pkg.name[0]);
+					pkgDesc.push(pkg.description[0]);
+				}
+			});
+
+			// Setting the state from the new arrays
+			this.setState({npmPackage: pkgName, npmDescription: pkgDesc});
+		}.bind(this));
+
+		// Check to see if the state is working (it is)
+		// console.log('this is the state: ', this.state);
+	 },
+
+	 addToPackageJson: function(event) {
+		 event.preventDefault();
+		 console.log('You clicked on the button');
+	 },
+
 	render: function () {
+		var searchResults = [];
+		var names = this.state.npmPackage;
+		var desc = this.state.npmDescription;
+		for (var i = 0; i < names.length; i++) {
+			searchResults.push(<option value={names[i]} key={i}>{desc[i]}</option>);
+		}
+
 		return (
 			<div id='App'>
-			<Gulpoptions addTask={this.newTasks}/>
-			<div id="code">
-				<Gulpview
-					value={this.state.code}
-					codeChange={this.updateCode}
 
-					/>
-			<Packagejson
-					value={this.state.json}
-					jsonChange={this.updateJson}
-			/>
+			<form>
+				 <input type="search" list="packages" placeholder="Search NPM Packages" value={this.state.npmSearch} onChange={this.search}>
+				 <datalist id="packages">
+					 {searchResults}
+				 </datalist>
+				 </input>
+				 <button onClick={this.addToPackageJson}>+ package.json</button>
+			</form>
+			<Gulpoptions addTask={this.newTasks}/>
+
+			<div id="code">
+				<Gulpview value={this.state.code} codeChange={this.updateCode} />
+				<Packagejson value={this.state.json} jsonChange={this.updateJson} />
 			</div>
-			<Download
-			download={this.postRequest}
-			/>
+
+			<Download download={this.postRequest} />
 			</div>
 		)
 	}
