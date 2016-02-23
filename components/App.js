@@ -62,10 +62,11 @@ export default class App extends Component {
 		};
 		let requireCode = code.require;
 		let gulpCode = code.gulp;
+    let require;
 		// checks which values are true and displays them
 		for (let val of addonObj){
 			if (addonObj[val]) {
-				let require = val + 'Require';
+				require = val + 'Require';
 				requireCode += code[require];
 				gulpCode += code[val];
 			}
