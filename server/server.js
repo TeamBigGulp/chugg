@@ -3,6 +3,8 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const fileMakerController = require('./fileMakerController');
+// var parse = require('parse-http-header');
+var request = require('superagent');
 
 app.use(express.static(path.join(__dirname, './../')));
 app.use(bodyParser.text());
@@ -16,8 +18,14 @@ app.get('/', (req, res) => {
 // this get request happens after success on the initial post request to /gulp. It allows the zip file to be sent to the user after the post request is completed
 app.get('/download', (req, res) => {
 	res.download(path.join(__dirname, './chuggFile.zip'));
-
 });
+
+// request
+//   .get('/download')
+// 	.end(function(err, res) {
+// 		console.log('res.header: ', res.header['content-length']);
+// 	});
+// attempt using superagent - last trial before end of day
 
 // post request to get the zipped version of the documents that were created
 app.post('/gulp', fileMakerController.createsFile, fileMakerController.zipsFile);
@@ -25,3 +33,5 @@ app.post('/gulp', fileMakerController.createsFile, fileMakerController.zipsFile)
 app.listen(3000, function() {
   console.log('Server is listening on port 3000');
 });
+
+module.exports = app;
