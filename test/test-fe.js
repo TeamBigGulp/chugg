@@ -1,3 +1,49 @@
+// Polyfill for bind from http://stackoverflow.com/questions/25359247/casperjs-bind-issue
+// Artjom B. is the author of PhantomJS
+// This is required to run on Wade's system, but not Tiffany's
+casper.on( 'page.initialized', function(){
+    this.evaluate(function(){
+        var isFunction = function(o) {
+          return typeof o == 'function';
+        };
+
+        var bind,
+          slice = [].slice,
+          proto = Function.prototype,
+          featureMap;
+
+        featureMap = {
+          'function-bind': 'bind'
+        };
+
+        function has(feature) {
+          var prop = featureMap[feature];
+          return isFunction(proto[prop]);
+        }
+
+        // check for missing features
+        if (!has('function-bind')) {
+          // adapted from Mozilla Developer Network example at
+          // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
+          bind = function bind(obj) {
+            var args = slice.call(arguments, 1),
+              self = this,
+              nop = function() {
+              },
+              bound = function() {
+                return self.apply(this instanceof nop ? this : (obj || {}), args.concat(slice.call(arguments)));
+              };
+            nop.prototype = this.prototype || {}; // Firefox cries sometimes if prototype is undefined
+            bound.prototype = new nop();
+            return bound;
+          };
+          proto.bind = bind;
+        }
+    });
+});
+
+//-------------------------------------------------------------------
+// Actual tests start here
 casper.test.begin('Chugg Front-End Tests', 5, function suite(test) {
 	casper.start('http://localhost:3000', function() {
 		test.assertTitle("Chugg", "Chugg title detected");
