@@ -23,8 +23,8 @@ const code = {
 const theJSON = '{\n"name": "<enter the name of your project here>",\n\t  "version": "1.0.0",\n\t"description": "<enter a description of your project here>",\n\t "main": "index.js",\n\t"scripts": {\n\t\t"prestart": "npm run task",\n\t\t"start": "node server/server.js",\n\t\t"start-dev": "npm run task",\n\t\t"task": "gulp"\n\t  },\n\t"dependencies": {\n\t"babel-preset-es2015": "^6.0.15",\n\t\t"babel-preset-react": "^6.0.15",\n\t\t"babelify": "^7.2.0",\n\t\t"browserify": "^10.2.4",\n\t\t"gulp": "^3.9.0",\n\t\t"react": "^0.14",\n\t\t"react-dom": "^0.14.0",\n\t\t"vinyl-source-stream": "^1.1.0"\n\t\t},\n\t"devDependencies": {\n\t\t"body-parser": "^1.15.0",\n\t\t"gulp-nodemon": "^2.0.6",\n\t\t"gulp-notify": "^2.2.0",\n\t\t"watchify": "^3.2.2"\n\t},\n\t"author": "<your name here>",\n\t"license": "ISC"\n\t}';
 
 
-var App = React.createClass({
-	getInitialState: function(){
+export default class App extends Component {
+	getInitialState() {
 		 return {
 			 code: code.require + code.gulp + code.gulpTask,
 			 json: theJSON
@@ -32,51 +32,49 @@ var App = React.createClass({
 	 },
 
 	//  Updates state every time soething changes in the sandbox
-	updateCode: function(newCode) {
+	updateCode(newCode) {
 		this.setState({ code: newCode });
 	},
 
-	updateJson: function(newJson) {
+	updateJson(newJson) {
 		this.setState({ json: newJson });
 	},
 
 	// Sends currents state to server to get turned into zip
-	postRequest: function(e){
+	postRequest(e) {
 		e.preventDefault();
-		var gulpState = this.state.code;
+		let gulpState = this.state.code;
 		$.ajax({
 			type: 'POST',
 			url: '/gulp',
 			data: gulpState,
 			contentType: 'text/plain; charset=utf-8',
-			success: function(data) {
-				window.location.href = '/download';
-			}
+			success() => window.location.href = '/download';
 		});
 	},
 
 // Adds or removes new task to code on chekbox click. Note, this can be done much better and more consisely. jQuery is not needed.
-	newTasks: function() {
+	newTasks() {
 		// jQuery will return either the value if checked, or undefined
-		var addonObj = {
+		let addonObj = {
 			minify : $('.minify:checked').val(),
 			closure : $('.closure:checked').val(),
 		};
-		var requireCode = code.require;
-		var gulpCode = code.gulp;
+		let requireCode = code.require;
+		let gulpCode = code.gulp;
 		// checks which values are true and displays them
-		for (var val in addonObj){
+		for (let val of addonObj){
 			if (addonObj[val]) {
-				var require = val + 'Require';
+				let require = val + 'Require';
 				requireCode += code[require];
 				gulpCode += code[val];
 			}
 		}
-		var displayedCode = requireCode + gulpCode + code.gulpTask;
+		let displayedCode = requireCode + gulpCode + code.gulpTask;
 		this.setState({code: displayedCode});
 	 },
 
-	render: function () {
+	render() {
 		return (
 			<div id='App'>
 			<Gulpoptions addTask={this.newTasks}/>
@@ -97,8 +95,6 @@ var App = React.createClass({
 			</div>
 		)
 	}
-});
-
-module.exports = App;
+}
 
 render(<App />, document.getElementById('main-container'));
