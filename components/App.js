@@ -24,21 +24,23 @@ const theJSON = '{\n"name": "<enter the name of your project here>",\n\t  "versi
 
 
 export default class App extends Component {
-	getInitialState() {
-		 return {
+	constructor(props) {
+    super(props);
+    // http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
+		 this.state = {
 			 code: code.require + code.gulp + code.gulpTask,
 			 json: theJSON
 		 };
-	 },
+	 }
 
 	//  Updates state every time soething changes in the sandbox
 	updateCode(newCode) {
 		this.setState({ code: newCode });
-	},
+	}
 
 	updateJson(newJson) {
 		this.setState({ json: newJson });
-	},
+	}
 
 	// Sends currents state to server to get turned into zip
 	postRequest(e) {
@@ -49,9 +51,11 @@ export default class App extends Component {
 			url: '/gulp',
 			data: gulpState,
 			contentType: 'text/plain; charset=utf-8',
-			success() => window.location.href = '/download';
+			success() {
+        window.location.href = '/download';
+      }
 		});
-	},
+	}
 
 // Adds or removes new task to code on chekbox click. Note, this can be done much better and more consisely. jQuery is not needed.
 	newTasks() {
@@ -60,20 +64,22 @@ export default class App extends Component {
 			minify : $('.minify:checked').val(),
 			closure : $('.closure:checked').val(),
 		};
+    console.log(addonObj);
 		let requireCode = code.require;
 		let gulpCode = code.gulp;
-    let require;
+    // let require;
 		// checks which values are true and displays them
-		for (let val of addonObj){
+		for (var val in addonObj){
+      console.log(val);
 			if (addonObj[val]) {
-				require = val + 'Require';
+				var require = val + 'Require';
 				requireCode += code[require];
 				gulpCode += code[val];
 			}
 		}
 		let displayedCode = requireCode + gulpCode + code.gulpTask;
 		this.setState({code: displayedCode});
-	 },
+	 }
 
 	render() {
 		return (
@@ -82,16 +88,16 @@ export default class App extends Component {
 			<div id="code">
 				<Gulpview
 					value={this.state.code}
-					codeChange={this.updateCode}
+					codeChange={this.updateCode.bind(this)}
 
 					/>
 			<Packagejson
 					value={this.state.json}
-					jsonChange={this.updateJson}
+					jsonChange={this.updateJson.bind(this)}
 			/>
 			</div>
 			<Download
-			download={this.postRequest}
+			download={this.postRequest.bind(this)}
 			/>
 			</div>
 		)
