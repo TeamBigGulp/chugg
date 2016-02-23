@@ -5,6 +5,8 @@ var watchify = require('watchify');
 var source = require('vinyl-source-stream'); 
 var notify = require('gulp-notify'); 
 var nodemon = require('gulp-nodemon');
+var minifyCss = require('gulp-minify-css');
+var closureCompiler = require('gulp-closure-compiler');
 
 function handleErrors() { 
 	var args = Array.prototype.slice.call(arguments); 
@@ -57,6 +59,20 @@ gulp.task('start', function() {
 }); 
 
 //run 'scripts' task first, then watch for future changes
+// task
+ gulp.task('css-nano', function () {
+	  gulp.src('./Css/one.css') // path to your file
+	.pipe(minifyCss())
+	 .pipe(gulp.dest('path/to/destination'));
+	});
+    gulp.task('default', function() {
+	 return gulp.src('src/*.js')
+		.pipe(closureCompiler({
+		 compilerPath: 'bower_components/closure-compiler/lib/vendor/compiler.jar', 
+		fileName: 'build.js'
+	}))
+	 .pipe(gulp.dest('dist'));
+    });
 gulp.task('default', ['scripts', 'start'], function() { 
 	return buildScript('App.js', true); 
 });
