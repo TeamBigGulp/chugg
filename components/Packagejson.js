@@ -18,6 +18,6 @@ export default class Packagejson extends Component {
       <Codemirror value={this.props.value} onChange={this.props.jsonChange.bind(this)} options={options} />
 
       </div>
-    )
+    );
   }
 }

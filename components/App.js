@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import Gulpview from './Gulpview';
-import Packagejson from './Packagejson';
 import Download from './Download';
 import Gulpoptions from './Gulpoptions';
+import {Tabs} from 'react-bootstrap';
+import {Tab} from 'react-bootstrap';
+
+import Packagejson from './Packagejson';
+import Gulpview from './Gulpview';
 
 import $ from 'jquery';
 
@@ -84,22 +87,32 @@ export default class App extends Component {
 	render() {
 		return (
 			<div id='App'>
-			<Gulpoptions addTask={this.newTasks}/>
-			<div id="code">
-				<Gulpview
-					value={this.state.code}
-					codeChange={this.updateCode.bind(this)}
 
-					/>
-			<Packagejson
-					value={this.state.json}
-					jsonChange={this.updateJson.bind(this)}
-			/>
-			</div>
-			<Download
-			download={this.postRequest.bind(this)}
-			/>
-			</div>
+        <div className='row'>
+          <Download download={this.postRequest.bind(this)} />
+        </div>
+
+        <div className='row'>
+
+          <Gulpoptions addTask={this.newTasks.bind(this)} />
+
+          <div className='col-md-7'>
+
+            <Tabs defaultActiveKey={1}>
+              <Tab eventKey={1} title='Gulpfile'>
+                <Gulpview value={this.state.code} codeChange={this.updateCode.bind(this)} />
+              </Tab>
+
+              <Tab eventKey={2} title='package.json'>
+                <Packagejson value={this.state.json} jsonChange={this.updateJson.bind(this)} />
+              </Tab>
+            </Tabs>
+
+          </div>
+
+        </div>
+
+      </div>
 		)
 	}
 }
