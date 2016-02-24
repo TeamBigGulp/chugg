@@ -127,7 +127,7 @@ export default class App extends Component {
 			 pkgVersion = data[0].version[0];
 		 }).done(() => {
 			 let newPackages = this.state.jsonDependencies;
-			 newPackages += `,\n\t"${this.state.npmSearch}": "^${pkgVersion}"`;
+			 newPackages += `,\n\t\t\t"${this.state.npmSearch}": "^${pkgVersion}"`;
 			 this.setState({json: defaultJson.start + newPackages + defaultJson.end, jsonDependencies: newPackages});
 		 })
 
