@@ -5,6 +5,43 @@ const bodyParser = require('body-parser');
 const fileMakerController = require('./fileMakerController');
 var request = require('superagent');
 
+// See http://mongoosejs.com/docs/index.html. This 'getting started' page is useful, but the API docs aren't. Use this guide instead: http://mongoosejs.com/docs/guide.html
+// I'd like some clarification on exactly what these two lines of code are doing
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test'); // Open a connection to the 'test' database
+
+// Here's what I'm doing to save users to the database:
+ 
+var db = mongoose.connection; // Grab onto the connection we just opened. (Think of the connection as the database.)
+// Handle errors?
+
+db.once('open', function() { // Where does the .once method come from?
+	
+	var userSchema = mongoose.Schema({
+		name: String,
+		password: String
+	});
+
+	var User = mongoose.model('User', userSchema);
+
+	// Save a new user in two steps
+	// var isaac = new User({
+	// 	name: 'Isaac',
+	// 	password: 'test'
+	// });
+	// console.log('The name of the user we just created is', isaac.name);
+	// isaac.save(function(err) {
+	// 	if (err) console.log(err); // return before cl?
+	// })
+
+	// Save a new user in one step
+	// User.create({name: 'Tiffany', password: 'test'});
+
+	User.find(function(err, users) {
+		console.log('All our users:', users);
+	})
+})
+
 app.use(express.static(path.join(__dirname, './../')));
 app.use(bodyParser.text());
 
@@ -27,9 +64,3 @@ app.listen(3000, function() {
 });
 
 module.exports = app;
-
-/* Notes on OverReact's tests:
-- They use 'expect' exclusively (in 24 'expect' statements), rather than 'assert' or 'should'.
-- They test each middleware function.
-- They use the supertest and node-mocks-http modules.
-*/
