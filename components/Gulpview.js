@@ -1,13 +1,13 @@
-var React = require('react');
-var Codemirror = require('react-codemirror');
+import React, {Component} from 'react';
+import Codemirror from 'react-codemirror';
 
-require('codemirror/mode/javascript/javascript');
-require('codemirror/mode/xml/xml');
-require('codemirror/mode/markdown/markdown');
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/markdown/markdown';
 
 
-var Gulpview = React.createClass({
-  render: function () {
+export default class Gulpview extends Component {
+  render() {
     var options = {
             lineNumbers: true,
             mode: 'javascript'
@@ -15,10 +15,8 @@ var Gulpview = React.createClass({
     return (
       <div id='Gulpview'>
       Gulp File
-      <Codemirror value={this.props.value} onChange={this.props.codeChange} options={options} />
+      <Codemirror value={this.props.value} onChange={this.props.codeChange.bind(this)} options={options} />
       </div>
-    )
+    );
   }
-});
-
-module.exports = Gulpview;
+}

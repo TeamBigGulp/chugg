@@ -1,2 +1,5 @@
 node_modules/
 npm-debug.log
+build/
+server/chuggFile.zip
+server/gulp-starter.js
