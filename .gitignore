@@ -1,4 +1,4 @@
 node_modules/
 npm-debug.log
-build
+build/
 server/chuggFile.zip
