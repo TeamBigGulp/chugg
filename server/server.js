@@ -3,7 +3,6 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const fileMakerController = require('./fileMakerController');
-// var parse = require('parse-http-header');
 var request = require('superagent');
 
 app.use(express.static(path.join(__dirname, './../')));
@@ -19,13 +18,6 @@ app.get('/', (req, res) => {
 app.get('/download', (req, res) => {
 	res.download(path.join(__dirname, './chuggFile.zip'));
 });
-
-// request
-//   .get('/download')
-// 	.end(function(err, res) {
-// 		console.log('res.header: ', res.header['content-length']);
-// 	});
-// attempt using superagent - last trial before end of day
 
 // post request to get the zipped version of the documents that were created
 app.post('/gulp', fileMakerController.createsFile, fileMakerController.zipsFile);
