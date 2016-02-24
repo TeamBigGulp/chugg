@@ -1,14 +1,15 @@
 {
   "name": "chugg",
   "version": "1.0.0",
-  "description": "\"Jump start your build tools setup with  much quickness and simplicity\"",
+  "description": "Jump start your build tools setup with  much quickness and simplicity",
   "main": "bundle.js",
   "scripts": {
     "prestart": "npm run task",
     "start": "node server/server.js",
     "start-dev": "npm run task",
     "task": "gulp",
-    "test": "mocha test/index.js"
+    "test-fe": "casperjs test test/test-fe.js",
+    "test-be": "mocha test/index.js"
   },
   "repository": {
     "type": "git",
@@ -29,12 +30,12 @@
     "babel-preset-react": "^6.0.15",
     "babelify": "^7.2.0",
     "browserify": "^10.2.4",
+    "casperjs": "^1.1.0-beta5",
     "codemirror": "^5.12.0",
     "express": "^4.13.3",
     "gulp": "^3.9.0",
     "gulp-notify": "^2.2.0",
     "jquery": "^2.2.0",
-    "parse-http-header": "^1.0.0",
     "path": "^0.12.7",
     "react": "^0.14",
     "react-codemirror": "^0.2.5",
