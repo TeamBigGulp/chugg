@@ -2,7 +2,7 @@ module.exports = {
 
 	getDefaultJson() {
 		return {
-	start: `{
+			start: `{
 	"name": "<enter the name of your project here>",
 	"version": "1.0.0",
 	"description": "<enter a description of your project here>",
@@ -23,11 +23,11 @@ module.exports = {
 	"react-dom": "^0.14.0",
 	"vinyl-source-stream": "^1.1.0"`,
 	// Not using this function anymore, but keeping for reference
-	add: function(input) {
-		console.log('hey!');
-		this.dependencies += input;
-	},
-	end: `
+		add: function(input) {
+			console.log('hey!');
+			this.dependencies += input;
+		},
+		end: `
 	},
 	"devDependencies": {
 		"body-parser": "^1.15.0",
@@ -42,13 +42,15 @@ module.exports = {
 },
 
 	getDefaultGulp() {
-		return `var gulp = require('gulp');
+		return {
+			start: `var gulp = require('gulp');
 var browserify = require('browserify');
 var babelify = require('babelify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var notify = require('gulp-notify');
-var nodemon = require('gulp-nodemon');
+var nodemon = require('gulp-nodemon');`,
+			tasks:`
 
 function handleErrors() {
 	var args = Array.prototype.slice.call(arguments);
@@ -106,10 +108,14 @@ gulp.task('start', function() {
 //run 'scripts' task first, then watch for future changes
 gulp.task('default', ['scripts', 'start'], function() {
 	return buildScript('App.js', true);
-});`
-			}
-};
-
+});`,
+		minify: `var minifyCss = require('gulp-minify-css');",`,
+		minifyTask: `\n// task\n gulp.task('css-nano', function () {\n\t  gulp.src('./Css/one.css') // path to your file\n\t.pipe(minifyCss())\n\t .pipe(gulp.dest('path/to/destination'));\n\t});`,
+		closure: `var closureCompiler = require('gulp-closure-compiler');`,
+		closureTask: `\n    gulp.task('default', function() {\n\t return gulp.src('src/*.js')\n\t\t.pipe(closureCompiler({\n\t\t compilerPath: 'bower_components/closure-compiler/lib/vendor/compiler.jar', \n\t\tfileName: 'build.js'\n\t}))\n\t .pipe(gulp.dest('dist'));\n    });`
+		}
+	}
+}
 // const theJSON = '{\n"name": "<enter the name of your project here>",\n\t  "version": "1.0.0",\n\t"description": "<enter a description of your project here>",\n\t "main": "index.js",\n\t"scripts": {\n\t\t"prestart": "npm run task",\n\t\t"start": "node server/server.js",\n\t\t"start-dev": "npm run task",\n\t\t"task": "gulp"\n\t  },\n\t"dependencies": {\n\t"babel-preset-es2015": "^6.0.15",\n\t\t"babel-preset-react": "^6.0.15",\n\t\t"babelify": "^7.2.0",\n\t\t"browserify": "^10.2.4",\n\t\t"gulp": "^3.9.0",\n\t\t"react": "^0.14",\n\t\t"react-dom": "^0.14.0",\n\t\t"vinyl-source-stream": "^1.1.0"\n\t\t},\n\t"devDependencies": {\n\t\t"body-parser": "^1.15.0",\n\t\t"gulp-nodemon": "^2.0.6",\n\t\t"gulp-notify": "^2.2.0",\n\t\t"watchify": "^3.2.2"\n\t},\n\t"author": "<your name here>",\n\t"license": "ISC"\n\t}';
 
 // const code = {
