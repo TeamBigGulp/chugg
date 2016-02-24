@@ -39,6 +39,8 @@
     "gulp-notify": "^2.2.0",
     "jquery": "^2.2.0",
     "mongoose": "^4.4.5",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "react": "^0.14",
     "react-bootstrap": "^0.28.3",
