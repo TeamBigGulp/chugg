@@ -1,7 +1,7 @@
-var React = require('react');
+import React, {Component} from 'react';
 
-var Download = React.createClass({
-  render: function () {
+export default class Download extends Component {
+  render() {
     return (
       <div id='download'>
       <form id="download-files" onSubmit={this.props.download}>
@@ -10,6 +10,4 @@ var Download = React.createClass({
       </div>
     )
   }
-});
-
-module.exports = Download;
+}

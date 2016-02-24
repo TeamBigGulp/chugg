@@ -1,10 +1,10 @@
-var React = require('react');
+import React, {Component} from 'react';
 
-var Gulpoptions = React.createClass({
-	render: function () {
+export default class Gulpoptions extends Component{
+	render() {
 		return (
 			<div id='Gulpoptions'>
-			<form onClick={this.props.addTask}>
+			<form onClick={this.props.addTask.bind(this)}>
 			<input type="checkbox" className="minify" id="minify" name="minify" value="minify" />
 			<span className="input-name">CSS Nano</span>
 			&nbsp; | &nbsp;
@@ -14,6 +14,4 @@ var Gulpoptions = React.createClass({
 			</div>
 		)
 	}
-});
-
-module.exports = Gulpoptions;
+}
