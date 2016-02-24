@@ -1,26 +1,33 @@
 module.exports = {
 
 	getDefaultJson() {
-		return `{
+		return {
+	start: `{
 	"name": "<enter the name of your project here>",
 	"version": "1.0.0",
 	"description": "<enter a description of your project here>",
 	"main": "index.js",
 	"scripts": {
-		"prestart": "npm run task",
-		"start": "node server/server.js",
-		"start-dev": "npm run task",
-		"task": "gulp"
+	"prestart": "npm run task",
+	"start": "node server/server.js",
+	"start-dev": "npm run task",
+	"task": "gulp"
 	},
 	"dependencies": {
-		"babel-preset-es2015": "^6.0.15",
-		"babel-preset-react": "^6.0.15",
-		"babelify": "^7.2.0",
-		"browserify": "^10.2.4",
-		"gulp": "^3.9.0",
-		"react": "^0.14",
-		"react-dom": "^0.14.0",
-		"vinyl-source-stream": "^1.1.0"
+	"babel-preset-es2015": "^6.0.15",
+	"babel-preset-react": "^6.0.15",
+	"babelify": "^7.2.0",
+	"browserify": "^10.2.4",
+	"gulp": "^3.9.0",
+	"react": "^0.14",
+	"react-dom": "^0.14.0",
+	"vinyl-source-stream": "^1.1.0"`,
+	// Not using this function anymore, but keeping for reference
+	add: function(input) {
+		console.log('hey!');
+		this.dependencies += input;
+	},
+	end: `
 	},
 	"devDependencies": {
 		"body-parser": "^1.15.0",
@@ -30,8 +37,9 @@ module.exports = {
 	},
 	"author": "<your name here>",
 	"license": "ISC"
-}`;
-	},
+}`
+	}
+},
 
 	getDefaultGulp() {
 		return `var gulp = require('gulp');
