@@ -12,6 +12,6 @@ export default class Gulpoptions extends Component{
 			<span className="input-name">Closure Complier</span>
 			</form>
 			</div>
-		)
+		);
 	}
 }

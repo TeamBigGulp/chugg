@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import Gulpview from './Gulpview';
-import Packagejson from './Packagejson';
+import Editor from './Editor';
 import Download from './Download';
 import Gulpoptions from './Gulpoptions';
 
@@ -84,17 +83,9 @@ export default class App extends Component {
 	render() {
 		return (
 			<div id='App'>
-			<Gulpoptions addTask={this.newTasks}/>
+			<Gulpoptions addTask={this.newTasks.bind(this)}/>
 			<div id="code">
-				<Gulpview
-					value={this.state.code}
-					codeChange={this.updateCode.bind(this)}
-
-					/>
-			<Packagejson
-					value={this.state.json}
-					jsonChange={this.updateJson.bind(this)}
-			/>
+				<Editor code={this.state.code} json={this.state.json} codeChange={this.updateCode.bind(this)} jsonChange={this.updateJson.bind(this)} />
 			</div>
 			<Download
 			download={this.postRequest.bind(this)}
