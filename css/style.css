@@ -1,3 +1,11 @@
+/*
+Red: F71430
+Blue: 148291
+Aqua: 7CD7B8
+Cream: FFFFCD
+
+*/
+
 body {
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 	font-size: 14px;
@@ -8,17 +16,12 @@ body {
   background-color: #FFFFCD;
 }
 
-h1 {
+/*h1 {
   padding: 0.3em;
-}
+}*/
 
 #code-container {
 	overflow: auto;
-}
-
-
-#download-files {
-  margin-top: 1%;
 }
 
 .input-name {
@@ -44,7 +47,7 @@ input[type='checkbox']:checked {
     background: #abd;
 }
 
-input[type='submit'] {
+/*input[type='submit'] {
     -webkit-appearance:none;
     width:150px;
     height:40px;
@@ -55,14 +58,18 @@ input[type='submit'] {
 input[type='submit']:hover {
     background: #abd;
 		color: white;
-}
+}*/
 
 .brand {
-  font-family: 'Lobster', cursive;
+  font-family: 'Damion', cursive;
+}
+
+.display {
+  font-family: 'Expletus Sans', cursive;
 }
 
 .blueheader {
-  color #148291;
+  color: #148291;
 }
 
 .aquaheader {
@@ -79,4 +86,8 @@ input[type='submit']:hover {
 
 .bluetop {
   border-top: 2px solid #148291;
+}
+
+.centered {
+  text-align: center;
 }

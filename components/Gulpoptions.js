@@ -7,15 +7,15 @@ export default class Gulpoptions extends Component{
 		return (
 			<div id='Gulpoptions' className="col-md-5">
 
-        <div>
-          <h2 className="brand">Build Your Gulpfile</h2>
-          <p>
-            Need a gulpfile for your next React, Angular, or Node project?
-          </p>
-          <p>
+        <div className="centered">
+          <h2 className="brand blueheader centered">Build Your Gulpfile</h2>
+          <h3 className="centered aquaheader display">
+            Need a gulpfile<br />
+            for your next React, Angular,<br />
+            or Node project?<br />
             We'll walk you through it.
-          </p>
-          <Button bsStyle="success">Get Started</Button>
+          </h3>
+          <Button bsStyle="success" className="centered">Get Started</Button>
         </div>
 
   			<form onClick={this.props.addTask.bind(this)}>
