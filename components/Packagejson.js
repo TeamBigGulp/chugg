@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import Codemirror from 'react-codemirror';
 
 import 'codemirror/mode/javascript/javascript';
-// require('codemirror/theme/solarized.css');
 import 'codemirror/mode/markdown/markdown';
+// require('./../node_modules/codemirror/lib/codemirror.css');
 //Dear next team, please do this. We wanted to show this in the view as well but did not get the time to add functionality.
+
 
 export default class Packagejson extends Component {
 	render() {
@@ -14,6 +15,7 @@ export default class Packagejson extends Component {
 						tabSize: 2,
 						mode: 'application/json'
 				};
+
 		return (
 			<div id='Packagejson'>
 			Packages

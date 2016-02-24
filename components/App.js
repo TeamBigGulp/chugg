@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
@@ -6,29 +7,29 @@ import Packagejson from './Packagejson';
 import Download from './Download';
 import Gulpoptions from './Gulpoptions';
 import constants from './constants/default';
+import {Tabs} from 'react-bootstrap';
+import {Tab} from 'react-bootstrap';
 const defaultJson = constants.getDefaultJson();
 const defaultGulp = constants.getDefaultGulp();
 
 // React in ES6
 // http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 export default class App extends Component {
-	// "use strict";
+	// 'use strict';
 	constructor(props) {
 		super(props);
 		 this.state = {
-			 code: defaultGulp,
+			 code: defaultGulp.start + defaultGulp.tasks,
 			 json: defaultJson.start + defaultJson.end,
 			 jsonDependencies: '',
+			 gulpPlugins: '',
 			 npmSearch: null,
 			 npmPackage: [],
 			 npmDescription: [],
-			 gulpSearch: null,
-			 gulpPlugin: [],
-			 gulpDescription: []
 		 };
-		 this.searchNPM = this.searchNPM.bind(this);
-		 this.searchGulp = this.searchGulp.bind(this);
+		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
+		 this.addToGulpfile = this.addToGulpfile.bind(this);
 	 }
 
 	//  Updates state every time something changes in the sandbox
@@ -55,32 +56,33 @@ export default class App extends Component {
 		});
 	}
 
+// Potentially getting rid of this block by next merge to master -Tiffany
 // Adds or removes new task to code on chekbox click. Note, this can be done much better and more consisely. jQuery is not needed.
-	// newTasks() {
-	// 	// jQuery will return either the value if checked, or undefined
-	// 	let addonObj = {
-	// 		minify : $('.minify:checked').val(),
-	// 		closure : $('.closure:checked').val(),
-	// 	};
-	// 	console.log(addonObj);
-	// 	let requireCode = code.require;
-	// 	let gulpCode = code.gulp;
-	// 	// let require;
-	// 	// checks which values are true and displays them
-	// 	for (var val in addonObj){
-	// 		console.log(val);
-	// 		if (addonObj[val]) {
-	// 			var require = val + 'Require';
-	// 			requireCode += code[require];
-	// 			gulpCode += code[val];
-	// 		}
-	// 	}
-	// 	let displayedCode = requireCode + gulpCode + code.gulpTask;
-	// 	this.setState({code: displayedCode});
-	//  }
+	newTasks() {
+		// // jQuery will return either the value if checked, or undefined
+		// let addonObj = {
+		// 	minify : $('.minify:checked').val(),
+		// 	closure : $('.closure:checked').val(),
+		// };
+		// console.log(addonObj);
+		// // let requireCode = code.require;
+		// // let gulpCode = code.gulp;
+		// // let require;
+		// // checks which values are true and displays them
+		// for (var val in addonObj){
+		// 	console.log(val);
+		// 	if (addonObj[val]) {
+		// 		var require = val + 'Require';
+		// 		requireCode += code[require];
+		// 		gulpCode += code[val];
+		// 	}
+		// }
+		// let displayedCode = requireCode + gulpCode + code.gulpTask;
+		// this.setState({code: displayedCode});
+	 }
 
 	 // Search NPM packages
-	 searchNPM(event) {
+	 search(event) {
 		 event.preventDefault();
 		 const searchValue = event.target.value;
 
@@ -107,30 +109,6 @@ export default class App extends Component {
 	}
 
 
-	searchGulp(event) {
-		event.preventDefault();
-
-		// Get request to NPM search for the package name from user input
-	 $.get(`http://npmsearch.com/query?fields=name,description&q=keywords:gulpfriendly&q=keywords:gulpplugin&q=name:${event.target.value}&sort=rating:desc`, (data) => {
-
-		 const pluginName = this.state.npmPackage;
-		 const pluginDesc = this.state.npmDescription;
-		 data = JSON.parse(data).results;
-
-		 // Retrieving desired data from results
-		 data.forEach((pkg) => {
-			 // This check makes sure no duplicate elements are pushed to the state array
-			 if (pluginName.findIndex((el) => {return el === pkg.name[0]}) === -1){
-				 pluginName.push(pkg.name[0]);
-				 pluginDesc.push(pkg.description[0]);
-			 }
-		 });
-
-		 // Setting the state from the new arrays
-		 this.setState({gulpPlugin: pluginName, gulpDescription: pluginDesc});
-	 });
-	}
-
 	// Adds new package to package.json in dependencies
 	 addToPackageJson (event) {
 		 event.preventDefault();
@@ -148,6 +126,24 @@ export default class App extends Component {
 
 	 }
 
+	 addToGulpfile (event) {
+		 event.preventDefault();
+
+		 let gulpSearch = this.state.npmSearch;
+		//  gulpSearch = gulpSearch.replace('gulp-', '');
+
+		 let plugins = this.state.gulpPlugins;
+		 plugins += `\nvar ${gulpSearch.replace('gulp-', '')} = require('${gulpSearch}');`;
+
+		 this.setState({code: defaultGulp.start + plugins + defaultGulp.tasks, gulpPlugins: plugins});
+
+		//  let addonObj = {
+		// 	 minify : $('.minify:checked').val(),
+		// 	 closure : $('.closure:checked').val(),
+		//  };
+		//  console.log(addonObj);
+	 }
+
 	 createSearchResults(nameArr, descArr) {
 		 let resultsArr = [];
 		 let counter = 0;
@@ -161,37 +157,47 @@ export default class App extends Component {
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
-		let gulpResults = this.createSearchResults(this.state.gulpPlugin, this.state.gulpDescription);
 
 		return (
 			<div id='App'>
 
 				<form id='npm-search'>
-					 <input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.searchNPM}></input>
+					 <input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.search}></input>
 					 <datalist id="packages">{npmResults}</datalist>
 					 <button onClick={this.addToPackageJson}>+ package.json</button>
+					 <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
 				</form>
 
-				<form id='gulp-search'>
-					 <input type="search" list="plugins" placeholder="Search Gulp Plug-Ins" onChange={this.searchGulp}></input>
-					 <datalist id="plugins">{gulpResults}</datalist>
-					 <button onClick={this.addToPackageJson}>+ gulpfile.js</button>
-				</form>
-
-
-				<div id="code">
-					<Gulpview value={this.state.code} codeChange={this.updateCode.bind(this)}/>
-					<Packagejson value={this.state.json} jsonChange={this.updateJson.bind(this)}/>
+				<div className='row'>
+					<Download download={this.postRequest.bind(this)} />
 				</div>
 
-				<Download download={this.postRequest.bind(this)} />
+				<div className='row'>
+
+					<Gulpoptions addTask={this.newTasks.bind(this)} />
+
+					<div className='col-md-7'>
+
+						<Tabs defaultActiveKey={1}>
+							<Tab eventKey={1} title='Gulpfile'>
+								<Gulpview value={this.state.code} codeChange={this.updateCode.bind(this)} />
+							</Tab>
+
+							<Tab eventKey={2} title='package.json'>
+
+								<Packagejson value={this.state.json} jsonChange={this.updateJson.bind(this)} />
+							</Tab>
+						</Tabs>
+
+					</div>
+
+				</div>
 
 			</div>
 		)
 	}
 }
 
-// Took out Gulp options for the time being (minify and closure)
-// <Gulpoptions addTask={this.newTasks}/>
+
 
 render(<App />, document.getElementById('main-container'));
