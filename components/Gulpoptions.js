@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 export default class Gulpoptions extends Component{
 	render() {
 		return (
-			<div id='Gulpoptions'>
+			<div id='Gulpoptions' className="col-md-5">
 			<form onClick={this.props.addTask.bind(this)}>
 			<input type="checkbox" className="minify" id="minify" name="minify" value="minify" />
 			<span className="input-name">CSS Nano</span>
