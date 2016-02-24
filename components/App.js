@@ -88,22 +88,22 @@ export default class App extends Component {
 		return (
 			<div id='App'>
 
-        <div className="row">
+        <div className='row'>
           <Download download={this.postRequest.bind(this)} />
         </div>
 
-        <div className="row">
+        <div className='row'>
 
           <Gulpoptions addTask={this.newTasks.bind(this)} />
 
-          <div className="col-md-7">
+          <div className='col-md-7'>
 
             <Tabs defaultActiveKey={1}>
-              <Tab eventKey={1} title="Gulpfile">
+              <Tab eventKey={1} title='Gulpfile'>
                 <Gulpview value={this.state.code} codeChange={this.updateCode.bind(this)} />
               </Tab>
 
-              <Tab eventKey={2} title="package.json">
+              <Tab eventKey={2} title='package.json'>
                 <Packagejson value={this.state.json} jsonChange={this.updateJson.bind(this)} />
               </Tab>
             </Tabs>
@@ -111,6 +111,8 @@ export default class App extends Component {
           </div>
 
         </div>
+
+      </div>
 		)
 	}
 }
