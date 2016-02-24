@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var gulp = require('gulp'); 
 var browserify = require('browserify'); 
 var babelify = require('babelify'); 
@@ -76,3 +77,6 @@ gulp.task('start', function() {
 gulp.task('default', ['scripts', 'start'], function() { 
 	return buildScript('App.js', true); 
 });
+=======
+Hello 123
+>>>>>>> 92962fa0315078f0bfbf043e1a203e0d2f4e4d97
