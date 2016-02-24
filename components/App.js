@@ -176,7 +176,7 @@ export default class App extends Component {
 				</form>
 
 				<div className='row'>
-					<Download download={this.postRequest.bind(this)} />
+					<Download download={this.download.bind(this)} />
 				</div>
 
 				<div className='row'>
