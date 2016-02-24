@@ -17,6 +17,6 @@ export default class Gulpview extends Component {
       Gulp File
       <Codemirror value={this.props.value} onChange={this.props.codeChange.bind(this)} options={options} />
       </div>
-    )
+    );
   }
 }
