@@ -7,19 +7,19 @@ const fileMakerController = {
 	// creates a file matching the current state of the code on the homepage
 	// writeFile(filePath,data,callback)
 	// req.body is code included in Gulp File text editor
-	createsFile(req, res, next) {
+	createsGulpFile(req, res, next) {
 		fs.writeFile(path.join(__dirname, 'gulp-starter.js'), req.body, (err) => {
 			if (err) throw err;
 			next();
 		});
 	},
 
-	// createsFile(req, res, next) {
-	// 	fs.writeFile(path.join(__dirname, 'gulp-starter.js'), req.body, (err) => {
-	// 		if (err) throw err;
-	// 		next();
-	// 	});
-	// },
+	createsJsonFile(req, res, next) {
+		fs.writeFile(path.join(__dirname, './../pkgjson/package.json'), req.body, (err) => {
+			if (err) throw err;
+			next();
+		});
+	},
 
 	// zips the file that was just created and sends it back to the user
 	// addFile(file, filePath, callback)

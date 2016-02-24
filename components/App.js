@@ -32,19 +32,27 @@ export default class App extends Component {
 		 this.addToGulpfile = this.addToGulpfile.bind(this);
 	 }
 
-	//  Updates state every time something changes in the sandbox
+	// * Updates state every time something changes in the sandbox
 	updateCode(newCode) {
 		this.setState({ code: newCode });
 	}
 
+	// * Posts new json content to json file
 	updateJson(newJson) {
 		this.setState({ json: newJson });
+		$.ajax({
+			type: 'POST',
+			url: '/json',
+			data: newJson,
+			contentType: 'text/plain; charset=utf-8',
+		});
 	}
 
-	// Sends currents state to server to get turned into zip
-	postRequest(event) {
+	// * Hitting download button sends new gulpfile content to gulpfile and zips all three files to download for client
+	download(event) {
 		event.preventDefault();
-		let gulpState = this.state.code;
+
+		const gulpState = this.state.code;
 		$.ajax({
 			type: 'POST',
 			url: '/gulp',
@@ -53,6 +61,7 @@ export default class App extends Component {
 			success() {
 				window.location.href = '/download';
 			}
+
 		});
 	}
 
@@ -81,12 +90,12 @@ export default class App extends Component {
 		// this.setState({code: displayedCode});
 	 }
 
-	 // Search NPM packages
+	 // * Search NPM packages
 	 search(event) {
 		 event.preventDefault();
 		 const searchValue = event.target.value;
 
-		 // Get request to NPM search for the package name from user input
+		 // * Get request to NPM search for the package name from user input
 		$.get(`http://npmsearch.com/query?fields=name,keywords,rating,description,version&q=name:${event.target.value}&sort=rating:desc`, (data) => {
 
 			data = JSON.parse(data).results;
@@ -94,7 +103,6 @@ export default class App extends Component {
 			const pkgName = this.state.npmPackage;
 			const pkgDesc = this.state.npmDescription;
 
-			// Retrieving desired data from results
 			data.forEach((pkg) => {
 				// This check makes sure no duplicate elements are pushed to the state array
 				if (pkgName.findIndex((el) => {return el === pkg.name[0]}) === -1){
@@ -103,18 +111,17 @@ export default class App extends Component {
 				}
 			});
 
-			// Setting the state from the new arrays
 			this.setState({npmSearch: searchValue, npmPackage: pkgName, npmDescription: pkgDesc});
 		});
 	}
 
 
-	// Adds new package to package.json in dependencies
+	// * Adds new package to json editor in dependencies
 	 addToPackageJson (event) {
 		 event.preventDefault();
 		 let pkgVersion;
 
-		 // Gets the package version of the current search
+		 // * Gets the package version of the current search
 		 $.get(`http://npmsearch.com/query?fields=name,keywords,rating,description,version&q=name:${this.state.npmSearch}`, (data) => {
 			 data = JSON.parse(data).results;
 			 pkgVersion = data[0].version[0];
@@ -126,12 +133,11 @@ export default class App extends Component {
 
 	 }
 
+	 // * Adds new plugins to gulp editor
 	 addToGulpfile (event) {
 		 event.preventDefault();
 
 		 let gulpSearch = this.state.npmSearch;
-		//  gulpSearch = gulpSearch.replace('gulp-', '');
-
 		 let plugins = this.state.gulpPlugins;
 		 plugins += `\nvar ${gulpSearch.replace('gulp-', '')} = require('${gulpSearch}');`;
 
@@ -144,6 +150,7 @@ export default class App extends Component {
 		//  console.log(addonObj);
 	 }
 
+	 // * Dynamically creates autocomplete search results based on user input
 	 createSearchResults(nameArr, descArr) {
 		 let resultsArr = [];
 		 let counter = 0;
