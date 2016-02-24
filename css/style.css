@@ -5,13 +5,11 @@ body {
 	margin: 0;
 	padding: 0;
 	width: 100%;
+  background-color: #FFFFCD;
 }
 
 h1 {
-	background-color: #abd;
-	font-family: 'Lato', sans-serif;
-	padding: 2%;
-	border-bottom: 1px lightSeaGreen;
+  padding: 0.3em;
 }
 
 #code-container {
@@ -57,4 +55,28 @@ input[type='submit'] {
 input[type='submit']:hover {
     background: #abd;
 		color: white;
+}
+
+.brand {
+  font-family: 'Lobster', cursive;
+}
+
+.blueheader {
+  color #148291;
+}
+
+.aquaheader {
+  color: #7CD7B8;
+}
+
+.whiteheader {
+  color: #FFFFCD;
+}
+
+.redcallout {
+  color: #F71430;
+}
+
+.bluetop {
+  border-top: 2px solid #148291;
 }

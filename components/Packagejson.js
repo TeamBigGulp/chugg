@@ -10,13 +10,13 @@ export default class Packagejson extends Component {
   render() {
     var options = {
             lineNumbers: true,
-            mode: 'application/json'
+            mode: 'application/json',
+            readonly: true,
+            theme: 'mbo'
         };
     return (
       <div id='Packagejson'>
-      Packages
       <Codemirror value={this.props.value} onChange={this.props.jsonChange.bind(this)} options={options} />
-
       </div>
     );
   }
