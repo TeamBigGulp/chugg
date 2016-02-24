@@ -1,7 +1,7 @@
 {
   "name": "chugg",
   "version": "1.0.0",
-  "description": "\"Jump start your build tools setup with  much quickness and simplicity\"",
+  "description": "Jump start your build tools setup with  much quickness and simplicity",
   "main": "bundle.js",
   "scripts": {
     "prestart": "npm run task",
@@ -30,7 +30,6 @@
     "babel-preset-react": "^6.0.15",
     "babelify": "^7.2.0",
     "bootstrap": "^3.3.6",
-    "bower": "^1.7.7",
     "browserify": "^10.2.4",
     "casperjs": "^1.1.0-beta5",
     "codemirror": "^5.12.0",
@@ -45,13 +44,16 @@
     "react-codemirror": "^0.2.5",
     "react-dom": "^0.14.0",
     "react-scratchblocks": "^1.1.1",
+    "superagent": "^1.7.2",
     "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
     "body-parser": "^1.15.0",
     "easy-zip": "0.0.4",
-    "gulp-concat-css": "^2.2.0",
     "gulp-nodemon": "^2.0.6",
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "node-mocks-http": "^1.5.1",
     "watchify": "^3.2.2"
   }
 }
