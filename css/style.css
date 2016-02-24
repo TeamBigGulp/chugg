@@ -30,7 +30,7 @@ h1 {
 	overflow: auto;
 }
 
-#Gulpview {
+/*#Gulpview {
 	width: 49%;
 	float: left;
 }
@@ -38,7 +38,7 @@ h1 {
 #Packagejson {
 	width: 49%;
 	float: right;
-}
+}*/
 
 #download-files {
   margin-top: 1%;

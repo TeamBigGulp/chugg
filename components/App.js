@@ -3,6 +3,11 @@ import {render} from 'react-dom';
 import Editor from './Editor';
 import Download from './Download';
 import Gulpoptions from './Gulpoptions';
+import {Tabs} from 'react-bootstrap';
+import {Tab} from 'react-bootstrap';
+
+import Packagejson from './Packagejson';
+import Gulpview from './Gulpview';
 
 import $ from 'jquery';
 
@@ -85,7 +90,21 @@ export default class App extends Component {
 			<div id='App'>
 			<Gulpoptions addTask={this.newTasks.bind(this)}/>
 			<div id="code">
-				<Editor code={this.state.code} json={this.state.json} codeChange={this.updateCode.bind(this)} jsonChange={this.updateJson.bind(this)} />
+        <Tabs defaultActiveKey={1}>
+          <Tab eventKey={1} title="Gulpfile">
+            <Gulpview
+              value={this.state.code}
+              codeChange={this.updateCode.bind(this)}
+            />
+          </Tab>
+
+          <Tab eventKey={2} title="package.json">
+            <Packagejson
+              value={this.state.json}
+              jsonChange={this.updateJson.bind(this)}
+            />
+          </Tab>
+        </Tabs>
 			</div>
 			<Download
 			download={this.postRequest.bind(this)}
