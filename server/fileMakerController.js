@@ -14,6 +14,13 @@ const fileMakerController = {
 		});
 	},
 
+	// createsFile(req, res, next) {
+	// 	fs.writeFile(path.join(__dirname, 'gulp-starter.js'), req.body, (err) => {
+	// 		if (err) throw err;
+	// 		next();
+	// 	});
+	// },
+
 	// zips the file that was just created and sends it back to the user
 	// addFile(file, filePath, callback)
 	// writeToFile(filePath, callback)
