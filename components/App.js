@@ -5,20 +5,20 @@ import Gulpview from './Gulpview';
 import Packagejson from './Packagejson';
 import Download from './Download';
 import Gulpoptions from './Gulpoptions';
-var constants = require('./constants/json');
+import constants from './constants/default';
+const defaultJson = constants.getDefaultJson();
+const defaultGulp = constants.getDefaultGulp();
 
-
-
+// React in ES6
+// http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 export default class App extends Component {
-	// var strict = "use strict";
-
+	// "use strict";
 	constructor(props) {
 		super(props);
-		// React in ES6
-		// http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 		 this.state = {
-			 code: constants.getDefaultGulp(),
-			 json: constants.getDefaultJson(),
+			 code: defaultGulp,
+			 json: defaultJson.start + defaultJson.end,
+			 jsonDependencies: '',
 			 npmSearch: null,
 			 npmPackage: [],
 			 npmDescription: [],
@@ -28,6 +28,7 @@ export default class App extends Component {
 		 };
 		 this.searchNPM = this.searchNPM.bind(this);
 		 this.searchGulp = this.searchGulp.bind(this);
+		 this.addToPackageJson = this.addToPackageJson.bind(this);
 	 }
 
 	//  Updates state every time something changes in the sandbox
@@ -40,8 +41,8 @@ export default class App extends Component {
 	}
 
 	// Sends currents state to server to get turned into zip
-	postRequest(e) {
-		e.preventDefault();
+	postRequest(event) {
+		event.preventDefault();
 		let gulpState = this.state.code;
 		$.ajax({
 			type: 'POST',
@@ -55,39 +56,41 @@ export default class App extends Component {
 	}
 
 // Adds or removes new task to code on chekbox click. Note, this can be done much better and more consisely. jQuery is not needed.
-	newTasks() {
-		// jQuery will return either the value if checked, or undefined
-		let addonObj = {
-			minify : $('.minify:checked').val(),
-			closure : $('.closure:checked').val(),
-		};
-		console.log(addonObj);
-		let requireCode = code.require;
-		let gulpCode = code.gulp;
-		// let require;
-		// checks which values are true and displays them
-		for (var val in addonObj){
-			console.log(val);
-			if (addonObj[val]) {
-				var require = val + 'Require';
-				requireCode += code[require];
-				gulpCode += code[val];
-			}
-		}
-		let displayedCode = requireCode + gulpCode + code.gulpTask;
-		this.setState({code: displayedCode});
-	 }
+	// newTasks() {
+	// 	// jQuery will return either the value if checked, or undefined
+	// 	let addonObj = {
+	// 		minify : $('.minify:checked').val(),
+	// 		closure : $('.closure:checked').val(),
+	// 	};
+	// 	console.log(addonObj);
+	// 	let requireCode = code.require;
+	// 	let gulpCode = code.gulp;
+	// 	// let require;
+	// 	// checks which values are true and displays them
+	// 	for (var val in addonObj){
+	// 		console.log(val);
+	// 		if (addonObj[val]) {
+	// 			var require = val + 'Require';
+	// 			requireCode += code[require];
+	// 			gulpCode += code[val];
+	// 		}
+	// 	}
+	// 	let displayedCode = requireCode + gulpCode + code.gulpTask;
+	// 	this.setState({code: displayedCode});
+	//  }
 
 	 // Search NPM packages
 	 searchNPM(event) {
 		 event.preventDefault();
+		 const searchValue = event.target.value;
 
 		 // Get request to NPM search for the package name from user input
-		$.get(`http://npmsearch.com/query?fields=name,keywords,rating,description&q=name:${event.target.value}&sort=rating:desc`, (data) => {
+		$.get(`http://npmsearch.com/query?fields=name,keywords,rating,description,version&q=name:${event.target.value}&sort=rating:desc`, (data) => {
+
+			data = JSON.parse(data).results;
 
 			const pkgName = this.state.npmPackage;
 			const pkgDesc = this.state.npmDescription;
-			data = JSON.parse(data).results;
 
 			// Retrieving desired data from results
 			data.forEach((pkg) => {
@@ -99,7 +102,7 @@ export default class App extends Component {
 			});
 
 			// Setting the state from the new arrays
-			this.setState({npmPackage: pkgName, npmDescription: pkgDesc});
+			this.setState({npmSearch: searchValue, npmPackage: pkgName, npmDescription: pkgDesc});
 		});
 	}
 
@@ -128,47 +131,53 @@ export default class App extends Component {
 	 });
 	}
 
-	// UNFINISHED: Need to figure out how to add it to the state
+	// Adds new package to package.json in dependencies
 	 addToPackageJson (event) {
 		 event.preventDefault();
-		 console.log('You clicked on the button');
+		 let pkgVersion;
+
+		 // Gets the package version of the current search
+		 $.get(`http://npmsearch.com/query?fields=name,keywords,rating,description,version&q=name:${this.state.npmSearch}`, (data) => {
+			 data = JSON.parse(data).results;
+			 pkgVersion = data[0].version[0];
+		 }).done(() => {
+			 let newPackages = this.state.jsonDependencies;
+			 newPackages += `,\n\t"${this.state.npmSearch}": "^${pkgVersion}"`;
+			 this.setState({json: defaultJson.start + newPackages + defaultJson.end, jsonDependencies: newPackages});
+		 })
+
+	 }
+
+	 createSearchResults(nameArr, descArr) {
+		 let resultsArr = [];
+		 let counter = 0;
+		 nameArr.forEach((name) => {
+			 resultsArr.push(<option value={name} key={counter}>{descArr[counter]}</option>);
+			 counter++;
+		 })
+		return resultsArr;
 	 }
 
 	render() {
-		// console.log('here is the json obj', packJson.getDefaultJson());
 
-		let searchResultsJ = [];
-		let searchResultsG = [];
-		const names = this.state.npmPackage;
-		const desc = this.state.npmDescription;
-		const namesG = this.state.gulpPlugin;
-		const descG = this.state.gulpDescription;
-
-
-		for (var i = 0; i < names.length; i++) {
-			searchResultsJ.push(<option value={names[i]} key={i}>{desc[i]}</option>);
-		}
-
-		for (var j = 0; j < namesG.length; j++) {
-			searchResultsG.push(<option value={names[j]} key={j}>{descG[j]}</option>);
-		}
+		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
+		let gulpResults = this.createSearchResults(this.state.gulpPlugin, this.state.gulpDescription);
 
 		return (
 			<div id='App'>
 
 				<form id='npm-search'>
 					 <input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.searchNPM}></input>
-					 <datalist id="packages">{searchResultsJ}</datalist>
+					 <datalist id="packages">{npmResults}</datalist>
 					 <button onClick={this.addToPackageJson}>+ package.json</button>
 				</form>
 
 				<form id='gulp-search'>
 					 <input type="search" list="plugins" placeholder="Search Gulp Plug-Ins" onChange={this.searchGulp}></input>
-					 <datalist id="plugins">{searchResultsG}</datalist>
+					 <datalist id="plugins">{gulpResults}</datalist>
 					 <button onClick={this.addToPackageJson}>+ gulpfile.js</button>
 				</form>
 
-				<Gulpoptions addTask={this.newTasks}/>
 
 				<div id="code">
 					<Gulpview value={this.state.code} codeChange={this.updateCode.bind(this)}/>
@@ -182,5 +191,7 @@ export default class App extends Component {
 	}
 }
 
+// Took out Gulp options for the time being (minify and closure)
+// <Gulpoptions addTask={this.newTasks}/>
 
 render(<App />, document.getElementById('main-container'));
