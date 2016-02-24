@@ -25,3 +25,9 @@ app.post('/gulp', fileMakerController.createsFile, fileMakerController.zipsFile)
 app.listen(3000, function() {
   console.log('Server is listening on port 3000');
 });
+
+/* Notes on OverReact's tests:
+- They use 'expect' exclusively (in 24 'expect' statements), rather than 'assert' or 'should'.
+- They test each middleware function.
+- They use the supertest and node-mocks-http modules.
+*/
