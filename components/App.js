@@ -200,6 +200,7 @@ export default class App extends Component {
       type: 'POST',
       url: '/register',
       data: data, // Whatever is in data will become req.body.
+      // I see error messages in ther terminal whenever I try to use a 'bad' username.
       contentType: 'application/json' // was 'text/plain; charset=utf-8',
     });
 	 }
@@ -207,15 +208,20 @@ export default class App extends Component {
 	 login(event) {
 		 event.preventDefault();
 		 console.log('You are logging in');
-		 console.log(this.state.username);
-		 console.log(this.state.password);
+		 // console.log(this.state.username);
+		 // console.log(this.state.password);
 
-     $.ajax({ // Edit this.
+     var data = {};
+     data.username = this.state.username;
+     data.password = this.state.password;
+     data = JSON.stringify(data);
+     console.log(data);
 
+    $.ajax({ // I'm getting a 401 when the login credentials are incorrect. What more can I do with that?
       type: 'POST',
-      url: '/register',
-      data: data, // Whatever is in data will become req.body.
-      contentType: 'application/json' // was 'text/plain; charset=utf-8',
+      url: '/login',
+      data: data,
+      contentType: 'application/json'
     });
 	 }
 

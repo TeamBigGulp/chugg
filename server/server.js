@@ -51,16 +51,22 @@ app.get('/download', (req, res) => {
 app.post('/gulp', fileMakerController.createsGulpFile, fileMakerController.zipsFile);
 app.post('/json', fileMakerController.createsJsonFile, fileMakerController.zipsFile);
 
-// adapted from mherman
-app.post('/register', function(req, res) {
+// adapted from mherman and https://github.com/saintedlama/passport-local-mongoose/blob/master/examples/login/routes.js
+app.post('/register', function(req, res, next) {
 	test.User.register(new test.User({ username: req.body.username }), req.body.password, function(err, account) {
 		if (err) {
 			console.log('error:', err);
-			return;
+			return next(err);
 		}
-		passport.authenticate('local')(req, res, function() {
-			res.send('successful registration'); // Yay, I'm seeing this!
-		});
+		console.log('registration succeeded!');
+		// console.log('about to authenticate');
+		// res.send('successful registration'); // Am I seeing this?
+		// passport.authenticate('local')(req, res, function() {
+
+		// 	res.send('successful registration'); // I'm not seeing this anymore. What should happen here?***
+		// 	// What does passport.authenticate actually do?
+		// });
+		// console.log('finished authenticating');
 	});
 });
 
@@ -70,11 +76,19 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
     // With other passwords, I'm seeing 'unauthorized'
 });
 
+// Need to test this
+/*
+app.get('/logout', function(req, res) {
+	req.logout();
+	res.send('successful logout');
+})
+*/
+
 app.listen(3000, function() {
 	console.log('Server is listening on port 3000');
 });
 
-// Configure Passport (NEED TO REVIEW THIS)
+// Configure Passport (For details, see https://github.com/saintedlama/passport-local-mongoose)
 // var Account = require('./../models/account'); // Isaac: We're now using test instead of Account.
 passport.use(new LocalStrategy(test.User.authenticate()));
 passport.serializeUser(test.User.serializeUser());
