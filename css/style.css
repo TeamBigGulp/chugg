@@ -110,10 +110,10 @@ input[type='submit']:hover {
 }
 
 .optsWell {
-    width: 80%;
-    margin: 0px auto
+		width: 80%;
+		margin: 0px auto
 }
 
 .CodeMirror {
-  height: auto !important;
+	height: auto !important;
 }
