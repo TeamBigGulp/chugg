@@ -53,7 +53,7 @@ app.post('/json', fileMakerController.createsJsonFile, fileMakerController.zipsF
 
 // adapted from mherman
 app.post('/register', function(req, res) {
-	Account.register(new Account({ username: req.body.username }), req.body.password, function(err, account) {
+	test.User.register(new test.User({ username: req.body.username }), req.body.password, function(err, account) {
 		if (err) {
 			console.log('error:', err);
 			return;
@@ -75,13 +75,13 @@ app.listen(3000, function() {
 });
 
 // Configure Passport (NEED TO REVIEW THIS)
-var Account = require('./../models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+// var Account = require('./../models/account'); // Isaac: We're now using test instead of Account.
+passport.use(new LocalStrategy(test.User.authenticate()));
+passport.serializeUser(test.User.serializeUser());
+passport.deserializeUser(test.User.deserializeUser());
 
-// Mongoose - UPDATE URI?
-mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
+// Mongoose
+mongoose.connect('mongodb://localhost/passport_local_mongoose_express4'); // We could change the URI if desired.
 
 // Need catch 404 / error handlers
 
