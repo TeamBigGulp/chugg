@@ -221,10 +221,15 @@ export default class App extends Component {
 					<Download download={this.download.bind(this)} />
 				</div>
 
+				<Login 
+				saveUser={this.saveUser}
+				login={this.login}
+				username={this.getUsername}
+				password={this.getPassword}
+				/>
 				<div className='row'>
 					<div className='temp'>
 					<Gulpoptions addTask={this.newTasks.bind(this)} />
-					<Login saveUser={this.saveUser} login={this.login} username={this.getUsername} password={this.getPassword}/>
 					</div>
 
 					<div className='col-md-7'>
