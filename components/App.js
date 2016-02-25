@@ -28,6 +28,11 @@ export default class App extends Component {
 			 npmSearch: null,
 			 npmPackage: [],
 			 npmDescription: [],
+       paths: {
+         css: 'e.g. css/',
+         js: 'e.g. js/',
+         build: 'e.g ./build/'
+       }
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
@@ -177,13 +182,6 @@ export default class App extends Component {
 		return (
 			<div id='App'>
 
-				<form id='npm-search'>
-					 <input type="search" list="packages" placeholder="Search NPM" onChange={this.search}></input>
-					 <datalist id="packages">{npmResults}</datalist>
-					 <button onClick={this.addToPackageJson}>+ package.json</button>
-					 <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
-				</form>
-
 				<button onClick={this.save}>Save</button>
 
 				<div className='row'>
@@ -192,7 +190,10 @@ export default class App extends Component {
 
 				<div className='row'>
 
-					<Gulpoptions addTask={this.newTasks.bind(this)} />
+					<Gulpoptions
+            addTask={this.newTasks.bind(this)}
+            paths={this.state.paths}
+            />
 
 					<div className='col-md-7'>
 
