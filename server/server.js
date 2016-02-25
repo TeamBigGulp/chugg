@@ -3,13 +3,17 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const fileMakerController = require('./fileMakerController');
-var request = require('superagent');
-var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
+
+// var request = require('superagent');
+// var passport = require('passport');
+// var Strategy = require('passport-local').Strategy;
 
 // See http://mongoosejs.com/docs/index.html. This 'getting started' page is useful, but the API docs aren't. Use this guide instead: http://mongoosejs.com/docs/guide.html
 // I'd like some clarification on exactly what these two lines of code are doing
 var mongoose = require('mongoose');
+
+
+
 mongoose.connect('mongodb://localhost/test'); // Open a connection to the 'test' database
 
 // Here's what I'm doing to save users to the database:
@@ -47,6 +51,7 @@ db.once('open', function() { // Where does the .once method come from?
 // Following code adapted from https://github.com/passport/express-4.x-local-example/blob/master/server.js
 
 // Configure local strategy
+/*
 passport.use(new Strategy(
 	
 	function(username, password, cb) {
@@ -62,6 +67,7 @@ passport.use(new Strategy(
 	})
 
 );
+*/
 
 // Configure authenticated session persistence
 /*
@@ -83,15 +89,17 @@ app.use(express.static(path.join(__dirname, './../')));
 app.use(bodyParser.text()); // Should this be .text()?
 // Do I need any of the middleware from the example I'm copying?
 
-
+/*
 app.use(passport.initialize());
 app.use(passport.session());
+*/
 
 //route to index on root path
 app.get('/', (req, res) => {
 	res.send('index.html');
 });
 
+/*
 app.post('/login',
 	// This seems to kind of work in Postman if I have a failureRedirect, but I can't make any console logs happen.
 	// OK, now I'm being redirected to /download regardless of whether I use valid login credentials.
@@ -104,6 +112,7 @@ app.post('/login',
 		// res.redirect('/download');
 	}
 )
+*/
 
 // this get request happens after success on the initial post request to /gulp. It allows the zip file to be sent to the user after the post request is completed
 app.get('/download', (req, res) => {
