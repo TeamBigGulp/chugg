@@ -31,12 +31,11 @@ export default class Gulpoptions extends Component{
               <h3 className="centered blueheader display">Where Are Your Files Located?</h3>
 
               <Well className="optsWell" bsSize="large">
-                <Input type="text" label="Path to CSS" placeholder="styles/" defaultValue={this.props.paths.css} />
-                <Input type="text" label="Path to Javascript" placeholder="js/" defaultValue={this.props.paths.js} />
-                <Input type="text" label="Output File Location" placeholder="./build/" defaultValue={this.props.paths.build} />
-                <div className="rightContainer">
-                  <Button bsStyle="info">Apply</Button>
-                </div>
+                <Input type="text" name="css" label="Path to CSS" placeholder="styles/" defaultValue={this.props.paths.css} />
+                <Input type="text" name="js" label="Path to Javascript" placeholder="js/" defaultValue={this.props.paths.js} />
+                <Input type="text" name="app" label="Your Application" placeholder="App.js" defaultValue={this.props.paths.app} />
+                <Input type="text" name="server" label="Your Server" placeholder="server/server.js" defaultValue={this.props.paths.server} />
+                <Input type="text" name="server" label="Output File Location" placeholder="./build/" defaultValue={this.props.paths.build} onChange={this.props.gulpUpdateBuild.bind(this)} />
               </Well>
             </div>
           </Collapse>
