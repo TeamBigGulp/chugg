@@ -3,7 +3,6 @@ Red: F71430
 Blue: 148291
 Aqua: 7CD7B8
 Cream: FFFFCD
-
 */
 
 body {
@@ -16,10 +15,6 @@ body {
   background-color: #FFFFCD;
 }
 
-/*h1 {
-  padding: 0.3em;
-}*/
-
 #code-container {
 	overflow: auto;
 }
@@ -31,6 +26,12 @@ body {
 
 #download {
   text-align: right;
+}
+
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-rigth: 1px solid #ddd;
+    padding-top: 1.5em;
 }
 
 input[type='checkbox'] {
@@ -46,19 +47,6 @@ input[type='checkbox'] {
 input[type='checkbox']:checked {
     background: #abd;
 }
-
-/*input[type='submit'] {
-    -webkit-appearance:none;
-    width:150px;
-    height:40px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
-}
-input[type='submit']:hover {
-    background: #abd;
-		color: white;
-}*/
 
 .brand {
   font-family: 'Damion', cursive;
@@ -90,4 +78,12 @@ input[type='submit']:hover {
 
 .centered {
   text-align: center;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
 }
