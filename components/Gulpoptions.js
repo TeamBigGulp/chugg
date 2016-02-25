@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {ButtonToolbar} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
+import {Well} from 'react-bootstrap';
 
 export default class Gulpoptions extends Component{
 	render() {
@@ -15,16 +16,56 @@ export default class Gulpoptions extends Component{
             or Node project?<br />
             We'll walk you through it.
           </h3>
-          <Button bsStyle="success" className="centered">Get Started</Button>
         </div>
 
-  			<form onClick={this.props.addTask.bind(this)}>
-  			<input type="checkbox" className="minify" id="minify" name="minify" value="minify" />
-  			<span className="input-name">CSS Nano</span>
-  			&nbsp; | &nbsp;
-  			<input type="checkbox" className="closure" name="closure-compiler" value="closure-compiler" />
-  			<span className="input-name">Closure Complier</span>
-  			</form>
+        <div>
+          <Button bsStyle="success">Add Frameworks</Button>
+
+          <h3 className="centered blueheader display">Use These Common Frameworks?</h3>
+
+          <Well className="optsWell" bsSize="large">
+            <Button bsStyle="info" bsSize="large" block>React</Button>
+
+            <Button bsStyle="info" bsSize="large" block>Angular</Button>
+
+            <Button bsStyle="info" bsSize="large" block>Bootstrap</Button>
+
+            <Button bsStyle="info" bsSize="large" block>jQuery</Button>
+          </Well>
+
+        </div>
+
+        <div>
+          <Button bsStyle="success">Carry Out Common Tasks</Button>
+
+          <h3 className="centered blueheader display">Process Your Code:</h3>
+
+          <Well className="optsWell" bsSize="large">
+            <Button bsStyle="info" bsSize="large" block>Minify CSS</Button>
+
+            <Button bsStyle="info" bsSize="large" block>Minify javascript</Button>
+
+            <Button bsStyle="info" bsSize="large" block>Lint with JSHint</Button>
+
+            <Button bsStyle="info" bsSize="large" block>Convert CoffeeScript</Button>
+
+            <Button bsStyle="info" bsSize="large" block>Convert ES6 to ES5</Button>
+          </Well>
+
+        </div>
+
+        <div>
+          <Button bsStyle="success">Power User Options</Button>
+
+          <h3 className="centered blueheader display">Try These Tools?</h3>
+
+          <Well className="optsWell" bsSize="large">
+            <Button bsStyle="info" bsSize="large" block>Google Closure Compiler</Button>
+
+            <Button bsStyle="info" bsSize="large" block>Use BrowserSync</Button>
+          </Well>
+
+        </div>
 			</div>
 		);
 	}
