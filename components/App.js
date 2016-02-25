@@ -18,7 +18,6 @@ const defaultGulp = constants.getDefaultGulp();
 // React in ES6
 // http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 export default class App extends Component {
-	'use strict';
 	constructor(props) {
 		super(props);
 		 this.state = {
@@ -29,6 +28,11 @@ export default class App extends Component {
 			 npmSearch: null,
 			 npmPackage: [],
 			 npmDescription: [],
+       paths: {
+         css: 'e.g. css/',
+         js: 'e.g. js/',
+         build: 'e.g ./build/'
+       },
 			 username: '',
 			 password: '',
 			 projectName: ''
@@ -214,10 +218,10 @@ export default class App extends Component {
 		return (
 			<div id='App'>
 
-				<button onClick={this.save}>Save</button>
-				<input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
 
 				<div className='row'>
+        <button onClick={this.save}>Save</button>
+        <input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
 					<Download
 						download={this.download.bind(this)}
 					/>
@@ -230,11 +234,11 @@ export default class App extends Component {
 					password={this.getPassword}
 				/>
 
-				<div className='row'>
+        <div className='row'>
 					<Gulpoptions
-						addTask={this.newTasks.bind(this)}
-					/>
-				</div>
+            addTask={this.newTasks.bind(this)}
+            paths={this.state.paths}
+            />
 
 					<div className='col-md-7'>
 
@@ -270,7 +274,7 @@ export default class App extends Component {
 
 					</div>
 
-				</div>
+        </div>
 
 			</div>
 		)
