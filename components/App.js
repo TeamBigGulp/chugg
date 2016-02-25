@@ -18,7 +18,6 @@ const defaultGulp = constants.getDefaultGulp();
 // React in ES6
 // http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 export default class App extends Component {
-	'use strict';
 	constructor(props) {
 		super(props);
 		 this.state = {
@@ -269,8 +268,6 @@ export default class App extends Component {
 						</Tabs>
 
 					</div>
-
-				</div>
 
 			</div>
 		)
