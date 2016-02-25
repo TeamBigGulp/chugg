@@ -9,10 +9,18 @@ const fileMakerController = {
 	// writeFile(filePath,data,callback)
 	// req.body is code included in Gulp File text editor
 	savesFile(req, res, next) {
-		  test.create({projectName: 'nothing', gulpFile: 'whatever', packageJSON: 'something'}, function(err, dummy) {
+		  test.create({projectName: 'project1', gulpFile: req.body, packageJSON: 'something'}, function(err, dummy) {
 		    if (err) console.log(err);
 		    console.log(dummy.projectName + ' saved!');
 		  });
+	},
+
+  updatesFile(req, res, next) {
+		// test.update({packageJSON: 'something'}, {packageJSON: req.body}, function(err, dummy) {
+		// 	if (err) console.log(err);
+		// 	console.log(dummy.projectName + ' updated!')
+		// });
+		console.log(req.body);
 	},
 
 	createsGulpFile(req, res, next) {
