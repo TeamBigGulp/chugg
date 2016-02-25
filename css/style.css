@@ -19,6 +19,11 @@ body {
 	padding: 0.3em;
 }*/
 
+.temp {
+	height: 500px;
+	width: 300px;	
+}
+
 #code-container {
 	overflow: auto;
 }
