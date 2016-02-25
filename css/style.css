@@ -66,7 +66,7 @@ input[type='submit']:hover {
 }*/
 
 .brand {
-	font-family: 'Damion', cursive;
+	font-family: 'Lobster', cursive;
 }
 
 .display {
@@ -83,6 +83,10 @@ input[type='submit']:hover {
 
 .whiteheader {
 	color: #FFFFCD;
+}
+
+.creambg {
+	background-color: #FFFFCD;
 }
 
 .redcallout {
@@ -116,4 +120,23 @@ input[type='submit']:hover {
 
 .CodeMirror {
 	height: auto !important;
+}
+
+.headerbutton .btn {
+    background-color: FFFFCD;
+    color: #148291;
+    border-color: #148291;
+}
+
+.headerbutton {
+    margin: 3em 0px -1px 0px;
+}
+
+.pad2 {
+  padding: 2em;
+}
+
+.dottedblue {
+  border: 1px dashed #148291;
+  border-top-style: solid;
 }
