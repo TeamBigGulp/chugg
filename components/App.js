@@ -32,6 +32,7 @@ export default class App extends Component {
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
 		 this.addToGulpfile = this.addToGulpfile.bind(this);
+		 this.save = this.save.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -129,7 +130,7 @@ export default class App extends Component {
 			 pkgVersion = data[0].version[0];
 		 }).done(() => {
 			 let newPackages = this.state.jsonDependencies;
-			 newPackages += `,\n\t"${this.state.npmSearch}": "^${pkgVersion}"`;
+			 newPackages += `,\n\t\t\t"${this.state.npmSearch}": "^${pkgVersion}"`;
 			 this.setState({json: defaultJson.start + newPackages + defaultJson.end, jsonDependencies: newPackages});
 		 })
 
@@ -163,6 +164,12 @@ export default class App extends Component {
 		return resultsArr;
 	 }
 
+	 save(event) {
+		 event.preventDefault();
+		 console.log('Here is the current state of json code: ', this.state.json);
+		 console.log('Here is the current state of gulp code: ', this.state.code);
+	 }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
@@ -170,7 +177,14 @@ export default class App extends Component {
 		return (
 			<div id='App'>
 
+				<form id='npm-search'>
+					 <input type="search" list="packages" placeholder="Search NPM" onChange={this.search}></input>
+					 <datalist id="packages">{npmResults}</datalist>
+					 <button onClick={this.addToPackageJson}>+ package.json</button>
+					 <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
+				</form>
 
+				<button onClick={this.save}>Save</button>
 
 				<div className='row'>
 					<Download download={this.download.bind(this)} />
@@ -184,30 +198,30 @@ export default class App extends Component {
 
 						<Tabs defaultActiveKey={1}>
 							<Tab eventKey={1} title='Gulpfile'>
-                <form className="npm-search">
-                  <div className="col-md-10">
-                    <Input type="search" list="packages" placeholder="Search Gulp Plugins" onChange={this.search}></Input>
-                    <datalist id="packages">{npmResults}</datalist>
-                  </div>
-                  <div className="col-md-2">
-                    <Button onClick={this.addToGulpfile}>+ gulpfile.js</Button>
-                  </div>
-                  <br style={{clear: 'both' }} />
-                </form>
+								<form className="npm-search">
+									<div className="col-md-10">
+										<Input type="search" list="packages" placeholder="Search Gulp Plugins" onChange={this.search}></Input>
+										<datalist id="packages">{npmResults}</datalist>
+									</div>
+									<div className="col-md-2">
+										<Button onClick={this.addToGulpfile}>+ gulpfile.js</Button>
+									</div>
+									<br style={{clear: 'both' }} />
+								</form>
 								<Gulpview value={this.state.code} codeChange={this.updateCode.bind(this)} />
 							</Tab>
 
 							<Tab eventKey={2} title='package.json'>
-                <form className="npm-search">
-                  <div className="col-md-10">
-                    <Input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.search}></Input>
-                    <datalist id="packages">{npmResults}</datalist>
-                  </div>
-                  <div className="col-md-2">
-                    <Button onClick={this.addToPackageJson} className="right">+ package.json</Button>
-                  </div>
-                  <br style={{clear: 'both' }} />
-                </form>
+								<form className="npm-search">
+									<div className="col-md-10">
+										<Input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.search}></Input>
+										<datalist id="packages">{npmResults}</datalist>
+									</div>
+									<div className="col-md-2">
+										<Button onClick={this.addToPackageJson} className="right">+ package.json</Button>
+									</div>
+									<br style={{clear: 'both' }} />
+								</form>
 								<Packagejson value={this.state.json} jsonChange={this.updateJson.bind(this)} />
 							</Tab>
 						</Tabs>
