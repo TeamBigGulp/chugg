@@ -25,7 +25,7 @@ const test = require('./../save-data/mongodb-orm');
 app.use(logger('dev')); // This is logging our GET and POST requests in the terminal.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.text()); // Do I need all of these bodyParsers?
+app.use(bodyParser.text()); // Do I need all of these bodyParsers? I definitely need JSON to parse data sent as JSON.
 app.use(cookieParser());
 app.use(session({
 	secret: 'chugg',
@@ -59,30 +59,19 @@ app.post('/register', function(req, res) {
 			return;
 		}
 		res.end(); // I'm not sure exactly what should happen here.
-		// console.log('registration succeeded!');
-		// console.log('about to authenticate');
-		// res.send('Successful registration!'); // Am I seeing this? Or just using it to end the response?
-		// passport.authenticate('local')(req, res, function() {
-
-		// 	res.send('successful registration'); // I'm not seeing this anymore. What should happen here?***
-		// 	// What does passport.authenticate actually do?
-		// });
-		// console.log('finished authenticating');
 	});
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
 	res.end(); // I'm not sure exactly what should happen here.
-    // res.send('Successful login!');
-    // Yay, I'm seeting this too! (With test, test)
-    // With other passwords, I'm seeing 'unauthorized'
 });
 
 // Need to test this
 /*
 app.get('/logout', function(req, res) {
 	req.logout();
-	res.send('successful logout');
+	console.log('Successful logout');
+	res.end(); // I'm not sure exactly what should happen here.
 })
 */
 

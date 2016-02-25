@@ -187,63 +187,51 @@ export default class App extends Component {
 
 	 saveUser(event) {
 		 event.preventDefault();
-		 // console.log('You are saving a user');
-		 // console.log(this.state.username);
-		 // console.log(this.state.password);
 
      var that = this;
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
      data = JSON.stringify(data);
-     // console.log(data);
 
     $.ajax({
       type: 'POST',
       url: '/register',
       data: data, // Whatever is in data will become req.body.
-      // I see error messages in ther terminal whenever I try to use a 'bad' username.
-      contentType: 'application/json' // was 'text/plain; charset=utf-8',
+      contentType: 'application/json'
     })
     .done(function () {
       console.log('Successful registration');
       that.setState({loggedIn: true});
-      // console.log(`state.loggedIn is ${that.state.loggedIn}`);
     })
     .fail(function () {
       console.log('Registration failed');
-      // console.log(`state.loggedIn is ${that.state.loggedIn}`);
     });
 	 }
 
 	 login(event) {
 		 event.preventDefault();
 		 console.log('You are logging in');
-		 // console.log(this.state.username);
-		 // console.log(this.state.password);
 
-     var that = this; // Isaac: I'm grabbing App so that I can run App.setState in the Ajax request.
+     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
      data = JSON.stringify(data);
      console.log(data);
 
-    $.ajax({ // I'm getting a 401 when the login credentials are incorrect. What more can I do with that?
+    $.ajax({
       type: 'POST',
       url: '/login',
       data: data,
       contentType: 'application/json'
     })
     .done(function () {
-      // console.log(this); // 'this' is the AJAX request
       that.setState({loggedIn: true});
       console.log('Successful login');
-      // console.log(`state.loggedIn is ${that.state.loggedIn}`);
     })
     .fail(function () {
       console.log('Login failed');
-      // console.log(`state.loggedIn is ${that.state.loggedIn}`);
     });
   }
 
@@ -263,7 +251,7 @@ export default class App extends Component {
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
-//Isaac added the first p below as a test.
+
 		return (
 			<div id='App'>
 
