@@ -18,7 +18,7 @@ const defaultGulp = constants.getDefaultGulp();
 // React in ES6
 // http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 export default class App extends Component {
-	'use strict';
+	// 'use strict';
 	constructor(props) {
 		super(props);
 		 this.state = {
@@ -173,6 +173,7 @@ export default class App extends Component {
 		return resultsArr;
 	 }
 
+	 // * Saves the following to database: current package.json, current gulpfile, project name
 	 save(event) {
 		 event.preventDefault();
 		 console.log('Here is the current state of json code: ', this.state.json);
@@ -180,6 +181,7 @@ export default class App extends Component {
 			console.log('Here is the current state of project name: ', this.state.projectName);
 	 }
 
+	 // * Creates an account in the database for the user
 	 saveUser(event) {
 		 event.preventDefault();
 		 console.log('You are saving a user');
@@ -187,6 +189,7 @@ export default class App extends Component {
 		 console.log(this.state.password);
 	 }
 
+	 // * If it exists, returns the user's account
 	 login(event) {
 		 event.preventDefault();
 		 console.log('You are logging in');
@@ -194,10 +197,12 @@ export default class App extends Component {
 		 console.log(this.state.password);
 	 }
 
+	 // * Grabs the state of the username from input
 	 getUsername(event) {
 		 this.setState({username: event.target.value});
 	 }
 
+	 // * Grabs the state of the password from input
 	 getPassword(event) {
 		 this.setState({password: event.target.value});
 	 }
@@ -218,9 +223,7 @@ export default class App extends Component {
 				<input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
 
 				<div className='row'>
-					<Download
-						download={this.download.bind(this)}
-					/>
+					<Download download={this.download.bind(this)}/>
 				</div>
 
 				<Login
@@ -231,9 +234,7 @@ export default class App extends Component {
 				/>
 
 				<div className='row'>
-					<Gulpoptions
-						addTask={this.newTasks.bind(this)}
-					/>
+					<Gulpoptions addTask={this.newTasks.bind(this)} />
 				</div>
 
 					<div className='col-md-7'>
@@ -269,8 +270,6 @@ export default class App extends Component {
 						</Tabs>
 
 					</div>
-
-				</div>
 
 			</div>
 		)
