@@ -186,9 +186,22 @@ export default class App extends Component {
 
 	 saveUser(event) {
 		 event.preventDefault();
-		 console.log('You are saving a user');
-		 console.log(this.state.username);
-		 console.log(this.state.password);
+		 // console.log('You are saving a user');
+		 // console.log(this.state.username);
+		 // console.log(this.state.password);
+
+     var data = {};
+     data.username = this.state.username;
+     data.password = this.state.password;
+     data = JSON.stringify(data);
+     // console.log(data);
+
+    $.ajax({
+      type: 'POST',
+      url: '/register',
+      data: data, // Whatever is in data will become req.body.
+      contentType: 'application/json' // was 'text/plain; charset=utf-8',
+    });
 	 }
 
 	 login(event) {
@@ -196,6 +209,14 @@ export default class App extends Component {
 		 console.log('You are logging in');
 		 console.log(this.state.username);
 		 console.log(this.state.password);
+
+     $.ajax({ // Edit this.
+
+      type: 'POST',
+      url: '/register',
+      data: data, // Whatever is in data will become req.body.
+      contentType: 'application/json' // was 'text/plain; charset=utf-8',
+    });
 	 }
 
 	 getUsername(event) {
