@@ -14,7 +14,7 @@ export default class Login extends Component {
 					<form className="create-account">
 					<div className="col-md-10">
 							 <input type="text" placeholder="Username" onChange={this.props.username}></input>
-							 <input type="text" placeholder="Password" onChange={this.props.password}></input>
+							 <input type="password" placeholder="Password" onChange={this.props.password}></input>
 					</div>
 				<div className="col-md-2">
 						<button onClick={this.props.saveUser}>Create Account</button>
@@ -27,7 +27,7 @@ export default class Login extends Component {
 					<form className="login"/>
 					<div className="col-md-10">
 					<input type="text" placeholder="Username" onChange={this.props.username}></input>
-					<input type="text" placeholder="Password" onChange={this.props.password}></input>
+					<input type="password" placeholder="Password" onChange={this.props.password}></input>
 				</div>
 				<div className="col-md-2">
 						<button onClick={this.props.login}>Log in</button>
