@@ -20,10 +20,11 @@ app.get('/download', (req, res) => {
 });
 
 // post request to get the zipped version of the documents that were created
-app.post('/gulp', fileMakerController.createsFile, fileMakerController.zipsFile);
+app.post('/gulp', fileMakerController.createsGulpFile, fileMakerController.zipsFile);
+app.post('/json', fileMakerController.createsJsonFile, fileMakerController.zipsFile);
 
 app.listen(3000, function() {
-  console.log('Server is listening on port 3000');
+	console.log('Server is listening on port 3000');
 });
 
 module.exports = app;
