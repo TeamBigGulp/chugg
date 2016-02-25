@@ -52,15 +52,16 @@ app.post('/gulp', fileMakerController.createsGulpFile, fileMakerController.zipsF
 app.post('/json', fileMakerController.createsJsonFile, fileMakerController.zipsFile);
 
 // adapted from mherman and https://github.com/saintedlama/passport-local-mongoose/blob/master/examples/login/routes.js
-app.post('/register', function(req, res, next) {
+app.post('/register', function(req, res) {
 	test.User.register(new test.User({ username: req.body.username }), req.body.password, function(err, account) {
-		if (err) {
-			console.log('error:', err);
-			return next(err);
+		if (err) { // For example, if the user tries to register with a username that's already in the database.
+			console.log('error:', err); // This shows up in the terminal.
+			return;
 		}
-		console.log('registration succeeded!');
+		res.end(); // I'm not sure exactly what should happen here.
+		// console.log('registration succeeded!');
 		// console.log('about to authenticate');
-		// res.send('successful registration'); // Am I seeing this?
+		// res.send('Successful registration!'); // Am I seeing this? Or just using it to end the response?
 		// passport.authenticate('local')(req, res, function() {
 
 		// 	res.send('successful registration'); // I'm not seeing this anymore. What should happen here?***
@@ -71,7 +72,8 @@ app.post('/register', function(req, res, next) {
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
-    res.send('Successful login!');
+	res.end(); // I'm not sure exactly what should happen here.
+    // res.send('Successful login!');
     // Yay, I'm seeting this too! (With test, test)
     // With other passwords, I'm seeing 'unauthorized'
 });

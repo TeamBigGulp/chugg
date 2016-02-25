@@ -35,7 +35,8 @@ export default class App extends Component {
        },
 			 username: '',
 			 password: '',
-			 projectName: ''
+			 projectName: '',
+       loggedIn: false
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
@@ -190,6 +191,7 @@ export default class App extends Component {
 		 // console.log(this.state.username);
 		 // console.log(this.state.password);
 
+     var that = this;
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
@@ -202,6 +204,15 @@ export default class App extends Component {
       data: data, // Whatever is in data will become req.body.
       // I see error messages in ther terminal whenever I try to use a 'bad' username.
       contentType: 'application/json' // was 'text/plain; charset=utf-8',
+    })
+    .done(function () {
+      console.log('Successful registration');
+      that.setState({loggedIn: true});
+      // console.log(`state.loggedIn is ${that.state.loggedIn}`);
+    })
+    .fail(function () {
+      console.log('Registration failed');
+      // console.log(`state.loggedIn is ${that.state.loggedIn}`);
     });
 	 }
 
@@ -211,6 +222,7 @@ export default class App extends Component {
 		 // console.log(this.state.username);
 		 // console.log(this.state.password);
 
+     var that = this; // Isaac: I'm grabbing App so that I can run App.setState in the Ajax request.
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
@@ -222,8 +234,18 @@ export default class App extends Component {
       url: '/login',
       data: data,
       contentType: 'application/json'
+    })
+    .done(function () {
+      // console.log(this); // 'this' is the AJAX request
+      that.setState({loggedIn: true});
+      console.log('Successful login');
+      // console.log(`state.loggedIn is ${that.state.loggedIn}`);
+    })
+    .fail(function () {
+      console.log('Login failed');
+      // console.log(`state.loggedIn is ${that.state.loggedIn}`);
     });
-	 }
+  }
 
 	 getUsername(event) {
 		 this.setState({username: event.target.value});
@@ -241,7 +263,7 @@ export default class App extends Component {
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
-
+//Isaac added the first p below as a test.
 		return (
 			<div id='App'>
 
@@ -255,6 +277,7 @@ export default class App extends Component {
 				</div>
 
 				<Login
+          loggedIn = {this.state.loggedIn}
 					saveUser={this.saveUser}
 					login={this.login}
 					username={this.getUsername}
