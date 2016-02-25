@@ -19,11 +19,6 @@ body {
 	padding: 0.3em;
 }*/
 
-.temp {
-	height: 500px;
-	width: 300px;	
-}
-
 #code-container {
 	overflow: auto;
 }
@@ -111,10 +106,10 @@ input[type='submit']:hover {
 }
 
 .optsWell {
-    width: 80%;
-    margin: 0px auto
+		width: 80%;
+		margin: 0px auto
 }
 
 .CodeMirror {
-  height: auto !important;
+	height: auto !important;
 }
