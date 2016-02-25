@@ -35,7 +35,13 @@ export default class App extends Component {
        },
 			 username: '',
 			 password: '',
-			 projectName: ''
+			 projectName: '',
+       accordionIsOpen: {
+         paths: true,
+         frameworks: false,
+         commontasks: false,
+         poweroptions: false
+       }
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
@@ -211,6 +217,28 @@ export default class App extends Component {
 		 this.setState({projectName: event.target.value});
 	 }
 
+   accordionSection(event) {
+     event.preventDefault();
+
+     let toAccordion = event.target.value;
+
+     // Do a little dance to set State only Once
+     let accordionObj = this.state.accordionIsOpen
+
+     // First close all sections
+     for (let section in accordionObj) {
+
+      if (section === toAccordion) {
+        accordionObj[section] = true;
+      } else {
+        accordionObj[section] = false;
+      }
+
+    }
+
+    this.setState({ accordionIsOpen : accordionObj });
+   }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
@@ -237,7 +265,9 @@ export default class App extends Component {
         <div className='row'>
 					<Gulpoptions
             addTask={this.newTasks.bind(this)}
-            paths={this.state.paths}
+             paths={this.state.paths}
+             accordionSection={this.accordionSection.bind(this)}
+             accordionState={this.state.accordionIsOpen}
             />
 
 					<div className='col-md-7'>
