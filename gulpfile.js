@@ -5,6 +5,9 @@ var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var notify = require('gulp-notify');
 var nodemon = require('gulp-nodemon');
+var less = require('gulp-less');
+var path = require('path');
+
 
 function handleErrors() {
   var args = Array.prototype.slice.call(arguments);
@@ -51,6 +54,20 @@ gulp.task('scripts', function() {
   return buildScript('App.js', false);
 });
 
+// Get our Css
+// gulp.task('less', function() {
+//   return gulp.src('/node_modules/bootstrap/less/*.less')
+//     .pipe(less({
+//       paths: [ path.join(__dirname, 'less', 'includes') ]
+//     }))
+//     .pipe(gulp.dest('./build/'));
+// });
+gulp.task('less', function() {
+  return gulp.src('node_modules/bootstrap/less/bootstrap.less')
+    .pipe(less())
+    .pipe(gulp.dest('./build/'));
+});
+
 // run nodemon
 gulp.task('start', function() {
   nodemon({
@@ -62,6 +79,6 @@ gulp.task('start', function() {
 });
 
 // run 'scripts' task first, then watch for future changes
-gulp.task('default', ['scripts', 'start'], function() {
+gulp.task('default', ['scripts', 'less', 'start'], function() {
   return buildScript('App.js', true);
 });
