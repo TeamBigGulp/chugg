@@ -4,6 +4,7 @@
   "description": "Jump start your build tools setup with  much quickness and simplicity",
   "main": "bundle.js",
   "scripts": {
+    "db": "node save-data/mongodb-orm.js",
     "prestart": "npm run task",
     "start": "node server/server.js",
     "start-dev": "npm run task",
@@ -38,12 +39,15 @@
     "gulp-less": "^3.0.5",
     "gulp-notify": "^2.2.0",
     "jquery": "^2.2.0",
+    "mongodb": "^2.1.7",
+    "mongoose": "^4.4.5",
     "path": "^0.12.7",
     "react": "^0.14",
     "react-bootstrap": "^0.28.3",
     "react-codemirror": "^0.2.5",
     "react-dom": "^0.14.0",
     "react-scratchblocks": "^1.1.1",
+    "request": "^2.69.0",
     "superagent": "^1.7.2",
     "vinyl-source-stream": "^1.1.0"
   },
