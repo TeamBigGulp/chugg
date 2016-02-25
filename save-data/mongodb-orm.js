@@ -10,7 +10,7 @@ mongoose.connection.once('open', function() {
 
 // place Schemas here
 var userSchema = mongoose.Schema({
-  username: String,
+  username: {type: String, unique: true},
   password: String
 });
 
