@@ -5,6 +5,7 @@ import $ from 'jquery';
 import Gulpview from './Gulpview';
 import Packagejson from './Packagejson';
 import Download from './Download';
+import Login from './Login';
 import Gulpoptions from './Gulpoptions';
 import constants from './constants/default';
 import {Tabs} from 'react-bootstrap';
@@ -17,7 +18,6 @@ const defaultGulp = constants.getDefaultGulp();
 // React in ES6
 // http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 export default class App extends Component {
-	// 'use strict';
 	constructor(props) {
 		super(props);
 		 this.state = {
@@ -28,11 +28,24 @@ export default class App extends Component {
 			 npmSearch: null,
 			 npmPackage: [],
 			 npmDescription: [],
+       paths: {
+         css: 'e.g. css/',
+         js: 'e.g. js/',
+         build: 'e.g ./build/'
+       },
+			 username: '',
+			 password: '',
+			 projectName: ''
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
 		 this.addToGulpfile = this.addToGulpfile.bind(this);
 		 this.save = this.save.bind(this);
+		 this.saveUser = this.saveUser.bind(this);
+		 this.login = this.login.bind(this);
+		 this.getUsername = this.getUsername.bind(this);
+		 this.getPassword = this.getPassword.bind(this);
+		 this.saveProjectName = this.saveProjectName.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -168,6 +181,34 @@ export default class App extends Component {
 		 event.preventDefault();
 		 console.log('Here is the current state of json code: ', this.state.json);
 		 console.log('Here is the current state of gulp code: ', this.state.code);
+			console.log('Here is the current state of project name: ', this.state.projectName);
+	 }
+
+	 saveUser(event) {
+		 event.preventDefault();
+		 console.log('You are saving a user');
+		 console.log(this.state.username);
+		 console.log(this.state.password);
+	 }
+
+	 login(event) {
+		 event.preventDefault();
+		 console.log('You are logging in');
+		 console.log(this.state.username);
+		 console.log(this.state.password);
+	 }
+
+	 getUsername(event) {
+		 this.setState({username: event.target.value});
+	 }
+
+	 getPassword(event) {
+		 this.setState({password: event.target.value});
+	 }
+
+	 saveProjectName(event) {
+		 event.preventDefault();
+		 this.setState({projectName: event.target.value});
 	 }
 
 	render() {
@@ -177,22 +218,27 @@ export default class App extends Component {
 		return (
 			<div id='App'>
 
-				<form id='npm-search'>
-					 <input type="search" list="packages" placeholder="Search NPM" onChange={this.search}></input>
-					 <datalist id="packages">{npmResults}</datalist>
-					 <button onClick={this.addToPackageJson}>+ package.json</button>
-					 <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
-				</form>
-
-				<button onClick={this.save}>Save</button>
 
 				<div className='row'>
-					<Download download={this.download.bind(this)} />
+        <button onClick={this.save}>Save</button>
+        <input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
+					<Download
+						download={this.download.bind(this)}
+					/>
 				</div>
 
-				<div className='row'>
+				<Login
+					saveUser={this.saveUser}
+					login={this.login}
+					username={this.getUsername}
+					password={this.getPassword}
+				/>
 
-					<Gulpoptions addTask={this.newTasks.bind(this)} />
+        <div className='row'>
+					<Gulpoptions
+            addTask={this.newTasks.bind(this)}
+            paths={this.state.paths}
+            />
 
 					<div className='col-md-7'>
 
@@ -228,7 +274,7 @@ export default class App extends Component {
 
 					</div>
 
-				</div>
+        </div>
 
 			</div>
 		)
