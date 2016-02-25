@@ -3,7 +3,6 @@ Red: F71430
 Blue: 148291
 Aqua: 7CD7B8
 Cream: FFFFCD
-
 */
 
 body {
@@ -31,6 +30,12 @@ body {
 
 #download {
 	text-align: right;
+}
+
+.tab-content {
+		border-left: 1px solid #ddd;
+		border-rigth: 1px solid #ddd;
+		padding-top: 1.5em;
 }
 
 input[type='checkbox'] {
@@ -90,4 +95,12 @@ input[type='submit']:hover {
 
 .centered {
 	text-align: center;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
 }
