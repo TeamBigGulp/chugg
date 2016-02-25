@@ -18,7 +18,7 @@ const defaultGulp = constants.getDefaultGulp();
 // React in ES6
 // http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 export default class App extends Component {
-	// 'use strict';
+	'use strict';
 	constructor(props) {
 		super(props);
 		 this.state = {
@@ -214,24 +214,27 @@ export default class App extends Component {
 		return (
 			<div id='App'>
 
-
 				<button onClick={this.save}>Save</button>
 				<input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
 
 				<div className='row'>
-					<Download download={this.download.bind(this)} />
+					<Download
+						download={this.download.bind(this)}
+					/>
 				</div>
 
 				<Login
-				saveUser={this.saveUser}
-				login={this.login}
-				username={this.getUsername}
-				password={this.getPassword}
+					saveUser={this.saveUser}
+					login={this.login}
+					username={this.getUsername}
+					password={this.getPassword}
 				/>
+
 				<div className='row'>
-					<div className='temp'>
-					<Gulpoptions addTask={this.newTasks.bind(this)} />
-					</div>
+					<Gulpoptions
+						addTask={this.newTasks.bind(this)}
+					/>
+				</div>
 
 					<div className='col-md-7'>
 
