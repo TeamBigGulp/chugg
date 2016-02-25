@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {ButtonToolbar} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {Well} from 'react-bootstrap';
+import {Input} from 'react-bootstrap';
 
 export default class Gulpoptions extends Component{
 	render() {
@@ -16,6 +17,22 @@ export default class Gulpoptions extends Component{
             or Node project?<br />
             We'll walk you through it.
           </h3>
+        </div>
+
+        <div>
+          <Button bsStyle="success">Start With Your Basic App Setup</Button>
+
+          <h3 className="centered blueheader display">Where Are Your Files Located?</h3>
+
+          <Well className="optsWell" bsSize="large">
+            <Input type="text" label="Path to CSS" placeholder="styles/" defaultValue={this.props.paths.css} />
+            <Input type="text" label="Path to Javascript" placeholder="js/" defaultValue={this.props.paths.js} />
+            <Input type="text" label="Output File Location" placeholder="./build/" defaultValue={this.props.paths.build} />
+            <div className="rightContainer">
+              <Button bsStyle="info">Apply</Button>
+            </div>
+          </Well>
+
         </div>
 
         <div>
