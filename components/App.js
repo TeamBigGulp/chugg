@@ -30,7 +30,8 @@ export default class App extends Component {
 			 npmPackage: [],
 			 npmDescription: [],
 			 username: '',
-			 password: ''
+			 password: '',
+			 projectName: ''
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
@@ -40,6 +41,7 @@ export default class App extends Component {
 		 this.login = this.login.bind(this);
 		 this.getUsername = this.getUsername.bind(this);
 		 this.getPassword = this.getPassword.bind(this);
+		 this.saveProjectName = this.saveProjectName.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -175,6 +177,7 @@ export default class App extends Component {
 		 event.preventDefault();
 		 console.log('Here is the current state of json code: ', this.state.json);
 		 console.log('Here is the current state of gulp code: ', this.state.code);
+			console.log('Here is the current state of project name: ', this.state.projectName);
 	 }
 
 	 saveUser(event) {
@@ -199,29 +202,27 @@ export default class App extends Component {
 		 this.setState({password: event.target.value});
 	 }
 
+	 saveProjectName(event) {
+		 event.preventDefault();
+		 this.setState({projectName: event.target.value});
+	 }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
-
-
-		// <form id='npm-search'>
-		// <input type="search" list="packages" placeholder="Search NPM" onChange={this.search}></input>
-		// <datalist id="packages">{npmResults}</datalist>
-		// <button onClick={this.addToPackageJson}>+ package.json</button>
-		// <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
-		// </form>
 
 		return (
 			<div id='App'>
 
 
 				<button onClick={this.save}>Save</button>
+				<input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
 
 				<div className='row'>
 					<Download download={this.download.bind(this)} />
 				</div>
 
-				<Login 
+				<Login
 				saveUser={this.saveUser}
 				login={this.login}
 				username={this.getUsername}
