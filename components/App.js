@@ -30,6 +30,7 @@ export default class App extends Component {
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
 		 this.addToGulpfile = this.addToGulpfile.bind(this);
+		 this.save = this.save.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -161,6 +162,12 @@ export default class App extends Component {
 		return resultsArr;
 	 }
 
+	 save(event) {
+		 event.preventDefault(); 
+		 console.log('Here is the current state of json code: ', this.state.json);
+		 console.log('Here is the current state of gulp code: ', this.state.code);
+	 }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
@@ -169,11 +176,13 @@ export default class App extends Component {
 			<div id='App'>
 
 				<form id='npm-search'>
-					 <input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.search}></input>
+					 <input type="search" list="packages" placeholder="Search NPM" onChange={this.search}></input>
 					 <datalist id="packages">{npmResults}</datalist>
 					 <button onClick={this.addToPackageJson}>+ package.json</button>
 					 <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
 				</form>
+
+				<button onClick={this.save}>Save</button>
 
 				<div className='row'>
 					<Download download={this.download.bind(this)} />

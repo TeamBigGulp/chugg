@@ -17,9 +17,7 @@
 			"gulp": "^3.9.0",
 			"react": "^0.14",
 			"react-dom": "^0.14.0",
-			"vinyl-source-stream": "^1.1.0",
-			"react-bootstrap": "^0.28.3",
-			"express": "^4.13.4"
+			"vinyl-source-stream": "^1.1.0"
 		},
 		"devDependencies": {
 			"body-parser": "^1.15.0",
