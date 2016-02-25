@@ -2,11 +2,19 @@
 const fs = require('fs');
 const EasyZip = require('easy-zip').EasyZip;
 const path = require('path');
+const test = require('./../save-data/mongodb-orm');
 const fileMakerController = {
 
 	// creates a file matching the current state of the code on the homepage
 	// writeFile(filePath,data,callback)
 	// req.body is code included in Gulp File text editor
+	savesFile(req, res, next) {
+		  test.create({projectName: 'nothing', gulpFile: 'whatever', packageJSON: path.join(__dirname, './../pkgjson/package.json')}, function(err, dummy) {
+		    if (err) console.log(err);
+		    console.log(dummy.projectName + ' saved!');
+		  });
+	},
+
 	createsFile(req, res, next) {
 		fs.writeFile(path.join(__dirname, 'gulp-starter.js'), req.body, (err) => {
 			if (err) throw err;
