@@ -177,19 +177,29 @@ export default class App extends Component {
 
 						<Tabs defaultActiveKey={1}>
 							<Tab eventKey={1} title='Gulpfile'>
-                <form id='npm-search'>
-                  <Input type="search" list="packages" placeholder="Search Gulp Plugins" onChange={this.search}></Input>
-                  <datalist id="packages">{npmResults}</datalist>
-                  <Button onClick={this.addToGulpfile} className="right">+ gulpfile.js</Button>
+                <form className="npm-search">
+                  <div className="col-md-10">
+                    <Input type="search" list="packages" placeholder="Search Gulp Plugins" onChange={this.search}></Input>
+                    <datalist id="packages">{npmResults}</datalist>
+                  </div>
+                  <div className="col-md-2">
+                    <Button onClick={this.addToGulpfile}>+ gulpfile.js</Button>
+                  </div>
+                  <br style={{clear: 'both' }} />
                 </form>
 								<Gulpview value={this.state.code} codeChange={this.updateCode.bind(this)} />
 							</Tab>
 
 							<Tab eventKey={2} title='package.json'>
-                <form id='npm-search'>
-                  <input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.search}></input>
-                  <datalist id="packages">{npmResults}</datalist>
-                  <button onClick={this.addToPackageJson} className="right">+ package.json</button>
+                <form className="npm-search">
+                  <div className="col-md-10">
+                    <Input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.search}></Input>
+                    <datalist id="packages">{npmResults}</datalist>
+                  </div>
+                  <div className="col-md-2">
+                    <Button onClick={this.addToPackageJson} className="right">+ package.json</Button>
+                  </div>
+                  <br style={{clear: 'both' }} />
                 </form>
 								<Packagejson value={this.state.json} jsonChange={this.updateJson.bind(this)} />
 							</Tab>
