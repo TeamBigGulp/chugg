@@ -1,3 +1,10 @@
+/*
+Red: F71430
+Blue: 148291
+Aqua: 7CD7B8
+Cream: FFFFCD
+*/
+
 body {
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 	font-size: 14px;
@@ -5,22 +12,20 @@ body {
 	margin: 0;
 	padding: 0;
 	width: 100%;
+	background-color: #FFFFCD;
 }
 
-h1 {
-	background-color: #abd;
-	font-family: 'Lato', sans-serif;
-	padding: 2%;
-	border-bottom: 1px lightSeaGreen;
+/*h1 {
+	padding: 0.3em;
+}*/
+
+.temp {
+	height: 500px;
+	width: 300px;	
 }
 
 #code-container {
 	overflow: auto;
-}
-
-
-#download-files {
-  margin-top: 1%;
 }
 
 .input-name {
@@ -29,32 +34,87 @@ h1 {
 }
 
 #download {
-  text-align: right;
+	text-align: right;
+}
+
+.tab-content {
+		border-left: 1px solid #ddd;
+		border-rigth: 1px solid #ddd;
+		padding-top: 1.5em;
 }
 
 input[type='checkbox'] {
-    -webkit-appearance:none;
-    width:20px;
-    height:20px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
+		-webkit-appearance:none;
+		width:20px;
+		height:20px;
+		background:white;
+		border-radius:5px;
+		border:2px solid #555;
 		margin-bottom: 0;
 }
 
 input[type='checkbox']:checked {
-    background: #abd;
+		background: #abd;
 }
 
-input[type='submit'] {
-    -webkit-appearance:none;
-    width:150px;
-    height:40px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
+/*input[type='submit'] {
+		-webkit-appearance:none;
+		width:150px;
+		height:40px;
+		background:white;
+		border-radius:5px;
+		border:2px solid #555;
 }
 input[type='submit']:hover {
-    background: #abd;
+		background: #abd;
 		color: white;
+}*/
+
+.brand {
+	font-family: 'Damion', cursive;
+}
+
+.display {
+	font-family: 'Expletus Sans', cursive;
+}
+
+.blueheader {
+	color: #148291;
+}
+
+.aquaheader {
+	color: #7CD7B8;
+}
+
+.whiteheader {
+	color: #FFFFCD;
+}
+
+.redcallout {
+	color: #F71430;
+}
+
+.bluetop {
+	border-top: 2px solid #148291;
+}
+
+.centered {
+	text-align: center;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.optsWell {
+    width: 80%;
+    margin: 0px auto
+}
+
+.CodeMirror {
+  height: auto !important;
 }

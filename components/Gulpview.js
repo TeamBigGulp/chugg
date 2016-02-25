@@ -10,11 +10,11 @@ export default class Gulpview extends Component {
   render() {
     var options = {
             lineNumbers: true,
-            mode: 'javascript'
+            mode: 'javascript',
+            theme: 'mbo'
         };
     return (
       <div id='Gulpview'>
-      Gulp File
       <Codemirror value={this.props.value} onChange={this.props.codeChange.bind(this)} options={options} />
       </div>
     );

@@ -7,8 +7,15 @@ const fileMakerController = {
 	// creates a file matching the current state of the code on the homepage
 	// writeFile(filePath,data,callback)
 	// req.body is code included in Gulp File text editor
-	createsFile(req, res, next) {
-		fs.writeFile(path.join(__dirname, 'gulp-starter.js'), req.body, (err) => {
+	createsGulpFile(req, res, next) {
+		fs.writeFile(path.join(__dirname, 'files/gulp-starter.js'), req.body, (err) => {
+			if (err) throw err;
+			next();
+		});
+	},
+
+	createsJsonFile(req, res, next) {
+		fs.writeFile(path.join(__dirname, 'files/package.json'), req.body, (err) => {
 			if (err) throw err;
 			next();
 		});
@@ -19,10 +26,10 @@ const fileMakerController = {
 	// writeToFile(filePath, callback)
 	zipsFile(req, res, next) {
 		const zip = new EasyZip();
-		zip.addFile('gulp-starter.js', path.join(__dirname, 'gulp-starter.js'), () => {
-			zip.addFile('docs.md', path.join(__dirname, './../docs/docs.md'), () => {
-				zip.addFile('package.json', path.join(__dirname, './../pkgjson/package.json'),() => {
-					zip.writeToFile(path.join(__dirname, 'chuggFile.zip'), () => {
+		zip.addFile('gulp-starter.js', path.join(__dirname, 'files/gulp-starter.js'), () => {
+			zip.addFile('docs.md', path.join(__dirname, 'files/readme.md'), () => {
+				zip.addFile('package.json', path.join(__dirname, 'files/package.json'),() => {
+					zip.writeToFile(path.join(__dirname, 'files/chuggFile.zip'), () => {
 						res.end()
 					});
 				});
