@@ -87,3 +87,12 @@ input[type='checkbox']:checked {
 .left {
   float: left;
 }
+
+.optsWell {
+    width: 80%;
+    margin: 0px auto
+}
+
+.CodeMirror {
+  height: auto !important;
+}
