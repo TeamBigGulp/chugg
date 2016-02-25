@@ -101,6 +101,19 @@ input[type='submit']:hover {
 	float: right;
 }
 
+.rightContainer {
+  text-align: right;
+}
+
 .left {
 	float: left;
+}
+
+.optsWell {
+		width: 80%;
+		margin: 0px auto
+}
+
+.CodeMirror {
+	height: auto !important;
 }
