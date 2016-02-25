@@ -101,6 +101,10 @@ input[type='submit']:hover {
 	float: right;
 }
 
+.rightContainer {
+  text-align: right;
+}
+
 .left {
 	float: left;
 }
