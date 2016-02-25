@@ -91,3 +91,11 @@ input[type='submit']:hover {
 .centered {
   text-align: center;
 }
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
