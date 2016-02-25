@@ -4,15 +4,32 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fileMakerController = require('./fileMakerController');
 
-// var request = require('superagent');
-// var passport = require('passport');
-// var Strategy = require('passport-local').Strategy;
+var request = require('superagent'); // for testing
 
 // See http://mongoosejs.com/docs/index.html. This 'getting started' page is useful, but the API docs aren't. Use this guide instead: http://mongoosejs.com/docs/guide.html
 // I'd like some clarification on exactly what these two lines of code are doing
+
+// Now I'm modeling my code on http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/#.Vs5DW5MrKgS
+
+// var favicon = require('serve-favicon'); // I don't think I need this.
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
-
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(require('express-session')({
+	secret: 'keyboard cat',
+	resave: false,
+	saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 mongoose.connect('mongodb://localhost/test'); // Open a connection to the 'test' database
 
@@ -55,9 +72,12 @@ db.once('open', function() { // Where does the .once method come from?
 passport.use(new Strategy(
 	
 	function(username, password, cb) {
-		db.users.findByUsername(username, 
+
+		User.findOne({'username': username},
+		// db.users.findByUsername(username, 
 
 			function(err, user) {
+				console.log('inside User.findOne callback'); // I'm not seeing this.
 			if (err) return cb(err);
 			if (!user) return cb(null, false);
 			if (!user.password != password) return cb(null, false);
@@ -70,6 +90,7 @@ passport.use(new Strategy(
 */
 
 // Configure authenticated session persistence
+
 /*
 passport.serializeUser(function(user, cb) {
 	cb(null, user._id);
