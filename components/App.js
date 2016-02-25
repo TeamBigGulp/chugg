@@ -9,6 +9,8 @@ import Gulpoptions from './Gulpoptions';
 import constants from './constants/default';
 import {Tabs} from 'react-bootstrap';
 import {Tab} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+import {Input} from 'react-bootstrap';
 const defaultJson = constants.getDefaultJson();
 const defaultGulp = constants.getDefaultGulp();
 
@@ -161,12 +163,7 @@ export default class App extends Component {
 		return (
 			<div id='App'>
 
-				<form id='npm-search'>
-					 <input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.search}></input>
-					 <datalist id="packages">{npmResults}</datalist>
-					 <button onClick={this.addToPackageJson}>+ package.json</button>
-					 <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
-				</form>
+
 
 				<div className='row'>
 					<Download download={this.postRequest.bind(this)} />
@@ -180,11 +177,20 @@ export default class App extends Component {
 
 						<Tabs defaultActiveKey={1}>
 							<Tab eventKey={1} title='Gulpfile'>
+                <form id='npm-search'>
+                  <Input type="search" list="packages" placeholder="Search Gulp Plugins" onChange={this.search}></Input>
+                  <datalist id="packages">{npmResults}</datalist>
+                  <Button onClick={this.addToGulpfile} className="right">+ gulpfile.js</Button>
+                </form>
 								<Gulpview value={this.state.code} codeChange={this.updateCode.bind(this)} />
 							</Tab>
 
 							<Tab eventKey={2} title='package.json'>
-
+                <form id='npm-search'>
+                  <input type="search" list="packages" placeholder="Search NPM Packages" onChange={this.search}></input>
+                  <datalist id="packages">{npmResults}</datalist>
+                  <button onClick={this.addToPackageJson} className="right">+ package.json</button>
+                </form>
 								<Packagejson value={this.state.json} jsonChange={this.updateJson.bind(this)} />
 							</Tab>
 						</Tabs>
