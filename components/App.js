@@ -5,6 +5,7 @@ import $ from 'jquery';
 import Gulpview from './Gulpview';
 import Packagejson from './Packagejson';
 import Download from './Download';
+import Login from './Login';
 import Gulpoptions from './Gulpoptions';
 import constants from './constants/default';
 import {Tabs} from 'react-bootstrap';
@@ -28,11 +29,17 @@ export default class App extends Component {
 			 npmSearch: null,
 			 npmPackage: [],
 			 npmDescription: [],
+			 username: '',
+			 password: ''
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
 		 this.addToGulpfile = this.addToGulpfile.bind(this);
 		 this.save = this.save.bind(this);
+		 this.saveUser = this.saveUser.bind(this);
+		 this.login = this.login.bind(this);
+		 this.getUsername = this.getUsername.bind(this);
+		 this.getPassword = this.getPassword.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -170,19 +177,43 @@ export default class App extends Component {
 		 console.log('Here is the current state of gulp code: ', this.state.code);
 	 }
 
+	 saveUser(event) {
+		 event.preventDefault();
+		 console.log('You are saving a user');
+		 console.log(this.state.username);
+		 console.log(this.state.password);
+	 }
+
+	 login(event) {
+		 event.preventDefault();
+		 console.log('You are logging in');
+		 console.log(this.state.username);
+		 console.log(this.state.password);
+	 }
+
+	 getUsername(event) {
+		 this.setState({username: event.target.value});
+	 }
+
+	 getPassword(event) {
+		 this.setState({password: event.target.value});
+	 }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
 
+
+		// <form id='npm-search'>
+		// <input type="search" list="packages" placeholder="Search NPM" onChange={this.search}></input>
+		// <datalist id="packages">{npmResults}</datalist>
+		// <button onClick={this.addToPackageJson}>+ package.json</button>
+		// <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
+		// </form>
+
 		return (
 			<div id='App'>
 
-				<form id='npm-search'>
-					 <input type="search" list="packages" placeholder="Search NPM" onChange={this.search}></input>
-					 <datalist id="packages">{npmResults}</datalist>
-					 <button onClick={this.addToPackageJson}>+ package.json</button>
-					 <button onClick={this.addToGulpfile}>+ gulpfile.js</button>
-				</form>
 
 				<button onClick={this.save}>Save</button>
 
@@ -191,8 +222,10 @@ export default class App extends Component {
 				</div>
 
 				<div className='row'>
-
+					<div className='temp'>
 					<Gulpoptions addTask={this.newTasks.bind(this)} />
+					<Login saveUser={this.saveUser} login={this.login} username={this.getUsername} password={this.getPassword}/>
+					</div>
 
 					<div className='col-md-7'>
 
