@@ -2,5 +2,5 @@ node_modules/
 npm-debug.log
 build/bundle.js
 files/chuggFile.zip
+files/gulp-starter.zip
 files/package.json
-files/gulp-starter.js
