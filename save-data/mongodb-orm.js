@@ -15,25 +15,17 @@ var userSchema = mongoose.Schema({
 });
 
 var projectSchema = mongoose.Schema({
-  projectName: String,
+  projectName: {type: String, unique: true},
   gulpFile: String,
   packageJSON: String
 });
 
 //place code here
-var User = mongoose.model('users', userSchema);
-var Project = mongoose.model('projects', projectSchema);
 
-  // User.create({username: 'user1', password: 'user1'}, function(err, dummy) {
-  //   if (err) console.log(err);
-  //   console.log(dummy.username + ' saved!');
-  // });
+var Database = {
+  user: mongoose.model('users', userSchema),
+  project: mongoose.model('projects', projectSchema)
+};
 
-// for (var i = 1; i < 11; i++) {
-//   User.create({username: 'user' + i, password: 'user' + i}, function(err, dummy) {
-//     if (err) console.log(err);
-//     console.log(dummy.username + ' saved!');
-//   });
-// }
 
-module.exports = Project;
+module.exports = Database;

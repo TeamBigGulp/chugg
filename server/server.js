@@ -7,6 +7,7 @@ const test = require('./../save-data/mongodb-orm');
 var request = require('superagent');
 
 app.use(express.static(path.join(__dirname, './../')));
+app.use(bodyParser.json());
 app.use(bodyParser.text());
 
 
@@ -23,6 +24,7 @@ app.get('/download', (req, res) => {
 // post request to get the zipped version of the documents that were created
 app.post('/gulp', fileMakerController.createsGulpFile, fileMakerController.zipsFile);
 app.post('/json', fileMakerController.createsJsonFile, fileMakerController.zipsFile);
+app.post('/save', fileMakerController.savesFile);
 
 app.listen(3000, function() {
 	console.log('Server is listening on port 3000');
