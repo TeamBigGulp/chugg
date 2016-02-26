@@ -23,8 +23,10 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 		 this.state = {
-			 code: defaultGulp.start + defaultGulp.tasks,
-			 json: defaultJson.start + defaultJson.end,
+			 code: defaultGulp.basic.start + defaultGulp.basic.tasks,
+			 json: defaultJson.basic.start + defaultJson.basic.end,
+			 currentJsonFramework: defaultJson.basic,
+			 currentGulpFramework: defaultGulp.basic,
 			 jsonDependencies: '',
 			 gulpPlugins: '',
 			 npmSearch: null,
@@ -37,7 +39,13 @@ export default class App extends Component {
 			 },
 			 username: '',
 			 password: '',
-			 projectName: ''
+			 projectName: '',
+			 accordionIsOpen: {
+				 paths: false,
+				 frameworks: true,
+				 commontasks: false,
+				 poweroptions: false
+			 }
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
@@ -48,6 +56,10 @@ export default class App extends Component {
 		 this.getUsername = this.getUsername.bind(this);
 		 this.getPassword = this.getPassword.bind(this);
 		 this.saveProjectName = this.saveProjectName.bind(this);
+		 this.gulpBasic = this.gulpBasic.bind(this);
+		 this.gulpReact = this.gulpReact.bind(this);
+		 this.gulpAngular = this.gulpAngular.bind(this);
+		 this.gulpBootstrap = this.gulpBootstrap.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -145,8 +157,10 @@ export default class App extends Component {
 			 pkgVersion = data[0].version[0];
 		 }).done(() => {
 			 let newPackages = this.state.jsonDependencies;
+			 let selectedFramework = this.state.currentJsonFramework;
+
 			 newPackages += `,\n\t\t\t"${this.state.npmSearch}": "^${pkgVersion}"`;
-			 this.setState({json: defaultJson.start + newPackages + defaultJson.end, jsonDependencies: newPackages});
+			 this.setState({json: selectedFramework.start + newPackages + selectedFramework.end, jsonDependencies: newPackages});
 		 })
 
 	 }
@@ -157,9 +171,14 @@ export default class App extends Component {
 
 		 let gulpSearch = this.state.npmSearch;
 		 let plugins = this.state.gulpPlugins;
+		 let selectedFramework = this.state.currentGulpFramework;
+
 		 plugins += `\nvar ${gulpSearch.replace('gulp-', '')} = require('${gulpSearch}');`;
 
-		 this.setState({code: defaultGulp.start + plugins + defaultGulp.tasks, gulpPlugins: plugins});
+		 this.setState({
+			 code: selectedFramework.start + plugins + selectedFramework.tasks,
+			 gulpPlugins: plugins
+		 });
 
 		//  let addonObj = {
 		// 	 minify : $('.minify:checked').val(),
@@ -219,6 +238,85 @@ export default class App extends Component {
 		 this.setState({projectName: event.target.value});
 	 }
 
+	 accordionSection(event) {
+		 event.preventDefault();
+
+		 let toAccordion = event.target.value;
+
+		 // Do a little dance to set State only Once
+		 let accordionObj = this.state.accordionIsOpen
+
+		 // First close all sections
+		 for (let section in accordionObj) {
+			if (section === toAccordion) accordionObj[section] = true;
+			else accordionObj[section] = false;
+		}
+
+		this.setState({ accordionIsOpen : accordionObj });
+	 }
+
+	 // * The following four functions handle clicks on each framework button
+	 gulpBasic() {
+		 this.setState({
+			 code: defaultGulp.basic.start + defaultGulp.basic.tasks,
+			 json: defaultJson.basic.start + defaultJson.basic.end,
+			 currentGulpFramework: defaultGulp.basic,
+			 currentJsonFramework: defaultJson.basic
+		 });
+		 // * This clears out any dependencies/plugins that were added on a different framework 
+		 if (this.state.currentGulpFramework !== defaultGulp.basic) {
+			 this.setState({
+				 jsonDependencies: '',
+				 gulpPlugins: '',
+			 })
+		 }
+	 }
+
+	 gulpReact() {
+		 this.setState({
+			 code: defaultGulp.react.start + defaultGulp.react.tasks,
+			 json: defaultJson.react.start + defaultJson.react.end,
+			 currentGulpFramework: defaultGulp.react,
+			 currentJsonFramework: defaultJson.react
+		 });
+		 if (this.state.currentGulpFramework !== defaultGulp.react) {
+			 this.setState({
+				 jsonDependencies: '',
+				 gulpPlugins: '',
+			 })
+		 }
+	 }
+
+	 gulpAngular() {
+		 this.setState({
+			 code: defaultGulp.angular.start + defaultGulp.angular.tasks,
+			 json: defaultJson.angular.start + defaultJson.angular.end,
+			 currentGulpFramework: defaultGulp.angular,
+			 currentJsonFramework: defaultJson.angular
+		 });
+		 if (this.state.currentGulpFramework !== defaultGulp.angular) {
+			 this.setState({
+				 jsonDependencies: '',
+				 gulpPlugins: '',
+			 })
+		 }
+	 }
+
+	 gulpBootstrap() {
+		 this.setState({
+			 code: defaultGulp.bootstrap.start + defaultGulp.bootstrap.tasks,
+			 json: defaultJson.bootstrap.start + defaultJson.bootstrap.end,
+			 currentGulpFramework: defaultGulp.bootstrap,
+			 currentJsonFramework: defaultJson.bootstrap
+		 });
+		 if (this.state.currentGulpFramework !== defaultGulp.bootstrap) {
+			 this.setState({
+				 jsonDependencies: '',
+				 gulpPlugins: '',
+			 })
+		 }
+	 }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
@@ -242,9 +340,14 @@ export default class App extends Component {
 				<div className='row'>
 					<Gulpoptions
 						addTask={this.newTasks.bind(this)}
-						paths={this.state.paths}
+						 paths={this.state.paths}
+						 accordionSection={this.accordionSection.bind(this)}
+						 accordionState={this.state.accordionIsOpen}
+						 gulpBasic={this.gulpBasic}
+						 gulpReact={this.gulpReact}
+						 gulpAngular={this.gulpAngular}
+						 gulpBootstrap={this.gulpBootstrap}
 						/>
-				</div>
 
 					<div className='col-md-7'>
 
@@ -279,12 +382,10 @@ export default class App extends Component {
 						</Tabs>
 
 					</div>
-
+					</div>
 			</div>
 		)
 	}
 }
-
-
 
 render(<App />, document.getElementById('main-container'));
