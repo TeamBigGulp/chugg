@@ -326,11 +326,20 @@ export default class App extends Component {
 
 
 				<div className='row'>
-        <button onClick={this.save}>Save</button>
-        <input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
-					<Download
-						download={this.download.bind(this)}
-					/>
+          <div className="col-md-8">
+            &nbsp;
+          </div>
+          <div className="col-md-2 rightContainer">
+            <Input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
+          </div>
+          <div className="col-sm-1 leftContainer">
+            <Button onClick={this.save} bsStyle="success">Save</Button>
+          </div>
+          <div className="col-md-1 leftContainer">
+            <Download
+            download={this.download.bind(this)}
+            />
+          </div>
 				</div>
 
 				<Login
