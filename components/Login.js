@@ -22,6 +22,7 @@ export default class Login extends Component {
                    <Button bsStyle="success" onClick={this.props.saveUser}>Create Account</Button>&nbsp;
                    <Button bsStyle="danger" onClick={this.props.closeLogin.bind(this)}>Cancel</Button>
               </form>
+              <p>{this.props.registerErrorMessages}</p>
               <br style={{clear: 'both' }} />
             </Tab>
 
@@ -32,6 +33,7 @@ export default class Login extends Component {
                   <Button bsStyle="success" onClick={this.props.login}>Log in</Button>&nbsp;
                   <Button bsStyle="danger" onClick={this.props.closeLogin.bind(this)}>Cancel</Button>
               </form>
+              <p>{this.props.loginErrorMessages}</p>
               <br style={{clear: 'both' }} />
             </Tab>
           </Tabs>
