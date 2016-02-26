@@ -222,14 +222,16 @@ export default class App extends Component {
       contentType: 'application/json'
     })
     .done(function () {
+      console.log('executing /register .done');
       that.setState({
         loggedIn: true,
-        regsiterErrorMessages: `Registration successful. You are now logged in as ${that.state.username}.`,
+        registerErrorMessages: `Registration successful. You are now logged in as ${that.state.username}.`,
         password: ''
         // Isaac: I'd like to clear the username field, but we need to hang on to that information.
       });
     })
     .fail(function () {
+      console.log('executing /register .fail');
       that.setState({
         loggedIn: false,
         registerErrorMessages: 'Registration failed.',
