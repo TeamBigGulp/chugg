@@ -1,4 +1,4 @@
-// I'm modeling my code on http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/#.Vs5DW5MrKgS. 
+// I'm modeling my code on http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/#.Vs5DW5MrKgS.
 // I also found http://mongoosejs.com/docs/index.html and http://mongoosejs.com/docs/guide.html helpful.
 
 // Dependencies
@@ -16,6 +16,7 @@ const session = require('express-session');
 const fileMakerController = require('./fileMakerController');
 const test = require('./../save-data/mongodb-orm');
 // const request = require('superagent'); // We were using this for resting, but I don't think we need it anymore. We're not using 'request' anywhere in this file.
+
 
 // We don't need to save variables called 'routes' or 'users'.
 
@@ -50,6 +51,7 @@ app.get('/download', (req, res) => {
 // post request to get the zipped version of the documents that were created
 app.post('/gulp', fileMakerController.createsGulpFile, fileMakerController.zipsFile);
 app.post('/json', fileMakerController.createsJsonFile, fileMakerController.zipsFile);
+app.post('/save', fileMakerController.savesFile);
 
 // adapted from mherman and https://github.com/saintedlama/passport-local-mongoose/blob/master/examples/login/routes.js
 app.post('/register', function(req, res) {
