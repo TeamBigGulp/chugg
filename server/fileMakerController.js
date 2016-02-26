@@ -9,11 +9,13 @@ const fileMakerController = {
 	// writeFile(filePath,data,callback)
 	// req.body is code included in Gulp File text editor
 
+  // need to set up test to check whether to create or update document
+
 	savesFile(req, res, next) {
-		// test.Project.update({projectName: req.body.projectName}, {gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
-		// if (err) console.log(err);
-		// console.log(project.projectName + ' updated!');
-	  // });
+		test.Project.update({projectName: req.body.projectName}, {gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
+		if (err) console.log(err);
+		console.log(project.projectName + ' updated!');
+	  });
 
 			// test.Project.create({projectName: req.body.projectName, gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
 		  //   if (err) console.log(err);
