@@ -54,7 +54,7 @@ export default class App extends Component {
 		 this.getUsername = this.getUsername.bind(this);
 		 this.getPassword = this.getPassword.bind(this);
 		 this.saveProjectName = this.saveProjectName.bind(this);
-     this.gulpUpdateBuild = this.gulpUpdateBuild.bind(this);
+     this.gulpUpdate = this.gulpUpdate.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -242,27 +242,29 @@ export default class App extends Component {
     this.setState({ accordionIsOpen : accordionObj });
    }
 
-   gulpUpdateBuild(event) {
+   gulpUpdate(event) {
      event.preventDefault();
 
-     let thePaths = this.state.paths
+     let thePaths = this.state.paths;
      let gulpFile = this.state.code;
 
      let newOutput = event.target.value;
-     let oldOutput = this.state.paths.build;
+     let theTarget = event.target.name;
+     let oldOutput = thePaths[theTarget];
 
-     thePaths.build = newOutput;
+     oldOutput = oldOutput.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
 
-     gulpFile = gulpFile.replace(oldOutput, newOutput);
+     let theMatch = new RegExp(oldOutput, 'g');
+
+     thePaths[theTarget] = newOutput;
+
+     gulpFile = gulpFile.replace(theMatch, newOutput);
 
      let stateObj = {};
      stateObj.paths = thePaths;
      stateObj.code = gulpFile;
 
      this.setState(stateObj);
-
-     //
-    //  this.setState({ code: gulpFile });
    }
 
 	render() {
@@ -294,7 +296,7 @@ export default class App extends Component {
              paths={this.state.paths}
              accordionSection={this.accordionSection.bind(this)}
              accordionState={this.state.accordionIsOpen}
-             gulpUpdateBuild={this.gulpUpdateBuild.bind(this)}
+             gulpUpdate={this.gulpUpdate.bind(this)}
             />
 
 					<div className='col-md-7'>
