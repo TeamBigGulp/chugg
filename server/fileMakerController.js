@@ -10,8 +10,8 @@ const fileMakerController = {
 	// req.body is code included in Gulp File text editor
 
 	savesFile(req, res, next) {
-		console.log(req.body.projectName);
-		test.Project.update({projectName: req.body.projectName}, {$set: {gulpFile: 'something', packageJSON: 'nothing'}});
+		// console.log(req.body.projectName);
+		// test.Project.update({projectName: req.body.projectName}, {$set: {gulpFile: 'something', packageJSON: 'nothing'}});
 		// if (test.Project.projectName !== req.body.projectName) {
 		// 	test.Project.create({projectName: req.body.projectName, gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
 		//     if (err) console.log(err);
