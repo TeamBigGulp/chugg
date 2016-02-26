@@ -6,7 +6,7 @@ export default class Download extends Component {
     return (
       <div id='download' className="col-md-12">
       <form id="download-files" onSubmit={this.props.download}>
-        <Button type="submit" value="Download Files" bsStyle="primary">Download Files</Button>
+        <Button type="submit" value="Download Files" bsStyle="primary">Download</Button>
       </form>
       </div>
     )

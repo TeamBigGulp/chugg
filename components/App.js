@@ -18,28 +18,37 @@ const defaultGulp = constants.getDefaultGulp();
 // React in ES6
 // http://www.jackcallister.com/2015/08/30/the-react-quick-start-guide-es6-edition.html
 export default class App extends Component {
+	// 'use strict';
+
 	constructor(props) {
 		super(props);
 		 this.state = {
-			 code: defaultGulp.start + defaultGulp.tasks,
-			 json: defaultJson.start + defaultJson.end,
+			 code: defaultGulp.basic.start + defaultGulp.basic.tasks,
+			 json: defaultJson.basic.start + defaultJson.basic.end,
+			 currentJsonFramework: defaultJson.basic,
+			 currentGulpFramework: defaultGulp.basic,
 			 jsonDependencies: '',
 			 gulpPlugins: '',
 			 npmSearch: null,
 			 npmPackage: [],
 			 npmDescription: [],
-       paths: {
-         css: 'e.g. css/',
-         js: 'e.g. js/',
-         build: 'e.g ./build/'
-       },
+			 paths: {
+				 css: 'css/',
+				 js: 'js/',
+				 build: './build/',
+				 app: 'App.js',
+				 server: 'server/server.js'
+			 },
 			 username: '',
 			 password: '',
 			 projectName: '',
        loggedIn: false,
+       showLogin: false,
+       loginErrorMessages: '',
+       registerErrorMessages: '',
        accordionIsOpen: {
-         paths: true,
-         frameworks: false,
+         paths: false,
+         frameworks: true,
          commontasks: false,
          poweroptions: false
        }
@@ -53,6 +62,13 @@ export default class App extends Component {
 		 this.getUsername = this.getUsername.bind(this);
 		 this.getPassword = this.getPassword.bind(this);
 		 this.saveProjectName = this.saveProjectName.bind(this);
+     this.closeLogin = this.closeLogin.bind(this);
+     this.openLogin = this.openLogin.bind(this);
+		 this.gulpBasic = this.gulpBasic.bind(this);
+		 this.gulpReact = this.gulpReact.bind(this);
+		 this.gulpAngular = this.gulpAngular.bind(this);
+		 this.gulpBootstrap = this.gulpBootstrap.bind(this);
+		 this.gulpUpdate = this.gulpUpdate.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -150,8 +166,10 @@ export default class App extends Component {
 			 pkgVersion = data[0].version[0];
 		 }).done(() => {
 			 let newPackages = this.state.jsonDependencies;
-			 newPackages += `,\n\t\t\t"${this.state.npmSearch}": "^${pkgVersion}"`;
-			 this.setState({json: defaultJson.start + newPackages + defaultJson.end, jsonDependencies: newPackages});
+			 let selectedFramework = this.state.currentJsonFramework;
+
+			 newPackages += `,\n\t\t\t\t"${this.state.npmSearch}": "^${pkgVersion}"`;
+			 this.setState({json: selectedFramework.start + newPackages + selectedFramework.end, jsonDependencies: newPackages});
 		 })
 
 	 }
@@ -162,9 +180,14 @@ export default class App extends Component {
 
 		 let gulpSearch = this.state.npmSearch;
 		 let plugins = this.state.gulpPlugins;
+		 let selectedFramework = this.state.currentGulpFramework;
+
 		 plugins += `\nvar ${gulpSearch.replace('gulp-', '')} = require('${gulpSearch}');`;
 
-		 this.setState({code: defaultGulp.start + plugins + defaultGulp.tasks, gulpPlugins: plugins});
+		 this.setState({
+			 code: selectedFramework.start + plugins + selectedFramework.tasks,
+			 gulpPlugins: plugins
+		 });
 
 		//  let addonObj = {
 		// 	 minify : $('.minify:checked').val(),
@@ -184,6 +207,7 @@ export default class App extends Component {
 		return resultsArr;
 	 }
 
+	 // * Saves the following to database: current package.json, current gulpfile, project name
 	 save(event) {
 		 event.preventDefault();
 		 var database = {
@@ -200,10 +224,11 @@ export default class App extends Component {
  		});
 	 }
 
+	 // * Creates an account in the database for the user
 	 saveUser(event) {
 		 event.preventDefault();
 
-     var that = this;
+     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
@@ -216,24 +241,32 @@ export default class App extends Component {
       contentType: 'application/json'
     })
     .done(function () {
-      console.log('Successful registration');
-      that.setState({loggedIn: true});
+      that.setState({
+        loggedIn: true,
+        registerErrorMessages: `Registration successful. You are now logged in as ${that.state.username}.`,
+        password: ''
+        // Isaac: I'd like to clear the username field, but we need to hang on to that information.
+      });
     })
     .fail(function () {
-      console.log('Registration failed');
+      that.setState({
+        loggedIn: false,
+        registerErrorMessages: 'Registration failed.',
+        username: '',
+        password: ''
+      });
     });
 	 }
 
+	 // * If it exists, returns the user's account
 	 login(event) {
 		 event.preventDefault();
-		 console.log('You are logging in');
 
-     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
+     var that = this;
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
      data = JSON.stringify(data);
-     console.log(data);
 
     $.ajax({
       type: 'POST',
@@ -242,47 +275,148 @@ export default class App extends Component {
       contentType: 'application/json'
     })
     .done(function () {
-      that.setState({loggedIn: true});
-      console.log('Successful login');
+      that.setState({
+        loggedIn: true,
+        loginErrorMessages: `You are now logged in as ${that.state.username}.`,
+        password: ''
+      });
     })
     .fail(function () {
-      console.log('Login failed');
+      that.setState({
+        loggedIn: false,
+        loginErrorMessages: 'Login failed.',
+        username: '',
+        password: ''
+      });
     });
   }
 
+	 // * Grabs the username from input
 	 getUsername(event) {
 		 this.setState({username: event.target.value});
 	 }
 
+	 // * Grabs the password from input
 	 getPassword(event) {
 		 this.setState({password: event.target.value});
 	 }
 
+	 // * Sets the project name
 	 saveProjectName(event) {
 		 event.preventDefault();
 		 this.setState({projectName: event.target.value});
 	 }
 
-   accordionSection(event) {
-     event.preventDefault();
+	 accordionSection(event) {
+		 event.preventDefault();
 
-     let toAccordion = event.target.value;
+		 let toAccordion = event.target.value;
 
-     // Do a little dance to set State only Once
-     let accordionObj = this.state.accordionIsOpen
+		 // Do a little dance to set State only Once
+		 let accordionObj = this.state.accordionIsOpen
 
-     // First close all sections
-     for (let section in accordionObj) {
+		 // First close all sections
+		 for (let section in accordionObj) {
+			if (section === toAccordion) accordionObj[section] = true;
+			else accordionObj[section] = false;
+		}
 
-      if (section === toAccordion) {
-        accordionObj[section] = true;
-      } else {
-        accordionObj[section] = false;
-      }
+		this.setState({ accordionIsOpen : accordionObj });
+	 }
 
-    }
+	 // * The following four functions handle clicks on each framework button
+	 gulpBasic() {
+		 this.setState({
+			 code: defaultGulp.basic.start + defaultGulp.basic.tasks,
+			 json: defaultJson.basic.start + defaultJson.basic.end,
+			 currentGulpFramework: defaultGulp.basic,
+			 currentJsonFramework: defaultJson.basic
+		 });
+		 // * This clears out any dependencies/plugins that were added on a different framework
+		 if (this.state.currentGulpFramework !== defaultGulp.basic) {
+			 this.setState({
+				 jsonDependencies: '',
+				 gulpPlugins: '',
+			 })
+		 }
+	 }
 
-    this.setState({ accordionIsOpen : accordionObj });
+	 gulpReact() {
+		 this.setState({
+			 code: defaultGulp.react.start + defaultGulp.react.tasks,
+			 json: defaultJson.react.start + defaultJson.react.end,
+			 currentGulpFramework: defaultGulp.react,
+			 currentJsonFramework: defaultJson.react
+		 });
+		 if (this.state.currentGulpFramework !== defaultGulp.react) {
+			 this.setState({
+				 jsonDependencies: '',
+				 gulpPlugins: '',
+			 })
+		 }
+	 }
+
+	 gulpAngular() {
+		 this.setState({
+			 code: defaultGulp.angular.start + defaultGulp.angular.tasks,
+			 json: defaultJson.angular.start + defaultJson.angular.end,
+			 currentGulpFramework: defaultGulp.angular,
+			 currentJsonFramework: defaultJson.angular
+		 });
+		 if (this.state.currentGulpFramework !== defaultGulp.angular) {
+			 this.setState({
+				 jsonDependencies: '',
+				 gulpPlugins: '',
+			 })
+		 }
+	 }
+
+	 gulpBootstrap() {
+		 this.setState({
+			 code: defaultGulp.bootstrap.start + defaultGulp.bootstrap.tasks,
+			 json: defaultJson.bootstrap.start + defaultJson.bootstrap.end,
+			 currentGulpFramework: defaultGulp.bootstrap,
+			 currentJsonFramework: defaultJson.bootstrap
+		 });
+		 if (this.state.currentGulpFramework !== defaultGulp.bootstrap) {
+			 this.setState({
+				 jsonDependencies: '',
+				 gulpPlugins: '',
+			 })
+		 }
+	 }
+
+	 gulpUpdate(event) {
+		 event.preventDefault();
+
+		 let thePaths = this.state.paths;
+		 let gulpFile = this.state.code;
+
+		 let newOutput = event.target.value;
+		 let theTarget = event.target.name;
+		 let oldOutput = thePaths[theTarget];
+
+		 oldOutput = oldOutput.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+
+		 let theMatch = new RegExp(oldOutput, 'g');
+
+		 thePaths[theTarget] = newOutput;
+
+		 gulpFile = gulpFile.replace(theMatch, newOutput);
+
+		 let stateObj = {};
+		 stateObj.paths = thePaths;
+		 stateObj.code = gulpFile;
+
+		 this.setState(stateObj);
+	 }
+
+   openLogin(event) {
+     this.setState({ showLogin: true });
+   }
+
+   closeLogin(event) {
+     this.setState({ showLogin: false });
    }
 
 	render() {
@@ -292,30 +426,49 @@ export default class App extends Component {
 		return (
 			<div id='App'>
 
-
 				<div className='row'>
-        <button onClick={this.save}>Save</button>
-        <input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
-					<Download
-						download={this.download.bind(this)}
-					/>
+          <div className="col-md-7">
+            <Login
+              loggedIn = {this.state.loggedIn}
+              loginErrorMessages = {this.state.loginErrorMessages}
+              registerErrorMessages = {this.state.registerErrorMessages}
+              saveUser={this.saveUser}
+              login={this.login}
+              username={this.getUsername}
+              password={this.getPassword}
+              showLogin={this.state.showLogin}
+              closeLogin={this.closeLogin.bind(this)}
+            />
+          </div>
+          <div className="col-md-1 centered">
+            <Button onClick={() => this.setState({ showLogin : true })}>Log in</Button>
+          </div>
+          <div className="col-md-2 rightContainer">
+            <Input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
+          </div>
+          <div className="col-sm-1 leftContainer">
+            <Button onClick={this.save} bsStyle="success">Save</Button>
+          </div>
+          <div className="col-md-1 leftContainer">
+            <Download
+            download={this.download.bind(this)}
+            />
+          </div>
 				</div>
-
-				<Login
-          loggedIn = {this.state.loggedIn}
-					saveUser={this.saveUser}
-					login={this.login}
-					username={this.getUsername}
-					password={this.getPassword}
-				/>
 
         <div className='row'>
 					<Gulpoptions
-            addTask={this.newTasks.bind(this)}
-             paths={this.state.paths}
-             accordionSection={this.accordionSection.bind(this)}
-             accordionState={this.state.accordionIsOpen}
-            />
+						addTask={this.newTasks.bind(this)}
+						 paths={this.state.paths}
+						 accordionSection={this.accordionSection.bind(this)}
+						 accordionState={this.state.accordionIsOpen}
+						 gulpBasic={this.gulpBasic}
+						 gulpReact={this.gulpReact}
+						 gulpAngular={this.gulpAngular}
+						 gulpBootstrap={this.gulpBootstrap}
+						 gulpUpdate={this.gulpUpdate.bind(this)}
+						/>
+
 
 					<div className='col-md-7'>
 
@@ -350,14 +503,11 @@ export default class App extends Component {
 						</Tabs>
 
 					</div>
+					</div>
+			</div>
 
-        </div>
-
-			// </div> // Isaac This seems to be an extra div tag.
 		)
 	}
 }
-
-
 
 render(<App />, document.getElementById('main-container'));
