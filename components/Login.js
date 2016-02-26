@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Tabs} from 'react-bootstrap';
 import {Tab} from 'react-bootstrap';
 
+// Isaac: I added p tags to hold error messages.
+
 export default class Login extends Component {
 	render() {
 
@@ -18,6 +20,7 @@ export default class Login extends Component {
 					</div>
 				<div className="col-md-2">
 						<button onClick={this.props.saveUser}>Create Account</button>
+						<p>{this.props.registerErrorMessages}</p>
 				</div>
 				</form>
 				<br style={{clear: 'both' }} />
@@ -31,6 +34,7 @@ export default class Login extends Component {
 				</div>
 				<div className="col-md-2">
 						<button onClick={this.props.login}>Log in</button>
+						<p>{this.props.loginErrorMessages}</p>
 				</div>
 				<br style={{clear: 'both' }} />
 				</Tab>
