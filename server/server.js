@@ -57,12 +57,18 @@ app.post('/save', fileMakerController.savesFile);
 app.post('/register', function(req, res) {
 	test.User.register(new test.User({ username: req.body.username }), req.body.password, function(err, account) {
 		if (err) { // For example, if the user tries to register with a username that's already in the database.
-			console.log('error:', err); // This shows up in the terminal.
+			// console.log('error:', err); // This shows up in the terminal.
 			// return;
+			res.status(400).end(); // Is the return needed?
 		}
 		// res.end(); // I'm not sure exactly what should happen here.
+		// Isaac: I think I need passport.authenticate to set a cookie.
+		passport.authenticate('local')(req, res, function() {
+			// return res.status(200).end(); // Is the return needed?
+			res.end();
+		});
 	});
-	res.end();
+	// res.end();
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
