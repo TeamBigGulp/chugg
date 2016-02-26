@@ -38,6 +38,7 @@ export default class App extends Component {
 			 username: '',
 			 password: '',
 			 projectName: '',
+       loggedIn: false,
        accordionIsOpen: {
          paths: true,
          frameworks: false,
@@ -188,24 +189,73 @@ export default class App extends Component {
 
 	 save(event) {
 		 event.preventDefault();
+		 var database = {
+			 projectName: this.state.projectName,
+			 gulpFile: this.state.code,
+			 packageJSON: this.state.json
+		 }
+		 database = JSON.stringify(database);
+ 		$.ajax({
+ 			type: 'POST',
+ 			url: '/save',
+ 			data: database,
+ 			contentType: 'application/json'
+ 		});
 		 console.log('Here is the current state of json code: ', this.state.json);
 		 console.log('Here is the current state of gulp code: ', this.state.code);
 			console.log('Here is the current state of project name: ', this.state.projectName);
+			console.log('Here is the data type of gulp code: ', typeof this.state.code);
 	 }
 
 	 saveUser(event) {
 		 event.preventDefault();
-		 console.log('You are saving a user');
-		 console.log(this.state.username);
-		 console.log(this.state.password);
+
+     var that = this;
+     var data = {};
+     data.username = this.state.username;
+     data.password = this.state.password;
+     data = JSON.stringify(data);
+
+    $.ajax({
+      type: 'POST',
+      url: '/register',
+      data: data, // Whatever is in data will become req.body.
+      contentType: 'application/json'
+    })
+    .done(function () {
+      console.log('Successful registration');
+      that.setState({loggedIn: true});
+    })
+    .fail(function () {
+      console.log('Registration failed');
+    });
 	 }
 
 	 login(event) {
 		 event.preventDefault();
 		 console.log('You are logging in');
-		 console.log(this.state.username);
-		 console.log(this.state.password);
-	 }
+
+     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
+     var data = {};
+     data.username = this.state.username;
+     data.password = this.state.password;
+     data = JSON.stringify(data);
+     console.log(data);
+
+    $.ajax({
+      type: 'POST',
+      url: '/login',
+      data: data,
+      contentType: 'application/json'
+    })
+    .done(function () {
+      that.setState({loggedIn: true});
+      console.log('Successful login');
+    })
+    .fail(function () {
+      console.log('Login failed');
+    });
+  }
 
 	 getUsername(event) {
 		 this.setState({username: event.target.value});
@@ -284,6 +334,7 @@ export default class App extends Component {
 				</div>
 
 				<Login
+          loggedIn = {this.state.loggedIn}
 					saveUser={this.saveUser}
 					login={this.login}
 					username={this.getUsername}
@@ -335,7 +386,7 @@ export default class App extends Component {
 
         </div>
 
-			</div>
+			// </div> // Isaac This seems to be an extra div tag.
 		)
 	}
 }
