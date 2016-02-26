@@ -33,13 +33,16 @@ export default class App extends Component {
 			 npmPackage: [],
 			 npmDescription: [],
 			 paths: {
-				 css: 'e.g. css/',
-				 js: 'e.g. js/',
-				 build: 'e.g ./build/'
+				 css: 'css/',
+				 js: 'js/',
+				 build: './build/',
+				 app: 'App.js',
+				 server: 'server/server.js'
 			 },
 			 username: '',
 			 password: '',
 			 projectName: '',
+			 loggedIn: false,
 			 accordionIsOpen: {
 				 paths: false,
 				 frameworks: true,
@@ -60,6 +63,7 @@ export default class App extends Component {
 		 this.gulpReact = this.gulpReact.bind(this);
 		 this.gulpAngular = this.gulpAngular.bind(this);
 		 this.gulpBootstrap = this.gulpBootstrap.bind(this);
+		 this.gulpUpdate = this.gulpUpdate.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -159,7 +163,7 @@ export default class App extends Component {
 			 let newPackages = this.state.jsonDependencies;
 			 let selectedFramework = this.state.currentJsonFramework;
 
-			 newPackages += `,\n\t\t\t"${this.state.npmSearch}": "^${pkgVersion}"`;
+			 newPackages += `,\n\t\t\t\t"${this.state.npmSearch}": "^${pkgVersion}"`;
 			 this.setState({json: selectedFramework.start + newPackages + selectedFramework.end, jsonDependencies: newPackages});
 		 })
 
@@ -201,26 +205,75 @@ export default class App extends Component {
 	 // * Saves the following to database: current package.json, current gulpfile, project name
 	 save(event) {
 		 event.preventDefault();
+		 var database = {
+			 projectName: this.state.projectName,
+			 gulpFile: this.state.code,
+			 packageJSON: this.state.json
+		 }
+		 database = JSON.stringify(database);
+		 $.ajax({
+			 type: 'POST',
+			 url: '/save',
+			 data: database,
+			 contentType: 'application/json'
+		 });
 		 console.log('Here is the current state of json code: ', this.state.json);
 		 console.log('Here is the current state of gulp code: ', this.state.code);
 			console.log('Here is the current state of project name: ', this.state.projectName);
+			console.log('Here is the data type of gulp code: ', typeof this.state.code);
 	 }
 
 	 // * Creates an account in the database for the user
 	 saveUser(event) {
 		 event.preventDefault();
-		 console.log('You are saving a user');
-		 console.log(this.state.username);
-		 console.log(this.state.password);
+
+		 var that = this;
+		 var data = {};
+		 data.username = this.state.username;
+		 data.password = this.state.password;
+		 data = JSON.stringify(data);
+
+		$.ajax({
+			type: 'POST',
+			url: '/register',
+			data: data, // Whatever is in data will become req.body.
+			contentType: 'application/json'
+		})
+		.done(function () {
+			console.log('Successful registration');
+			that.setState({loggedIn: true});
+		})
+		.fail(function () {
+			console.log('Registration failed');
+		});
 	 }
 
 	 // * If it exists, returns the user's account
 	 login(event) {
 		 event.preventDefault();
 		 console.log('You are logging in');
-		 console.log(this.state.username);
-		 console.log(this.state.password);
-	 }
+
+		 var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
+		 var data = {};
+		 data.username = this.state.username;
+		 data.password = this.state.password;
+		 data = JSON.stringify(data);
+		 console.log(data);
+
+		$.ajax({
+			type: 'POST',
+			url: '/login',
+			data: data,
+			contentType: 'application/json'
+		})
+		.done(function () {
+			that.setState({loggedIn: true});
+			console.log('Successful login');
+		})
+		.fail(function () {
+			console.log('Login failed');
+		});
+	}
 
 	 // * Grabs the username from input
 	 getUsername(event) {
@@ -263,7 +316,7 @@ export default class App extends Component {
 			 currentGulpFramework: defaultGulp.basic,
 			 currentJsonFramework: defaultJson.basic
 		 });
-		 // * This clears out any dependencies/plugins that were added on a different framework 
+		 // * This clears out any dependencies/plugins that were added on a different framework
 		 if (this.state.currentGulpFramework !== defaultGulp.basic) {
 			 this.setState({
 				 jsonDependencies: '',
@@ -317,6 +370,31 @@ export default class App extends Component {
 		 }
 	 }
 
+	 gulpUpdate(event) {
+		 event.preventDefault();
+
+		 let thePaths = this.state.paths;
+		 let gulpFile = this.state.code;
+
+		 let newOutput = event.target.value;
+		 let theTarget = event.target.name;
+		 let oldOutput = thePaths[theTarget];
+
+		 oldOutput = oldOutput.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+
+		 let theMatch = new RegExp(oldOutput, 'g');
+
+		 thePaths[theTarget] = newOutput;
+
+		 gulpFile = gulpFile.replace(theMatch, newOutput);
+
+		 let stateObj = {};
+		 stateObj.paths = thePaths;
+		 stateObj.code = gulpFile;
+
+		 this.setState(stateObj);
+	 }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
@@ -331,6 +409,7 @@ export default class App extends Component {
 				</div>
 
 				<Login
+					loggedIn = {this.state.loggedIn}
 					saveUser={this.saveUser}
 					login={this.login}
 					username={this.getUsername}
@@ -347,7 +426,9 @@ export default class App extends Component {
 						 gulpReact={this.gulpReact}
 						 gulpAngular={this.gulpAngular}
 						 gulpBootstrap={this.gulpBootstrap}
+						 gulpUpdate={this.gulpUpdate.bind(this)}
 						/>
+
 
 					<div className='col-md-7'>
 
@@ -384,6 +465,7 @@ export default class App extends Component {
 					</div>
 					</div>
 			</div>
+
 		)
 	}
 }
