@@ -1,14 +1,16 @@
-var express = require('express');
+// var express = require('express');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var app = express();
-mongoose.connect('mongodb://localhost/test');
-mongoose.connection.once('open', function() {
-  console.log('Connected with MongoDB ORM - localhost/test');
-});
+var passportLocalMongoose = require('passport-local-mongoose');
+// var app = express(); // Isaac: I don't see any references to app or express elswhere in this file.
+// mongoose.connect('mongodb://localhost/test');
+// mongoose.connection.once('open', function() {
+//   console.log('Connected with MongoDB ORM - localhost/test');
+// }); Isaac: Moved the connection to the server page.
 
 
-// place Schemas here
+// Schemas
+// Is 'mongoose.Schema' identical to 'new Schema'?
 var userSchema = mongoose.Schema({
   username: {type: String, unique: true},
   password: String
@@ -20,12 +22,19 @@ var projectSchema = mongoose.Schema({
   packageJSON: String
 });
 
-//place code here
+userSchema.plugin(passportLocalMongoose);
 
-var Database = {
-  user: mongoose.model('users', userSchema),
-  project: mongoose.model('projects', projectSchema)
-};
+// Create object to export
+var dbController = {};
+dbController.User = mongoose.model('users', userSchema);
+dbController.Project = mongoose.model('projects', projectSchema);
 
+// Run this as needed to create dummy users.
+// for (var i = 1; i < 11; i++) {
+//   dbController.User.create({username: 'user' + i, password: 'user' + i}, function(err, dummy) {
+//     if (err) console.log(err);
+//     console.log(dummy.username + ' saved!');
+//   });
+// }
 
-module.exports = Database;
+module.exports = dbController;
