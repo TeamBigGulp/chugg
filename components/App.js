@@ -43,11 +43,12 @@ export default class App extends Component {
 			 password: '',
 			 projectName: '',
        loggedIn: false,
+       showLogin: false,
        loginErrorMessages: '',
        registerErrorMessages: '',
        accordionIsOpen: {
-         paths: true,
-         frameworks: false,
+         paths: false,
+         frameworks: true,
          commontasks: false,
          poweroptions: false
        }
@@ -61,6 +62,8 @@ export default class App extends Component {
 		 this.getUsername = this.getUsername.bind(this);
 		 this.getPassword = this.getPassword.bind(this);
 		 this.saveProjectName = this.saveProjectName.bind(this);
+     this.closeLogin = this.closeLogin.bind(this);
+     this.openLogin = this.openLogin.bind(this);
 		 this.gulpBasic = this.gulpBasic.bind(this);
 		 this.gulpReact = this.gulpReact.bind(this);
 		 this.gulpAngular = this.gulpAngular.bind(this);
@@ -412,6 +415,14 @@ export default class App extends Component {
 		 this.setState(stateObj);
 	 }
 
+   openLogin(event) {
+     this.setState({ showLogin: true });
+   }
+
+   closeLogin(event) {
+     this.setState({ showLogin: false });
+   }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
@@ -420,22 +431,36 @@ export default class App extends Component {
 			<div id='App'>
 
 				<div className='row'>
-					<button onClick={this.save}>Save</button>
-					<input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
-					<Download download={this.download.bind(this)}/>
+          <div className="col-md-7">
+            <Login
+              loggedIn = {this.state.loggedIn}
+              loginErrorMessages = {this.state.loginErrorMessages}
+              registerErrorMessages = {this.state.registerErrorMessages}
+              saveUser={this.saveUser}
+              login={this.login}
+              username={this.getUsername}
+              password={this.getPassword}
+              showLogin={this.state.showLogin}
+              closeLogin={this.closeLogin.bind(this)}
+            />
+          </div>
+          <div className="col-md-1 centered">
+            <Button onClick={() => this.setState({ showLogin : true })}>Log in</Button>
+          </div>
+          <div className="col-md-2 rightContainer">
+            <Input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
+          </div>
+          <div className="col-sm-1 leftContainer">
+            <Button onClick={this.save} bsStyle="success">Save</Button>
+          </div>
+          <div className="col-md-1 leftContainer">
+            <Download
+            download={this.download.bind(this)}
+            />
+          </div>
 				</div>
 
-				<Login
-          loggedIn = {this.state.loggedIn}
-          loginErrorMessages = {this.state.loginErrorMessages}
-          registerErrorMessages = {this.state.registerErrorMessages}
-					saveUser={this.saveUser}
-					login={this.login}
-					username={this.getUsername}
-					password={this.getPassword}
-				/>
-
-				<div className='row'>
+        <div className='row'>
 					<Gulpoptions
 						addTask={this.newTasks.bind(this)}
 						 paths={this.state.paths}
