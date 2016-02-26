@@ -8,12 +8,22 @@ const fileMakerController = {
 	// creates a file matching the current state of the code on the homepage
 	// writeFile(filePath,data,callback)
 	// req.body is code included in Gulp File text editor
-	// savesFile(req, res, next) {
-	// 	  test.create({projectName: 'project1', gulpFile: req.body, packageJSON: 'something'}, function(err, dummy) {
-	// 	    if (err) console.log(err);
-	// 	    console.log(dummy.projectName + ' saved!');
-	// 	  });
-	// },
+
+	savesFile(req, res, next) {
+		// console.log(req.body.projectName);
+		// test.Project.update({projectName: req.body.projectName}, {$set: {gulpFile: 'something', packageJSON: 'nothing'}});
+		// if (test.Project.projectName !== req.body.projectName) {
+		// 	test.Project.create({projectName: req.body.projectName, gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
+		//     if (err) console.log(err);
+		//     console.log(project.projectName + ' saved!');
+		//   });
+		// } else {
+		// 	test.Project.update({projectName: req.body.projectName}, {gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
+		// 		if (err) console.log(err);
+		// 		console.log(project.projectName + ' updated!');
+		// 	});
+		// }
+	},
 
   // updatesFile(req, res, next) {
 		// test.update({packageJSON: 'something'}, {packageJSON: req.body}, function(err, dummy) {
