@@ -28,12 +28,20 @@ export default class Gulpoptions extends Component{
 					</div>
 					<Collapse in={this.props.accordionState.frameworks}>
 						<div className="pad2 dottedblue">
-						<Button bsStyle="info" bsSize="large" block onClick={this.props.gulpBasic}>Basic HTML/CSS/JS</Button>
+						<Button bsStyle="info" bsSize="large" block
+						key={'basic'}
+						onClick={this.props.gulpBasic}>Basic HTML/CSS/JS</Button>
 						<h3 className="centered blueheader display"></h3>
 						<Well className="optsWell" bsSize="large">
-							<Button bsStyle="info" bsSize="large" block onClick={this.props.gulpReact}>React</Button>
-							<Button bsStyle="info" bsSize="large" block onClick={this.props.gulpAngular}>Angular</Button>
-							<Button bsStyle="info" bsSize="large" block onClick={this.props.gulpBootstrap}>Bootstrap</Button>
+							<Button bsStyle="info" bsSize="large" block
+							key={'react'}
+							onClick={this.props.gulpReact}>React</Button>
+							<Button bsStyle="info" bsSize="large" block
+							key={'angular'}
+							onClick={this.props.gulpAngular}>Angular</Button>
+							<Button bsStyle="info" bsSize="large" block
+							key={'bootstrap'}
+							onClick={this.props.gulpBootstrap}>Bootstrap</Button>
 						</Well>
 						</div>
 					</Collapse>
