@@ -37,6 +37,8 @@ export default class App extends Component {
 			 password: '',
 			 projectName: '',
        loggedIn: false,
+       loginErrorMessages: '',
+       registerErrorMessages: '',
        accordionIsOpen: {
          paths: true,
          frameworks: false,
@@ -207,7 +209,7 @@ export default class App extends Component {
 	 saveUser(event) {
 		 event.preventDefault();
 
-     var that = this;
+     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
@@ -220,11 +222,20 @@ export default class App extends Component {
       contentType: 'application/json'
     })
     .done(function () {
-      console.log('Successful registration');
-      that.setState({loggedIn: true});
+      that.setState({
+        loggedIn: true,
+        regsiterErrorMessages: `Registration successful. You are now logged in as ${that.state.username}.`,
+        password: ''
+        // Isaac: I'd like to clear the username field, but we need to hang on to that information.
+      });
     })
     .fail(function () {
-      console.log('Registration failed');
+      that.setState({
+        loggedIn: false,
+        registerErrorMessages: 'Registration failed.',
+        username: '',
+        password: ''
+      });
     });
 	 }
 
@@ -232,7 +243,7 @@ export default class App extends Component {
 		 event.preventDefault();
 		 console.log('You are logging in');
 
-     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
+     var that = this;
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
@@ -246,11 +257,19 @@ export default class App extends Component {
       contentType: 'application/json'
     })
     .done(function () {
-      that.setState({loggedIn: true});
-      console.log('Successful login');
+      that.setState({
+        loggedIn: true,
+        loginErrorMessages: `You are now logged in as ${that.state.username}.`,
+        password: ''
+      });
     })
     .fail(function () {
-      console.log('Login failed');
+      that.setState({
+        loggedIn: false,
+        loginErrorMessages: 'Login failed.',
+        username: '',
+        password: ''
+      });
     });
   }
 
@@ -307,6 +326,8 @@ export default class App extends Component {
 
 				<Login
           loggedIn = {this.state.loggedIn}
+          loginErrorMessages = {this.state.loginErrorMessages}
+          registerErrorMessages = {this.state.registerErrorMessages}
 					saveUser={this.saveUser}
 					login={this.login}
 					username={this.getUsername}

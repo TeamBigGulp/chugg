@@ -58,10 +58,11 @@ app.post('/register', function(req, res) {
 	test.User.register(new test.User({ username: req.body.username }), req.body.password, function(err, account) {
 		if (err) { // For example, if the user tries to register with a username that's already in the database.
 			console.log('error:', err); // This shows up in the terminal.
-			return;
+			// return;
 		}
-		res.end(); // I'm not sure exactly what should happen here.
+		// res.end(); // I'm not sure exactly what should happen here.
 	});
+	res.end();
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
