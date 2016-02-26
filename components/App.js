@@ -216,16 +216,12 @@ export default class App extends Component {
 			 packageJSON: this.state.json
 		 }
 		 database = JSON.stringify(database);
-		 $.ajax({
-			 type: 'POST',
-			 url: '/save',
-			 data: database,
-			 contentType: 'application/json'
-		 });
-		 console.log('Here is the current state of json code: ', this.state.json);
-		 console.log('Here is the current state of gulp code: ', this.state.code);
-			console.log('Here is the current state of project name: ', this.state.projectName);
-			console.log('Here is the data type of gulp code: ', typeof this.state.code);
+ 		$.ajax({
+ 			type: 'POST',
+ 			url: '/save',
+ 			data: database,
+ 			contentType: 'application/json'
+ 		});
 	 }
 
 	 // * Creates an account in the database for the user

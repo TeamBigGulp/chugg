@@ -29,12 +29,5 @@ var dbController = {};
 dbController.User = mongoose.model('users', userSchema);
 dbController.Project = mongoose.model('projects', projectSchema);
 
-// Run this as needed to create dummy users.
-// for (var i = 1; i < 11; i++) {
-//   dbController.User.create({username: 'user' + i, password: 'user' + i}, function(err, dummy) {
-//     if (err) console.log(err);
-//     console.log(dummy.username + ' saved!');
-//   });
-// }
 
 module.exports = dbController;
