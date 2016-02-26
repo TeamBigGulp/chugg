@@ -88,7 +88,7 @@ passport.serializeUser(test.User.serializeUser());
 passport.deserializeUser(test.User.deserializeUser());
 
 // Mongoose
-mongoose.connect('mongodb://localhost/passport_local_mongoose_express4'); // We could change the URI if desired.
+mongoose.connect('mongodb://localhost/test'); // We could change the URI if desired.
 
 // Need catch 404 / error handlers
 
