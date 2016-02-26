@@ -44,6 +44,8 @@ export default class App extends Component {
 			 projectName: '',
        loggedIn: false,
        showLogin: false,
+       loginErrorMessages: '',
+       registerErrorMessages: '',
        accordionIsOpen: {
          paths: false,
          frameworks: true,
@@ -230,53 +232,68 @@ export default class App extends Component {
 	 saveUser(event) {
 		 event.preventDefault();
 
-		 var that = this;
-		 var data = {};
-		 data.username = this.state.username;
-		 data.password = this.state.password;
-		 data = JSON.stringify(data);
+     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
+     var data = {};
+     data.username = this.state.username;
+     data.password = this.state.password;
+     data = JSON.stringify(data);
 
-		$.ajax({
-			type: 'POST',
-			url: '/register',
-			data: data, // Whatever is in data will become req.body.
-			contentType: 'application/json'
-		})
-		.done(function () {
-			console.log('Successful registration');
-			that.setState({loggedIn: true});
-		})
-		.fail(function () {
-			console.log('Registration failed');
-		});
+    $.ajax({
+      type: 'POST',
+      url: '/register',
+      data: data, // Whatever is in data will become req.body.
+      contentType: 'application/json'
+    })
+    .done(function () {
+      that.setState({
+        loggedIn: true,
+        registerErrorMessages: `Registration successful. You are now logged in as ${that.state.username}.`,
+        password: ''
+        // Isaac: I'd like to clear the username field, but we need to hang on to that information.
+      });
+    })
+    .fail(function () {
+      that.setState({
+        loggedIn: false,
+        registerErrorMessages: 'Registration failed.',
+        username: '',
+        password: ''
+      });
+    });
 	 }
 
 	 // * If it exists, returns the user's account
 	 login(event) {
 		 event.preventDefault();
-		 console.log('You are logging in');
 
-		 var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
-		 var data = {};
-		 data.username = this.state.username;
-		 data.password = this.state.password;
-		 data = JSON.stringify(data);
-		 console.log(data);
+     var that = this;
+     var data = {};
+     data.username = this.state.username;
+     data.password = this.state.password;
+     data = JSON.stringify(data);
 
-		$.ajax({
-			type: 'POST',
-			url: '/login',
-			data: data,
-			contentType: 'application/json'
-		})
-		.done(function () {
-			that.setState({loggedIn: true});
-			console.log('Successful login');
-		})
-		.fail(function () {
-			console.log('Login failed');
-		});
-	}
+    $.ajax({
+      type: 'POST',
+      url: '/login',
+      data: data,
+      contentType: 'application/json'
+    })
+    .done(function () {
+      that.setState({
+        loggedIn: true,
+        loginErrorMessages: `You are now logged in as ${that.state.username}.`,
+        password: ''
+      });
+    })
+    .fail(function () {
+      that.setState({
+        loggedIn: false,
+        loginErrorMessages: 'Login failed.',
+        username: '',
+        password: ''
+      });
+    });
+  }
 
 	 // * Grabs the username from input
 	 getUsername(event) {
@@ -417,6 +434,8 @@ export default class App extends Component {
           <div className="col-md-7">
             <Login
               loggedIn = {this.state.loggedIn}
+              loginErrorMessages = {this.state.loginErrorMessages}
+              registerErrorMessages = {this.state.registerErrorMessages}
               saveUser={this.saveUser}
               login={this.login}
               username={this.getUsername}
