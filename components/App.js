@@ -29,13 +29,21 @@ export default class App extends Component {
 			 npmPackage: [],
 			 npmDescription: [],
        paths: {
-         css: 'e.g. css/',
-         js: 'e.g. js/',
-         build: 'e.g ./build/'
+         css: 'css/',
+         js: 'js/',
+         build: './build/',
+         app: 'App.js',
+         server: 'server/server.js'
        },
 			 username: '',
 			 password: '',
-			 projectName: ''
+			 projectName: '',
+       accordionIsOpen: {
+         paths: true,
+         frameworks: false,
+         commontasks: false,
+         poweroptions: false
+       }
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
@@ -46,6 +54,7 @@ export default class App extends Component {
 		 this.getUsername = this.getUsername.bind(this);
 		 this.getPassword = this.getPassword.bind(this);
 		 this.saveProjectName = this.saveProjectName.bind(this);
+     this.gulpUpdate = this.gulpUpdate.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -211,6 +220,53 @@ export default class App extends Component {
 		 this.setState({projectName: event.target.value});
 	 }
 
+   accordionSection(event) {
+     event.preventDefault();
+
+     let toAccordion = event.target.value;
+
+     // Do a little dance to set State only Once
+     let accordionObj = this.state.accordionIsOpen
+
+     // First close all sections
+     for (let section in accordionObj) {
+
+      if (section === toAccordion) {
+        accordionObj[section] = true;
+      } else {
+        accordionObj[section] = false;
+      }
+
+    }
+
+    this.setState({ accordionIsOpen : accordionObj });
+   }
+
+   gulpUpdate(event) {
+     event.preventDefault();
+
+     let thePaths = this.state.paths;
+     let gulpFile = this.state.code;
+
+     let newOutput = event.target.value;
+     let theTarget = event.target.name;
+     let oldOutput = thePaths[theTarget];
+
+     oldOutput = oldOutput.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+
+     let theMatch = new RegExp(oldOutput, 'g');
+
+     thePaths[theTarget] = newOutput;
+
+     gulpFile = gulpFile.replace(theMatch, newOutput);
+
+     let stateObj = {};
+     stateObj.paths = thePaths;
+     stateObj.code = gulpFile;
+
+     this.setState(stateObj);
+   }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
@@ -237,7 +293,10 @@ export default class App extends Component {
         <div className='row'>
 					<Gulpoptions
             addTask={this.newTasks.bind(this)}
-            paths={this.state.paths}
+             paths={this.state.paths}
+             accordionSection={this.accordionSection.bind(this)}
+             accordionState={this.state.accordionIsOpen}
+             gulpUpdate={this.gulpUpdate.bind(this)}
             />
 
 					<div className='col-md-7'>
