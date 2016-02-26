@@ -39,6 +39,7 @@ export default class App extends Component {
 			 password: '',
 			 projectName: '',
        loggedIn: false,
+       showLogin: false,
        accordionIsOpen: {
          paths: true,
          frameworks: false,
@@ -56,6 +57,8 @@ export default class App extends Component {
 		 this.getPassword = this.getPassword.bind(this);
 		 this.saveProjectName = this.saveProjectName.bind(this);
      this.gulpUpdate = this.gulpUpdate.bind(this);
+     this.closeLogin = this.closeLogin.bind(this);
+     this.openLogin = this.openLogin.bind(this);
 	 }
 
 	// * Updates state every time something changes in the sandbox
@@ -317,6 +320,14 @@ export default class App extends Component {
      this.setState(stateObj);
    }
 
+   openLogin(event) {
+     this.setState({ showLogin: true });
+   }
+
+   closeLogin(event) {
+     this.setState({ showLogin: false });
+   }
+
 	render() {
 
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
@@ -326,8 +337,19 @@ export default class App extends Component {
 
 
 				<div className='row'>
-          <div className="col-md-8">
-            &nbsp;
+          <div className="col-md-7">
+            <Login
+              loggedIn = {this.state.loggedIn}
+              saveUser={this.saveUser}
+              login={this.login}
+              username={this.getUsername}
+              password={this.getPassword}
+              showLogin={this.state.showLogin}
+              closeLogin={this.closeLogin.bind(this)}
+            />
+          </div>
+          <div className="col-md-1 centered">
+            <Button onClick={() => this.setState({ showLogin : true })}>Log in</Button>
           </div>
           <div className="col-md-2 rightContainer">
             <Input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
@@ -341,14 +363,6 @@ export default class App extends Component {
             />
           </div>
 				</div>
-
-				<Login
-          loggedIn = {this.state.loggedIn}
-					saveUser={this.saveUser}
-					login={this.login}
-					username={this.getUsername}
-					password={this.getPassword}
-				/>
 
         <div className='row'>
 					<Gulpoptions

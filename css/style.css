@@ -34,8 +34,13 @@ body {
 
 .tab-content {
 		border-left: 1px solid #ddd;
-		border-rigth: 1px solid #ddd;
+		border-right: 1px solid #ddd;
 		padding-top: 1.5em;
+}
+
+.modal-body .tab-content {
+  border-right: none;
+  border-left: none;
 }
 
 input[type='checkbox'] {
