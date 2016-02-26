@@ -35,7 +35,14 @@ export default class App extends Component {
        },
 			 username: '',
 			 password: '',
-			 projectName: ''
+			 projectName: '',
+       loggedIn: false,
+       accordionIsOpen: {
+         paths: true,
+         frameworks: false,
+         commontasks: false,
+         poweroptions: false
+       }
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
@@ -199,17 +206,53 @@ export default class App extends Component {
 
 	 saveUser(event) {
 		 event.preventDefault();
-		 console.log('You are saving a user');
-		 console.log(this.state.username);
-		 console.log(this.state.password);
+
+     var that = this;
+     var data = {};
+     data.username = this.state.username;
+     data.password = this.state.password;
+     data = JSON.stringify(data);
+
+    $.ajax({
+      type: 'POST',
+      url: '/register',
+      data: data, // Whatever is in data will become req.body.
+      contentType: 'application/json'
+    })
+    .done(function () {
+      console.log('Successful registration');
+      that.setState({loggedIn: true});
+    })
+    .fail(function () {
+      console.log('Registration failed');
+    });
 	 }
 
 	 login(event) {
 		 event.preventDefault();
 		 console.log('You are logging in');
-		 console.log(this.state.username);
-		 console.log(this.state.password);
-	 }
+
+     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
+     var data = {};
+     data.username = this.state.username;
+     data.password = this.state.password;
+     data = JSON.stringify(data);
+     console.log(data);
+
+    $.ajax({
+      type: 'POST',
+      url: '/login',
+      data: data,
+      contentType: 'application/json'
+    })
+    .done(function () {
+      that.setState({loggedIn: true});
+      console.log('Successful login');
+    })
+    .fail(function () {
+      console.log('Login failed');
+    });
+  }
 
 	 getUsername(event) {
 		 this.setState({username: event.target.value});
@@ -223,6 +266,28 @@ export default class App extends Component {
 		 event.preventDefault();
 		 this.setState({projectName: event.target.value});
 	 }
+
+   accordionSection(event) {
+     event.preventDefault();
+
+     let toAccordion = event.target.value;
+
+     // Do a little dance to set State only Once
+     let accordionObj = this.state.accordionIsOpen
+
+     // First close all sections
+     for (let section in accordionObj) {
+
+      if (section === toAccordion) {
+        accordionObj[section] = true;
+      } else {
+        accordionObj[section] = false;
+      }
+
+    }
+
+    this.setState({ accordionIsOpen : accordionObj });
+   }
 
 	render() {
 
@@ -241,6 +306,7 @@ export default class App extends Component {
 				</div>
 
 				<Login
+          loggedIn = {this.state.loggedIn}
 					saveUser={this.saveUser}
 					login={this.login}
 					username={this.getUsername}
@@ -250,7 +316,9 @@ export default class App extends Component {
         <div className='row'>
 					<Gulpoptions
             addTask={this.newTasks.bind(this)}
-            paths={this.state.paths}
+             paths={this.state.paths}
+             accordionSection={this.accordionSection.bind(this)}
+             accordionState={this.state.accordionIsOpen}
             />
 
 					<div className='col-md-7'>
@@ -289,7 +357,7 @@ export default class App extends Component {
 
         </div>
 
-			</div>
+			// </div> // Isaac This seems to be an extra div tag.
 		)
 	}
 }

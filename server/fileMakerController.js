@@ -11,14 +11,14 @@ const fileMakerController = {
 
 	savesFile(req, res, next) {
 		console.log(req.body.projectName);
-		test.project.update({projectName: req.body.projectName}, {$set: {gulpFile: 'something', packageJSON: 'nothing'}});
-		// if (test.project.projectName !== req.body.projectName) {
-		// 	test.project.create({projectName: req.body.projectName, gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
+		test.Project.update({projectName: req.body.projectName}, {$set: {gulpFile: 'something', packageJSON: 'nothing'}});
+		// if (test.Project.projectName !== req.body.projectName) {
+		// 	test.Project.create({projectName: req.body.projectName, gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
 		//     if (err) console.log(err);
 		//     console.log(project.projectName + ' saved!');
 		//   });
 		// } else {
-		// 	test.project.update({projectName: req.body.projectName}, {gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
+		// 	test.Project.update({projectName: req.body.projectName}, {gulpFile: req.body.gulpFile, packageJSON: req.body.packageJSON}, function(err, project) {
 		// 		if (err) console.log(err);
 		// 		console.log(project.projectName + ' updated!');
 		// 	});
