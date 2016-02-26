@@ -222,7 +222,6 @@ export default class App extends Component {
       contentType: 'application/json'
     })
     .done(function () {
-      console.log('executing /register .done');
       that.setState({
         loggedIn: true,
         registerErrorMessages: `Registration successful. You are now logged in as ${that.state.username}.`,
@@ -231,7 +230,6 @@ export default class App extends Component {
       });
     })
     .fail(function () {
-      console.log('executing /register .fail');
       that.setState({
         loggedIn: false,
         registerErrorMessages: 'Registration failed.',
@@ -243,14 +241,12 @@ export default class App extends Component {
 
 	 login(event) {
 		 event.preventDefault();
-		 console.log('You are logging in');
 
      var that = this;
      var data = {};
      data.username = this.state.username;
      data.password = this.state.password;
      data = JSON.stringify(data);
-     console.log(data);
 
     $.ajax({
       type: 'POST',
