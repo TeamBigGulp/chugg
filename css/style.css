@@ -15,10 +15,6 @@ body {
 	background-color: #FFFFCD;
 }
 
-/*h1 {
-	padding: 0.3em;
-}*/
-
 #code-container {
 	overflow: auto;
 }
@@ -34,8 +30,13 @@ body {
 
 .tab-content {
 		border-left: 1px solid #ddd;
-		border-rigth: 1px solid #ddd;
+		border-right: 1px solid #ddd;
 		padding-top: 1.5em;
+}
+
+.modal-body .tab-content {
+  border-right: none;
+  border-left: none;
 }
 
 input[type='checkbox'] {
@@ -51,19 +52,6 @@ input[type='checkbox'] {
 input[type='checkbox']:checked {
 		background: #abd;
 }
-
-/*input[type='submit'] {
-		-webkit-appearance:none;
-		width:150px;
-		height:40px;
-		background:white;
-		border-radius:5px;
-		border:2px solid #555;
-}
-input[type='submit']:hover {
-		background: #abd;
-		color: white;
-}*/
 
 .brand {
 	font-family: 'Lobster', cursive;
@@ -107,6 +95,10 @@ input[type='submit']:hover {
 
 .rightContainer {
   text-align: right;
+}
+
+.leftContainer {
+  text-align: left;
 }
 
 .left {

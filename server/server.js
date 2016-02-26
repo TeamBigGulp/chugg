@@ -1,4 +1,4 @@
-// I'm modeling my code on http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/#.Vs5DW5MrKgS. 
+// I'm modeling my code on http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/#.Vs5DW5MrKgS.
 // I also found http://mongoosejs.com/docs/index.html and http://mongoosejs.com/docs/guide.html helpful.
 
 // Dependencies
@@ -16,6 +16,7 @@ const session = require('express-session');
 const fileMakerController = require('./fileMakerController');
 const test = require('./../save-data/mongodb-orm');
 // const request = require('superagent'); // We were using this for resting, but I don't think we need it anymore. We're not using 'request' anywhere in this file.
+
 
 // We don't need to save variables called 'routes' or 'users'.
 
@@ -50,15 +51,18 @@ app.get('/download', (req, res) => {
 // post request to get the zipped version of the documents that were created
 app.post('/gulp', fileMakerController.createsGulpFile, fileMakerController.zipsFile);
 app.post('/json', fileMakerController.createsJsonFile, fileMakerController.zipsFile);
+app.post('/save', fileMakerController.savesFile);
 
 // adapted from mherman and https://github.com/saintedlama/passport-local-mongoose/blob/master/examples/login/routes.js
 app.post('/register', function(req, res) {
 	test.User.register(new test.User({ username: req.body.username }), req.body.password, function(err, account) {
 		if (err) { // For example, if the user tries to register with a username that's already in the database.
-			console.log('error:', err); // This shows up in the terminal.
-			return;
+			res.status(400).end(); // No return needed
 		}
-		res.end(); // I'm not sure exactly what should happen here.
+		// Isaac: I think I need passport.authenticate to set a cookie.
+		passport.authenticate('local')(req, res, function() {
+			res.end();
+		});
 	});
 });
 
@@ -88,6 +92,6 @@ passport.deserializeUser(test.User.deserializeUser());
 // Mongoose
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4'); // We could change the URI if desired.
 
-// Need catch 404 / error handlers
+// Should probably add catch 404 / error handlers form mherman
 
 module.exports = app;
