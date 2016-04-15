@@ -42,16 +42,16 @@ export default class App extends Component {
 			 username: '',
 			 password: '',
 			 projectName: '',
-       loggedIn: false,
-       showLogin: false,
-       loginErrorMessages: '',
-       registerErrorMessages: '',
-       accordionIsOpen: {
-         paths: false,
-         frameworks: true,
-         commontasks: false,
-         poweroptions: false
-       }
+			 loggedIn: false,
+			 showLogin: false,
+			 loginErrorMessages: '',
+			 registerErrorMessages: '',
+			 accordionIsOpen: {
+				 paths: false,
+				 frameworks: true,
+				 commontasks: false,
+				 poweroptions: false
+			 }
 		 };
 		 this.search = this.search.bind(this);
 		 this.addToPackageJson = this.addToPackageJson.bind(this);
@@ -62,12 +62,10 @@ export default class App extends Component {
 		 this.getUsername = this.getUsername.bind(this);
 		 this.getPassword = this.getPassword.bind(this);
 		 this.saveProjectName = this.saveProjectName.bind(this);
-     this.closeLogin = this.closeLogin.bind(this);
-     this.openLogin = this.openLogin.bind(this);
-		 this.gulpBasic = this.gulpBasic.bind(this);
-		 this.gulpReact = this.gulpReact.bind(this);
-		 this.gulpAngular = this.gulpAngular.bind(this);
-		 this.gulpBootstrap = this.gulpBootstrap.bind(this);
+		 this.closeLogin = this.closeLogin.bind(this);
+		 this.openLogin = this.openLogin.bind(this);
+		 this.setEditorDefaults = this.setEditorDefaults.bind(this);
+		 this.selectFramework = this.selectFramework.bind(this);
 		 this.gulpUpdate = this.gulpUpdate.bind(this);
 	 }
 
@@ -104,31 +102,6 @@ export default class App extends Component {
 		});
 	}
 
-// Potentially getting rid of this block by next merge to master -Tiffany
-// Adds or removes new task to code on chekbox click. Note, this can be done much better and more consisely. jQuery is not needed.
-	newTasks() {
-		// // jQuery will return either the value if checked, or undefined
-		// let addonObj = {
-		// 	minify : $('.minify:checked').val(),
-		// 	closure : $('.closure:checked').val(),
-		// };
-		// console.log(addonObj);
-		// // let requireCode = code.require;
-		// // let gulpCode = code.gulp;
-		// // let require;
-		// // checks which values are true and displays them
-		// for (var val in addonObj){
-		// 	console.log(val);
-		// 	if (addonObj[val]) {
-		// 		var require = val + 'Require';
-		// 		requireCode += code[require];
-		// 		gulpCode += code[val];
-		// 	}
-		// }
-		// let displayedCode = requireCode + gulpCode + code.gulpTask;
-		// this.setState({code: displayedCode});
-	 }
-
 	 // * Search NPM packages
 	 search(event) {
 		 event.preventDefault();
@@ -157,7 +130,6 @@ export default class App extends Component {
 
 	// * Adds new package to json editor in dependencies
 	 addToPackageJson (event) {
-		 event.preventDefault();
 		 let pkgVersion;
 
 		 // * Gets the package version of the current search
@@ -176,7 +148,6 @@ export default class App extends Component {
 
 	 // * Adds new plugins to gulp editor
 	 addToGulpfile (event) {
-		 event.preventDefault();
 
 		 let gulpSearch = this.state.npmSearch;
 		 let plugins = this.state.gulpPlugins;
@@ -188,12 +159,6 @@ export default class App extends Component {
 			 code: selectedFramework.start + plugins + selectedFramework.tasks,
 			 gulpPlugins: plugins
 		 });
-
-		//  let addonObj = {
-		// 	 minify : $('.minify:checked').val(),
-		// 	 closure : $('.closure:checked').val(),
-		//  };
-		//  console.log(addonObj);
 	 }
 
 	 // * Dynamically creates autocomplete search results based on user input
@@ -216,84 +181,81 @@ export default class App extends Component {
 			 packageJSON: this.state.json
 		 }
 		 database = JSON.stringify(database);
+
 		 $.ajax({
 			 type: 'POST',
 			 url: '/save',
 			 data: database,
 			 contentType: 'application/json'
 		 });
-		 console.log('Here is the current state of json code: ', this.state.json);
-		 console.log('Here is the current state of gulp code: ', this.state.code);
-			console.log('Here is the current state of project name: ', this.state.projectName);
-			console.log('Here is the data type of gulp code: ', typeof this.state.code);
 	 }
 
 	 // * Creates an account in the database for the user
 	 saveUser(event) {
 		 event.preventDefault();
 
-     var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
-     var data = {};
-     data.username = this.state.username;
-     data.password = this.state.password;
-     data = JSON.stringify(data);
+		 var that = this; // Isaac: I'm grabbing this (the App) so that I can run this.setState in the Ajax request. (Otherwise, 'this' inside $.ajax would be the ajax request.)
+		 var data = {};
+		 data.username = this.state.username;
+		 data.password = this.state.password;
+		 data = JSON.stringify(data);
 
-    $.ajax({
-      type: 'POST',
-      url: '/register',
-      data: data, // Whatever is in data will become req.body.
-      contentType: 'application/json'
-    })
-    .done(function () {
-      that.setState({
-        loggedIn: true,
-        registerErrorMessages: `Registration successful. You are now logged in as ${that.state.username}.`,
-        password: ''
-        // Isaac: I'd like to clear the username field, but we need to hang on to that information.
-      });
-    })
-    .fail(function () {
-      that.setState({
-        loggedIn: false,
-        registerErrorMessages: 'Registration failed.',
-        username: '',
-        password: ''
-      });
-    });
+		$.ajax({
+			type: 'POST',
+			url: '/register',
+			data: data, // Whatever is in data will become req.body.
+			contentType: 'application/json'
+		})
+		.done(function () {
+			that.setState({
+				loggedIn: true,
+				registerErrorMessages: `Registration successful. You are now logged in as ${that.state.username}.`,
+				password: ''
+				// Isaac: I'd like to clear the username field, but we need to hang on to that information.
+			});
+		})
+		.fail(function () {
+			that.setState({
+				loggedIn: false,
+				registerErrorMessages: 'Registration failed.',
+				username: '',
+				password: ''
+			});
+		});
 	 }
 
 	 // * If it exists, returns the user's account
 	 login(event) {
 		 event.preventDefault();
 
-     var that = this;
-     var data = {};
-     data.username = this.state.username;
-     data.password = this.state.password;
-     data = JSON.stringify(data);
+		 var that = this;
+		 var data = {};
+		 data.username = this.state.username;
+		 data.password = this.state.password;
+		 data = JSON.stringify(data);
 
-    $.ajax({
-      type: 'POST',
-      url: '/login',
-      data: data,
-      contentType: 'application/json'
-    })
-    .done(function () {
-      that.setState({
-        loggedIn: true,
-        loginErrorMessages: `You are now logged in as ${that.state.username}.`,
-        password: ''
-      });
-    })
-    .fail(function () {
-      that.setState({
-        loggedIn: false,
-        loginErrorMessages: 'Login failed.',
-        username: '',
-        password: ''
-      });
-    });
-  }
+		$.ajax({
+			type: 'POST',
+			url: '/login',
+			data: data,
+			contentType: 'application/json'
+		})
+		.done(function () {
+			that.setState({
+				loggedIn: true,
+				loginErrorMessages: `You are now logged in as ${that.state.username}.`,
+				password: ''
+			});
+		})
+		.fail(function () {
+			that.setState({
+				loggedIn: false,
+				loginErrorMessages: 'Login failed.',
+				username: '',
+				password: ''
+			});
+		});
+	}
 
 	 // * Grabs the username from input
 	 getUsername(event) {
@@ -328,16 +290,34 @@ export default class App extends Component {
 		this.setState({ accordionIsOpen : accordionObj });
 	 }
 
-	 // * The following four functions handle clicks on each framework button
-	 gulpBasic() {
+	 // * Uses button's dispatchMarker to determine the framework that was clicked on and uses helper func setEditorDefaults to update state. Note: Can't pass down setEditorDefaults directly - results in calling this.setState in infinite loop.
+
+	 selectFramework(event) {
+		 switch (event.dispatchMarker.replace(/[^a-z]/g, '')) {
+			 case 'basic':
+					this.setEditorDefaults(defaultGulp.basic, defaultJson.basic);
+					break;
+			 case 'react':
+					 this.setEditorDefaults(defaultGulp.react, defaultJson.react);
+					 break;
+			 case 'angular':
+					 this.setEditorDefaults(defaultGulp.angular, defaultJson.angular);
+					 break;
+			 case 'bootstrap':
+					 this.setEditorDefaults(defaultGulp.bootstrap, defaultJson.bootstrap);
+					 break;
+		 }
+	 }
+
+	 setEditorDefaults(gulp, json) {
 		 this.setState({
-			 code: defaultGulp.basic.start + defaultGulp.basic.tasks,
-			 json: defaultJson.basic.start + defaultJson.basic.end,
-			 currentGulpFramework: defaultGulp.basic,
-			 currentJsonFramework: defaultJson.basic
+			 code: gulp.start + gulp.tasks,
+			 json: json.start + json.end,
+			 currentGulpFramework: gulp,
+			 currentJsonFramework: json
 		 });
-		 // * This clears out any dependencies/plugins that were added on a different framework
-		 if (this.state.currentGulpFramework !== defaultGulp.basic) {
+
+		 if (this.state.currentGulpFramework !== gulp) {
 			 this.setState({
 				 jsonDependencies: '',
 				 gulpPlugins: '',
@@ -345,51 +325,7 @@ export default class App extends Component {
 		 }
 	 }
 
-	 gulpReact() {
-		 this.setState({
-			 code: defaultGulp.react.start + defaultGulp.react.tasks,
-			 json: defaultJson.react.start + defaultJson.react.end,
-			 currentGulpFramework: defaultGulp.react,
-			 currentJsonFramework: defaultJson.react
-		 });
-		 if (this.state.currentGulpFramework !== defaultGulp.react) {
-			 this.setState({
-				 jsonDependencies: '',
-				 gulpPlugins: '',
-			 })
-		 }
-	 }
-
-	 gulpAngular() {
-		 this.setState({
-			 code: defaultGulp.angular.start + defaultGulp.angular.tasks,
-			 json: defaultJson.angular.start + defaultJson.angular.end,
-			 currentGulpFramework: defaultGulp.angular,
-			 currentJsonFramework: defaultJson.angular
-		 });
-		 if (this.state.currentGulpFramework !== defaultGulp.angular) {
-			 this.setState({
-				 jsonDependencies: '',
-				 gulpPlugins: '',
-			 })
-		 }
-	 }
-
-	 gulpBootstrap() {
-		 this.setState({
-			 code: defaultGulp.bootstrap.start + defaultGulp.bootstrap.tasks,
-			 json: defaultJson.bootstrap.start + defaultJson.bootstrap.end,
-			 currentGulpFramework: defaultGulp.bootstrap,
-			 currentJsonFramework: defaultJson.bootstrap
-		 });
-		 if (this.state.currentGulpFramework !== defaultGulp.bootstrap) {
-			 this.setState({
-				 jsonDependencies: '',
-				 gulpPlugins: '',
-			 })
-		 }
-	 }
-
+	 // * Updates file structure
 	 gulpUpdate(event) {
 		 event.preventDefault();
 
@@ -415,61 +351,61 @@ export default class App extends Component {
 		 this.setState(stateObj);
 	 }
 
-   openLogin(event) {
-     this.setState({ showLogin: true });
-   }
+	 openLogin(event) {
+		 this.setState({ showLogin: true });
+	 }
 
-   closeLogin(event) {
-     this.setState({ showLogin: false });
-   }
+	 closeLogin(event) {
+		 this.setState({ showLogin: false });
+	 }
 
 	render() {
-
+		// console.log('this is new');
 		let npmResults = this.createSearchResults(this.state.npmPackage, this.state.npmDescription);
 
 		return (
 			<div id='App'>
 
 				<div className='row'>
-          <div className="col-md-7">
-            <Login
-              loggedIn = {this.state.loggedIn}
-              loginErrorMessages = {this.state.loginErrorMessages}
-              registerErrorMessages = {this.state.registerErrorMessages}
-              saveUser={this.saveUser}
-              login={this.login}
-              username={this.getUsername}
-              password={this.getPassword}
-              showLogin={this.state.showLogin}
-              closeLogin={this.closeLogin.bind(this)}
-            />
-          </div>
-          <div className="col-md-1 centered">
-            <Button onClick={() => this.setState({ showLogin : true })}>Log in</Button>
-          </div>
-          <div className="col-md-2 rightContainer">
-            <Input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
-          </div>
-          <div className="col-sm-1 leftContainer">
-            <Button onClick={this.save} bsStyle="success">Save</Button>
-          </div>
-          <div className="col-md-1 leftContainer">
-            <Download
-            download={this.download.bind(this)}
-            />
-          </div>
+
+					<div className="col-md-7">
+						<Login
+							loggedIn = {this.state.loggedIn}
+							loginErrorMessages = {this.state.loginErrorMessages}
+							registerErrorMessages = {this.state.registerErrorMessages}
+							saveUser={this.saveUser}
+							login={this.login}
+							username={this.getUsername}
+							password={this.getPassword}
+							showLogin={this.state.showLogin}
+							closeLogin={this.closeLogin.bind(this)}
+						/>
+					</div>
+					<div className="col-md-1 centered">
+						<Button onClick={() => this.setState({ showLogin : true })}>Log in</Button>
+					</div>
+					<div className="col-md-2 rightContainer">
+						<Input type='text' onChange={this.saveProjectName} placeholder='Enter your project name'/>
+					</div>
+					<div className="col-sm-1 leftContainer">
+						<Button onClick={this.save} bsStyle="success">Save</Button>
+					</div>
+					<div className="col-md-1 leftContainer">
+						<Download
+						download={this.download.bind(this)}
+						/>
+					</div>
 				</div>
 
-        <div className='row'>
+				<div className='row'>
 					<Gulpoptions
-						addTask={this.newTasks.bind(this)}
 						 paths={this.state.paths}
 						 accordionSection={this.accordionSection.bind(this)}
 						 accordionState={this.state.accordionIsOpen}
-						 gulpBasic={this.gulpBasic}
-						 gulpReact={this.gulpReact}
-						 gulpAngular={this.gulpAngular}
-						 gulpBootstrap={this.gulpBootstrap}
+						 gulpBasic={this.selectFramework}
+						 gulpReact={this.selectFramework}
+						 gulpAngular={this.selectFramework}
+						 gulpBootstrap={this.selectFramework}
 						 gulpUpdate={this.gulpUpdate.bind(this)}
 						/>
 
