@@ -1,66 +1,42 @@
+// Include Gulp
 var gulp = require('gulp');
-var browserify = require('browserify');
-var babelify = require('babelify');
-var watchify = require('watchify');
-var source = require('vinyl-source-stream');
-var notify = require('gulp-notify');
-var nodemon = require('gulp-nodemon');
-var less = require('less');
 
-function handleErrors() {
-	var args = Array.prototype.slice.call(arguments);
-	notify.onError({
-		title : 'Compile Error',
-		message : '<%= error.message %>'
-	}).apply(this, args);
-	this.emit('end'); //keeps gulp from hanging on this task
-}
+// Include Our Plugins
+var jshint = require('gulp-jshint');
+var sass = require('gulp-sass');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 
-function buildScript(file, watch) {
-	var props = {
-		entries : ['./components/' + file],
-		debug : true,
-		transform : babelify.configure({
-			presets: ['react', 'es2015']
-		})
-	};
+// Lint Task (checks for syntax errors)
+gulp.task('lint', function() {
+		return gulp.src('js/*.js')
+				.pipe(jshint())
+				.pipe(jshint.reporter('default'));
+});
 
-	//watchify if watch set to true. otherwise browserify once
-	var bundler = watch ? watchify(browserify(props)) : browserify(props);
+// Compile Our Sass
+gulp.task('sass', function() {
+		return gulp.src('scss/*.scss')
+				.pipe(sass())
+				.pipe(gulp.dest('css'));
+});
 
-	function rebundle(){
-		var stream = bundler.bundle();
-		return stream
-			.on('error', handleErrors)
-			.pipe(source('bundle.js'))
-			.pipe(gulp.dest('./build/'));
-	}
-
-	bundler.on('update', function() {
-	var updateStart = Date.now();
-	rebundle();
-	console.log('Updated!', (Date.now() - updateStart) + 'ms');
-	})
-
-	// run it once the first time buildScript is called
-	return rebundle();
-}
-
-// run once
+// Concatenate & Minify JS
 gulp.task('scripts', function() {
-	return buildScript('App.js', false);
+		return gulp.src('js/*.js')
+				.pipe(concat('all.js'))
+				.pipe(gulp.dest('dist'))
+				.pipe(rename('all.min.js'))
+				.pipe(uglify())
+				.pipe(gulp.dest('dist'));
 });
 
-//run nodemon
-gulp.task('start', function() {
-	nodemon({
-		script: 'server/server.js',
-		ext: 'js html',
-		env: {'NODE_ENV': 'development'}
-	})
+// Watch Files For Changes
+gulp.task('watch', function() {
+		gulp.watch('js/*.js', ['lint', 'scripts']);
+		gulp.watch('scss/*.scss', ['sass']);
 });
 
-//run 'scripts' task first, then watch for future changes
-gulp.task('default', ['scripts', 'start'], function() {
-	return buildScript('App.js', true);
-});
+// Default Task
+gulp.task('default', ['lint', 'sass', 'scripts', 'watch']);
