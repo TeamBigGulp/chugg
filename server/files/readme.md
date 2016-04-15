@@ -1,10 +1,10 @@
 # Chugg Documentation
 
-Welcome to Chugg, a tool that automates the creation of gulpfiles for react projects. This documentation is targeted for users who are learning to code and want to understand exactly what Gulp does and how to read the gulpfiles we are generating. We also cover all of the features that we are including in our files.
+Welcome to Chugg, a tool that automates the creation of Gulp files for react projects. This documentation is targeted for users who are learning to code and want to understand exactly what Gulp does and how to read the Gulp files we are generating. We also cover all of the features that we are including in our files.
 
 # Getting Started with Gulp
 
-First, you need to download node, assuming you do not have it on your computer already. To see if you already have it installed, type `node –v` on your terminal. Once node is installed on your machine, open your terminal and type in the following command to install Gulp globally: `npm install –g gulp` *(you need to do this before you can use it in your project folder)*.
+First, you need to download Node, assuming you do not have it on your computer already. To see if you already have it installed, type `node –v` on your terminal. Once node is installed on your machine, open your terminal and type in the following command to install Gulp globally: `npm install –g gulp` *(you need to do this before you can use it in your project folder)*.
 After installing Gulp, you want to create your React project folder (if you have not already done so), into which you will insert the gulpfile that we have generated for you.
 
 # What is Gulp
