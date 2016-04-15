@@ -1,3 +1,10 @@
+/*
+Red: F71430
+Blue: 148291
+Aqua: 7CD7B8
+Cream: FFFFCD
+*/
+
 body {
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 	font-size: 14px;
@@ -5,43 +12,11 @@ body {
 	margin: 0;
 	padding: 0;
 	width: 100%;
-}
-
-h1 {
-	background-color: #abd;
-	font-family: 'Lato', sans-serif;
-	padding: 2%;
-	border-bottom: 1px lightSeaGreen;
-}
-#download {
-	position: inherit;
-	width: 100%;
-	height: 30px;
-}
-
-#App {
-  position: relative;
-  width: 100%;
-  height: 100%;
-	margin: 1em;
+	background-color: #FFFFCD;
 }
 
 #code-container {
 	overflow: auto;
-}
-
-#Gulpview {
-	width: 49%;
-	float: left;
-}
-
-#Packagejson {
-	width: 49%;
-	float: right;
-}
-
-#download-files {
-  margin-top: 1%;
 }
 
 .input-name {
@@ -49,28 +24,111 @@ h1 {
 	font-size: 120%
 }
 
-input[type='checkbox'] {
-    -webkit-appearance:none;
-    width:20px;
-    height:20px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
-		margin-bottom: 0;
-}
-input[type='checkbox']:checked {
-    background: #abd;
+#download {
+	text-align: right;
 }
 
-input[type='submit'] {
-    -webkit-appearance:none;
-    width:150px;
-    height:40px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
+.tab-content {
+		border-left: 1px solid #ddd;
+		border-right: 1px solid #ddd;
+		padding-top: 1.5em;
 }
-input[type='submit']:hover {
-    background: #abd;
-		color: white;
+
+.modal-body .tab-content {
+  border-right: none;
+  border-left: none;
+}
+
+input[type='checkbox'] {
+		-webkit-appearance:none;
+		width:20px;
+		height:20px;
+		background:white;
+		border-radius:5px;
+		border:2px solid #555;
+		margin-bottom: 0;
+}
+
+input[type='checkbox']:checked {
+		background: #abd;
+}
+
+.brand {
+	font-family: 'Lobster', cursive;
+}
+
+.display {
+	font-family: 'Expletus Sans', cursive;
+}
+
+.blueheader {
+	color: #148291;
+}
+
+.aquaheader {
+	color: #7CD7B8;
+}
+
+.whiteheader {
+	color: #FFFFCD;
+}
+
+.creambg {
+	background-color: #FFFFCD;
+}
+
+.redcallout {
+	color: #F71430;
+}
+
+.bluetop {
+	border-top: 2px solid #148291;
+}
+
+.centered {
+	text-align: center;
+}
+
+.right {
+	float: right;
+}
+
+.rightContainer {
+  text-align: right;
+}
+
+.leftContainer {
+  text-align: left;
+}
+
+.left {
+	float: left;
+}
+
+.optsWell {
+		width: 80%;
+		margin: 0px auto
+}
+
+.CodeMirror {
+	height: auto !important;
+}
+
+.headerbutton .btn {
+    background-color: FFFFCD;
+    color: #148291;
+    border-color: #148291;
+}
+
+.headerbutton {
+    margin: 3em 0px -1px 0px;
+}
+
+.pad2 {
+  padding: 2em;
+}
+
+.dottedblue {
+  border: 1px dashed #148291;
+  border-top-style: solid;
 }
