@@ -9,8 +9,8 @@
     "start": "node server/server.js",
     "start-dev": "npm run task",
     "task": "gulp",
-    "test-fe": "casperjs test test/test-fe.js",
-    "test-be": "mocha test/index.js"
+    "test-fe": "casperjs test test/frontend.js",
+    "test-be": "mocha test/backend.js"
   },
   "repository": {
     "type": "git",
