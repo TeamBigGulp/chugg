@@ -1,4 +1,4 @@
-// Include Gulp
+// Include Gulpy
 var gulp = require('gulp');
 
 // Include Our Plugins

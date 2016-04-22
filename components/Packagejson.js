@@ -1,25 +1,28 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Codemirror from 'react-codemirror';
 
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/markdown/markdown';
-// require('./../node_modules/codemirror/lib/codemirror.css');
-//Dear next team, please do this. We wanted to show this in the view as well but did not get the time to add functionality.
 
+const Packagejson = (props) => {
+  const options = {
+    lineNumbers: true,
+    mode: 'application/json',
+    readonly: true,
+    theme: 'mbo',
+    tabSize: 2,
+  };
 
-export default class Packagejson extends Component {
-	render() {
-		var options = {
-						lineNumbers: true,
-						mode: 'application/json',
-						readonly: true,
-						theme: 'mbo',
-						tabSize: 2
-				};
-		return (
-			<div id='Packagejson'>
-			<Codemirror value={this.props.value} onChange={this.props.jsonChange.bind(this)} options={options} />
-			</div>
-		);
-	}
-}
+  return (
+    <div id="Packagejson">
+      <Codemirror value={props.value} onChange={props.jsonChange} options={options} />
+    </div>
+  );
+};
+
+Packagejson.propTypes = {
+  value: React.PropTypes.string,
+  jsonChange: React.PropTypes.func,
+};
+
+export default Packagejson;

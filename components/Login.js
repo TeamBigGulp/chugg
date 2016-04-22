@@ -36,8 +36,8 @@ const Login = (props) => (
 Login.propTypes = {
   showLogin: React.PropTypes.bool,
   closeLogin: React.PropTypes.func,
-  username: React.PropTypes.string,
-  password: React.PropTypes.string,
+  username: React.PropTypes.func,
+  password: React.PropTypes.func,
   saveUser: React.PropTypes.func,
   registerErrorMessages: React.PropTypes.string,
   login: React.PropTypes.func,
