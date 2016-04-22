@@ -27,6 +27,7 @@ casper.on('page.initialized', function () {
     if (!has('function-bind')) {
       // adapted from Mozilla Developer Network example at
       // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
+      // Polyfill for bind from http://stackoverflow.com/questions/25359247/casperjs-bind-issue
       bind = function bind(obj) {
         var args = slice.call(arguments, 1),
           self = this,
@@ -103,5 +104,3 @@ casper.test.begin('Chugg Front-End Tests', 8, function suite(test) {
     test.done();
   });
 });
-
-// Polyfill for bind from http://stackoverflow.com/questions/25359247/casperjs-bind-issue
