@@ -71,6 +71,32 @@ export default class App extends Component {
     this.updateJson = this.updateJson.bind(this);
   }
 
+  setEditorDefaults(gulp, json) {
+    this.setState({
+      code: gulp.start + gulp.tasks,
+      json: json.start + json.end,
+      currentGulpFramework: gulp,
+      currentJsonFramework: json,
+    });
+
+    if (this.state.currentGulpFramework !== gulp) {
+      this.setState({
+        jsonDependencies: '',
+        gulpPlugins: '',
+      });
+    }
+  }
+
+  // Grabs the username from input
+  getUsername(event) {
+    this.setState({ username: event.target.value });
+  }
+
+  // Grabs the password from input
+  getPassword(event) {
+    this.setState({ password: event.target.value });
+  }
+
   // Updates state every time something changes in the sandbox
   updateCode(newCode) {
     this.setState({ code: newCode });
@@ -258,16 +284,6 @@ export default class App extends Component {
     });
   }
 
-  // Grabs the username from input
-  getUsername(event) {
-    this.setState({ username: event.target.value });
-  }
-
-  // Grabs the password from input
-  getPassword(event) {
-    this.setState({ password: event.target.value });
-  }
-
   // Sets the project name
   saveProjectName(event) {
     event.preventDefault();
@@ -309,22 +325,6 @@ export default class App extends Component {
         this.setEditorDefaults(defaultGulp.bootstrap, defaultJson.bootstrap);
         break;
       default:
-    }
-  }
-
-  setEditorDefaults(gulp, json) {
-    this.setState({
-      code: gulp.start + gulp.tasks,
-      json: json.start + json.end,
-      currentGulpFramework: gulp,
-      currentJsonFramework: json,
-    });
-
-    if (this.state.currentGulpFramework !== gulp) {
-      this.setState({
-        jsonDependencies: '',
-        gulpPlugins: '',
-      });
     }
   }
 
