@@ -6,32 +6,32 @@ Cream: FFFFCD
 */
 
 body {
-	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-	font-size: 14px;
-	color: #333;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	background-color: #FFFFCD;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #FFFFCD;
 }
 
 #code-container {
-	overflow: auto;
+  overflow: auto;
 }
 
 .input-name {
-	margin-bottom: 2px;
-	font-size: 120%
+  margin-bottom: 2px;
+  font-size: 120%
 }
 
 #download {
-	text-align: right;
+  text-align: right;
 }
 
 .tab-content {
-		border-left: 1px solid #ddd;
-		border-right: 1px solid #ddd;
-		padding-top: 1.5em;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding-top: 1.5em;
 }
 
 .modal-body .tab-content {
@@ -40,57 +40,57 @@ body {
 }
 
 input[type='checkbox'] {
-		-webkit-appearance:none;
-		width:20px;
-		height:20px;
-		background:white;
-		border-radius:5px;
-		border:2px solid #555;
-		margin-bottom: 0;
+    -webkit-appearance:none;
+    width:20px;
+    height:20px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+    margin-bottom: 0;
 }
 
 input[type='checkbox']:checked {
-		background: #abd;
+    background: #abd;
 }
 
 .brand {
-	font-family: 'Lobster', cursive;
+  font-family: 'Lobster', cursive;
 }
 
 .display {
-	font-family: 'Expletus Sans', cursive;
+  font-family: 'Expletus Sans', cursive;
 }
 
 .blueheader {
-	color: #148291;
+  color: #148291;
 }
 
 .aquaheader {
-	color: #7CD7B8;
+  color: #7CD7B8;
 }
 
 .whiteheader {
-	color: #FFFFCD;
+  color: #FFFFCD;
 }
 
 .creambg {
-	background-color: #FFFFCD;
+  background-color: #FFFFCD;
 }
 
 .redcallout {
-	color: #F71430;
+  color: #F71430;
 }
 
 .bluetop {
-	border-top: 2px solid #148291;
+  border-top: 2px solid #148291;
 }
 
 .centered {
-	text-align: center;
+  text-align: center;
 }
 
 .right {
-	float: right;
+  float: right;
 }
 
 .rightContainer {
@@ -102,16 +102,16 @@ input[type='checkbox']:checked {
 }
 
 .left {
-	float: left;
+  float: left;
 }
 
 .optsWell {
-		width: 80%;
-		margin: 0px auto
+    width: 80%;
+    margin: 0px auto
 }
 
 .CodeMirror {
-	height: auto !important;
+  height: auto !important;
 }
 
 .headerbutton .btn {
