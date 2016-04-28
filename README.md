@@ -12,8 +12,6 @@ Welcome to Chugg, a tool that automates the creation of Gulp files. When you dow
 
 Chugg will generate a Gulp file for a wide variety of project types based on the frameworks you are using. Right now, we support React, Angular, and basic JavaScript projects. We are looking to add more. You can add your directory details and install your generated Gulp file.
 
-Check out our demo at [chugg.xyz](http://chugg.xyz/).
-
 # Getting Started with Gulp
 
 First, you need to download Node, assuming you do not have it on your computer already. To see if you already have it installed, type `node –v` on your terminal. Once Node is installed on your machine, open your terminal and type in the following command to install Gulp globally: `npm install –g gulp` *(you need to do this before you can use it in your project folder)*.
