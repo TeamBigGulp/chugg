@@ -1,45 +1,47 @@
-import React, {Component} from 'react';
-import {Tabs} from 'react-bootstrap';
-import {Tab} from 'react-bootstrap';
-import {Button} from 'react-bootstrap';
-import {Input} from 'react-bootstrap';
-import {Modal} from 'react-bootstrap';
+import React from 'react';
+import { Tabs, Tab, Button, Input, Modal } from 'react-bootstrap';
 
-// Isaac: I added p tags to hold error messages.
+const Login = (props) => (
+  <div id="login-box" className="static-modal">
+  <Modal show={props.showLogin} onHide={props.closeLogin}>
+    <Modal.Body>
+      <Tabs defaultActiveKey={1}>
+        <Tab eventKey={1} title="Register">
+          <form className="create-account">
+               <Input type="text" placeholder="Username" onChange={props.username} />
+               <Input type="password" placeholder="Password" onChange={props.password} />
+               <Button bsStyle="success" onClick={props.saveUser}>Create Account</Button>&nbsp;
+               <Button bsStyle="danger" onClick={props.closeLogin}>Cancel</Button>
+          </form>
+          <p>{props.registerErrorMessages}</p>
+          <br style={{ clear: 'both' }} />
+        </Tab>
 
-export default class Login extends Component {
-	render() {
+        <Tab eventKey={2} title="Log in">
+          <form className="login">
+              <Input type="text" placeholder="Username" onChange={props.username} />
+              <Input type="password" placeholder="Password" onChange={props.password} />
+              <Button bsStyle="success" onClick={props.login}>Log in</Button>&nbsp;
+              <Button bsStyle="danger" onClick={props.closeLogin}>Cancel</Button>
+          </form>
+          <p>{props.loginErrorMessages}</p>
+          <br style={{ clear: 'both' }} />
+        </Tab>
+      </Tabs>
+    </Modal.Body>
+  </Modal>
+</div>
+);
 
-		return (
-			<div id='login-box' className="static-modal">
-      <Modal show={this.props.showLogin} onHide={this.props.closeLogin.bind(this)}>
-        <Modal.Body>
-          <Tabs defaultActiveKey={1}>
-            <Tab eventKey={1} title='Register'>
-              <form className="create-account">
-                   <Input type="text" placeholder="Username" onChange={this.props.username}></Input>
-                   <Input type="password" placeholder="Password" onChange={this.props.password}></Input>
-                   <Button bsStyle="success" onClick={this.props.saveUser}>Create Account</Button>&nbsp;
-                   <Button bsStyle="danger" onClick={this.props.closeLogin.bind(this)}>Cancel</Button>
-              </form>
-              <p>{this.props.registerErrorMessages}</p>
-              <br style={{clear: 'both' }} />
-            </Tab>
+Login.propTypes = {
+  showLogin: React.PropTypes.bool,
+  closeLogin: React.PropTypes.func,
+  username: React.PropTypes.func,
+  password: React.PropTypes.func,
+  saveUser: React.PropTypes.func,
+  registerErrorMessages: React.PropTypes.string,
+  login: React.PropTypes.func,
+  loginErrorMessages: React.PropTypes.string,
+};
 
-            <Tab eventKey={2} title='Log in'>
-              <form className="login">
-                  <Input type="text" placeholder="Username" onChange={this.props.username}></Input>
-                  <Input type="password" placeholder="Password" onChange={this.props.password}></Input>
-                  <Button bsStyle="success" onClick={this.props.login}>Log in</Button>&nbsp;
-                  <Button bsStyle="danger" onClick={this.props.closeLogin.bind(this)}>Cancel</Button>
-              </form>
-              <p>{this.props.loginErrorMessages}</p>
-              <br style={{clear: 'both' }} />
-            </Tab>
-          </Tabs>
-        </Modal.Body>
-      </Modal>
-    </div>
-		);
-	}
-}
+export default Login;
