@@ -31,8 +31,6 @@ If you Google “What is Gulp?”, you get this answer: “Gulp is a task/build 
 - Output that into one file named `build.js`  inside the `build/` folder
 - Replace the `<script>` tags in our `index.html` page with one `<script>` which references our new minified build.js file
 
-For the next step, we are going to create our `package.json` file, which is an essential component of your application. You can insert our `package.json` folder into your project and just type `npm install` into the terminal.
-
 ### Some things to consider before starting
 - If you chose to add some of the optional tasks like 'CSS Nano' or 'Google Closure Compiler', be sure to add those scripts to the `gulp.default()` code on your downloaded Gulp file.
 - We're assuming your project has a typical directory structure, but if you have a unique set of directories you'll need to change the names in your Gulp file to match those in your project folder.
